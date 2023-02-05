@@ -1,7 +1,7 @@
 ---
 title: "ROS Installation"
 date: 2023-02-05T00:49:36Z
-draft: false
+draft: true
 ---
 
 This is a guide on how to install ROS-Noetic
