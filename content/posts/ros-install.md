@@ -11,7 +11,7 @@ In this guide it will run through how to download and install ROS assuming that 
 # Overview
 Depending on the Ubuntu version that is used will depend on the installion of ROS that can be installed on the operating system.
 For the likes of Ubuntu 20.04, the ROS version used is ROS-Noetic-Niniemys, this version of ROS will be supported until 2025.
-Once booted into your operating system open up a termainal >{Crtl + Alt + T}
+Once booted into your operating system open up a termainal <Ctrl + Alt + T>
 
 
 
