@@ -34,6 +34,7 @@ Next, it is time to set up the correct keys for ROS:
 Now that the system is setup and configured for ROS, the installtion process can now be indertaken.
 To install ROS the following command is used:
 > sudo apt install ros-noetic-desktop-full
+
 This will install everything for ROS including **RQT**, **RVIZ**, **2D/3D simulators**
 
 ## 1.3 ROS Environment
@@ -54,5 +55,7 @@ To make ROS compatable with some terminal applications and programs, some depend
 Before ROS tools can be used, rosdep needs to be initalised which allows you to install system dependancies for source.
 To initalise rosdep as follows:
 > $ sudo apt install python3-rosdep
+
 > $ sudo rosdep init
+
 > $ rosdep update
