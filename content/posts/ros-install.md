@@ -45,6 +45,7 @@ This script must be run in every new terminal session.
 It is possible to source the terminal with the ROS installation on each new terminal session but updating the \\~/.bashrc\\.
 This can be done automatically but running the following once:
 > $ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+
 > $ source ~/.bashrc
 
 ## 1.4 Building Dependencies for Packages
