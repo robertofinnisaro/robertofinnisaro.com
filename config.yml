@@ -80,8 +80,8 @@ params:
         title: robertofinnisaro
         imageUrl: "#"
         imageTitle: my image
-        # imageWidth: 120
-        # imageHeight: 120
+        imageWidth: 120
+        imageHeight: 120
         buttons:
             - name: Docs
               url: /docs/
