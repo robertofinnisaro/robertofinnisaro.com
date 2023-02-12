@@ -78,10 +78,10 @@ params:
     profileMode:
         enabled: false
         title: robertofinnisaro
-        imageUrl: "#"
-        imageTitle: my image
-        imageWidth: 120
-        imageHeight: 120
+        # imageUrl: "#"
+        # imageTitle: my image
+        # imageWidth: 120
+        # imageHeight: 120
         buttons:
             - name: Docs
               url: /docs/
