@@ -2,3 +2,15 @@ baseURL = 'https://robertofinnisaro.com/'
 languageCode = 'en-us'
 title = 'Home'
 theme = 'PaperMod'
+
+[Params]
+    #profile inital
+    [profileMode]
+        enabled = true
+        title = robertofinnisaro
+        subtitle = "Welcome to my personal site"
+        [buttons]
+          - name = Blog
+            url = /blog/
+          - name = Docs
+            url = /docs/
