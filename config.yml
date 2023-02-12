@@ -36,6 +36,7 @@ languages:
             main:
                 - name: Docs
                   url: docs/
+                  weight: 10
                 - name: Archive
                   url: archives/
                   weight: 5
@@ -76,7 +77,7 @@ params:
 
     #profile inital
     profileMode:
-        enabled: false
+        enabled: ture
         title: robertofinnisaro
         imageUrl: "#"
         imageTitle: my image
