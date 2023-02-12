@@ -2,6 +2,19 @@ baseURL: 'https://robertofinnisaro.com/'
 title: Home
 theme: PaperMod
 
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+# googleAnalytics: UA-123-45
+
+minify:
+    disableXML: true
+    # minifyOutput: true
+
 languages:
     en:
         languageName: ":En:"
@@ -47,8 +60,12 @@ params:
 
     #profile inital
     profileMode:
-        enabled: true
+        enabled: false
         title: robertofinnisaro
+        imageUrl: "#"
+        imageTitle: my image
+        # imageWidth: 120
+        # imageHeight: 120
         buttons:
             - name: Docs
               url: /docs/
