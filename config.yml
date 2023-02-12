@@ -83,9 +83,9 @@ params:
         imageTitle: my image
         imageWidth: 120
         imageHeight: 120
-        buttons:
-            - name: Docs
-              url: /docs/
+        # buttons:
+        #     - name: Docs
+        #       url: /docs/
     
     homeInfoParams:
         Title: "robertofinnisaro"
