@@ -28,8 +28,8 @@ languages:
         profileMode:
             enabled: true
             title: robertofinnisaro
-            imageUrl: "https://github.com/hampusborgos/country-flags/blob/main/svg/gb.svg"
-            imageTitle: ProfileMode image
+            # imageUrl: "https://github.com/hampusborgos/country-flags/blob/main/svg/gb.svg"
+            # imageTitle: ProfileMode image
             # imageWidth: 120
             # imageHeight: 120
         menu:
@@ -78,10 +78,10 @@ params:
     profileMode:
         enabled: false
         title: robertofinnisaro
-        # imageUrl: "#"
-        # imageTitle: my image
-        # imageWidth: 120
-        # imageHeight: 120
+        imageUrl: "#"
+        imageTitle: my image
+        imageWidth: 120
+        imageHeight: 120
         buttons:
             - name: Docs
               url: /docs/
