@@ -4,12 +4,20 @@ theme: PaperMod
 
 languages:
     en:
-        languageName: "English"
+        languageName: ":En:"
+        languageAltTitle: English
         weight: 1
         taxonomies:
           category: categories
           tag: tags
           series: series
+        profileMode:
+            enabled: true
+            title: robertofinnisaro
+            imageUrl: "https://github.com/hampusborgos/country-flags/blob/main/svg/gb.svg"
+            imageTitle: ProfileMode image
+            # imageWidth: 120
+            # imageHeight: 120
         menu:
             main:
                 - name: Archive
