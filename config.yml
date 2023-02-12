@@ -35,7 +35,7 @@ languages:
         menu:
             main:
                 - name: Docs
-                  url docs/
+                  url: docs/
                 - name: Archive
                   url: archives/
                   weight: 5
