@@ -7,10 +7,21 @@ theme = 'PaperMod'
     #profile inital
     [profileMode]
         enabled = true
-        title = robertofinnisaro
+        title = "robertofinnisaro"
         subtitle = "Welcome to my personal site"
-        [buttons]
-          - name = Blog
-            url = /blog/
-          - name = Docs
-            url = /docs/
+
+    # --- Start sidebar config ---
+    # Number of posts that will be displayed in sidebar
+    sidebarRecentLimit = 5
+    
+    # Sidebar header
+    sidebarHeader = "Sidebar Header"
+
+    # Sidebar menu
+    sidebarMenuEnabled = true
+    sidebarMenuHeader = "Sidebar Links"
+
+    # Sidebar links
+    github = "https://github.com/robertofinnisaro/"
+
+    # --- End sidebar config ---
