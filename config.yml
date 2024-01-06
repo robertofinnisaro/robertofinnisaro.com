@@ -1,6 +1,6 @@
 baseURL: 'https://robertofinnisaro.com/'
 title: Home
-theme: github.com/adityayelange/hugo-PaperMod
+theme: github.com/adityatelange/hugo-PaperMod
 paginate: 5
 
 enableInlineShortcodes: true
