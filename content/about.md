@@ -7,7 +7,7 @@ subtitle: Robotics PhD candidate at <a href="https://hull.ac.uk">Hull</a>
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: profile_pic.jpg
   image_circular: true # crops the image to make it circular
   # address: >
 
@@ -19,6 +19,6 @@ social: true  # includes social icons at the bottom of the page
 
 ---
 
-I'm a PhD candidate in the [Department of Computer Science](https://www.hull.ac.uk/faculties/departments/school-of-computer-science) at [Hull](https://hull.ac.uk).
+I'm a PhD candidate in the [School of Computer Science](https://www.hull.ac.uk/faculties/departments/school-of-computer-science) at [Hull](https://hull.ac.uk).
 
 In 2023, I graduated with a First Class Honors Degree in Mechatronic and Robotic Engineering from the University of Hull.
