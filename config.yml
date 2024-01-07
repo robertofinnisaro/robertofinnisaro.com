@@ -1,95 +1,203 @@
-baseURL: 'https://robertofinnisaro.com/'
-title: Home
+baseURL: "https://robertofinnisaro.com"
+languageCode: en-GB
+title: Roberto Finnisaro
 theme: PaperMod
 paginate: 5
 
-enableInlineShortcodes: true
 enableRobotsTXT: true
-buildDrafts: false
+buildDrafts: true
 buildFuture: false
 buildExpired: false
-enableEmoji: true
-pygmentsUseClasses: true
-googleAnalytics: UA-123-45
+pluralizeListTitles: false
+
+googleAnalytics: G-Q603T56FWT
 
 minify:
-    disableXML: true
-    minifyOutput: true
+  disableXML: true
+  minifyOutput: true
 
-languages:
-    en:
-        languageName: "English"
-        languageAltTitle: English
-        weight: 1
-        taxonomies:
-          category: categories
-          tag: tags
-          series: series
-        profileMode:
-            enabled: true
-            title: robertofinnisaro
-            # imageUrl: "https://github.com/hampusborgos/country-flags/blob/main/svg/gb.svg"
-            # imageTitle: ProfileMode image
-            # imageWidth: 120
-            # imageHeight: 120
-        menu:
-            main:
-                - name: Docs
-                  url: docs/
-                  weight: 10
-                - name: Archive
-                  url: archives/
-                  weight: 5
-                - name: Search
-                  url: search/
-                  weight: 10
-                - name: Tags
-                  url: tags/
-                  weight: 10
-
-
-outputs:
-    home:
-        - HTML
-        - RSS
-        - JSON
-
-
+# https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
 params:
-    env: production
-    defaultTheme: auto
-    disableThemeToggle: false
-    ShowShareButtons: true
-    ShowReadingTime: true
-    disableSpecial1stPost: false
-    displayFullLangName: true
-    ShowPostNavLinks: true
-    ShowBreadCrumbs: true
-    ShowCodeCopyButtons: true
-    ShowRssButtonInSectionTermList: true
-    ShowToc: true
-    # comments: false
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: Robert Finnisaro
+  # This is shown when website is posted in Discord and other socials
+  description: "Robotics PhD candiate at the University of Hull Welcome to my website!"
+  keywords: [Roberto Finnisaro, Blog, Portfolio, UNC, Computer Science, Mathematics, CS, Robotics, University of Hull]
+  # author: ["Me", "You"] # multiple authors
+  author: "Roebrto Finnisaro"
+  # Image displayed when posting site link on socials
+  # For example, if you post the link to the site in Discord, this image will be displayed
+  #images: ["logo_outlined_6.png"]
+  DateFormat: "January 2, 2006"
+  # dark, light
+  defaultTheme: auto
+  disableThemeToggle: false
 
-    label:
-      text: "Home"
-      icon: /apple-touch-icon.png
-      iconHeight: 35
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
+  ShowRssButtonInSectionTermList: false
+  # See markup.tableOfContents for configuration
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  # See https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-features/#comments
+  comments: true
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: true
+  # New, from PaperModX
+  TocSide: left
+  # Enable KaTeX on every page globally. See blog post about setting up site
+  math: true
+  # Without this, archive doesn't show all pages
+  # See https://github.com/adityatelange/hugo-PaperMod/issues/912
+  # And https://github.com/adityatelange/hugo-PaperMod/commit/fc87fc3a29e8e515dff866159601a734e3ad4a2f
+  # Note from https://github.com/adityatelange/hugo-PaperMod/issues/702 that post must have date to be archived
+  ShowAllPagesInArchive: true
 
-    #profile inital
-    profileMode:
-        enabled: ture
-        title: robertofinnisaro
-        imageUrl: "#"
-        imageTitle: my image
-        imageWidth: 120
-        imageHeight: 120
-        # buttons:
-        #     - name: Docs
-        #       url: /docs/
-    
-    homeInfoParams:
-        Title: "robertofinnisaro"
-        Content: >
-            Welcome to my personal site
+# Necessary for post nav links to show up on /posts and /projects
+# https://github.com/adityatelange/hugo-PaperMod/issues/940
+  mainSections:
+    - posts
+    - projects
+    - teaching
 
-    
+  label:
+    text: "Roberto Finnisaro"
+    icon: /logo_filled_outlined_6.png
+    iconHeight: 35
+
+  # profile-mode
+  profileMode:
+    # Needs to be explicitly set
+    enabled: true
+    title: Roberto Finnisaro
+    # I changed this to use HTML instead of Markdown in index_profile.html
+    subtitle: "{CS Master's student, Researcher, Serial COMP TA} @ <a href=\"https://unc.edu\">UNC</a>. <a href=\"/about\"><ins>More about me</ins></a>"
+      #imageUrl: "/me.jpg"
+      #imageWidth: 150
+      #imageHeight: 150
+      #imageTitle: Picture of me
+    buttons:
+      - name: Posts
+        url: /posts
+      - name: Tags
+        url: /tags
+      - name: Archives
+        url: /archives
+
+  # home-info mode
+  homeInfoParams:
+    Title: "Hi there \U0001F44B"
+    Content: |
+      Welcome to my blog
+      Multi-line string with \n separating them
+
+  socialIcons:
+    # - name: cv
+    #   url: "/RobertoFinnisaroCVPublic.pdf"
+    - name: github
+      url: "https://github.com/robertofinnisaro"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/robfinnis/"
+    - name: discord
+      url: "/discord"
+    - name: email
+      url: "mailto:r.finnis@hull.ac.uk"
+
+  analytics:
+    google:
+      SiteVerificationTag: "XYZabc"
+    bing:
+      SiteVerificationTag: "XYZabc"
+    yandex:
+      SiteVerificationTag: "XYZabc"
+
+  cover:
+    linkFullImages: true
+    # Hide everywhere but not in structured data
+    hidden: false
+    # Hide in list view
+    hiddenInList: false
+    hiddenInSingle: true
+
+  # For search
+  # https://fusejs.io/api/options.html
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+  # Source: https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-features/#search-page
+  outputs:
+    home:
+      - HTML
+      - RSS
+      - JSON
+  
+menu:
+  main:
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 1
+    - identifier: projects
+      name: Projects
+      url: /projects/
+      weight: 2
+    - identifier: teaching
+      name: Teaching
+      url: /teaching/
+      weight: 3
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 4
+
+
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true
+# Source: https://gohugo.io/getting-started/configuration-markup/#highlight
+# Parameter meanings: https://gohugo.io/functions/highlight/
+markup:
+  tableOfContents:
+    # Without this, Hugo ToC doesn't show h4 and higher
+    # https://github.com/alex-shpak/hugo-book/issues/52
+    endLevel: 6
+
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    hl_Lines: ""
+    hl_inline: false
+    lineAnchors: ""
+    lineNoStart: 1
+    # highlight.js also doesn't use line numbers by default.
+    # The rationale is that doing so improves readability
+    # (https://highlightjs.readthedocs.io/en/latest/line-numbers.html).
+    # Therefore, I disable it by default.
+    # Note: It's possible to enable it on a specific code block by specifying
+    # ``` {lineNos=true}
+    # ```
+    lineNos: false
+    lineNumbersInTable: true
+    # false means use external CSS file
+    noClasses: false
+    noHl: false
+    # style: monokai
+    tabWidth: 4
+
+
+
+
+
