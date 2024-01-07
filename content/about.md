@@ -7,9 +7,14 @@ subtitle: Robotics PhD candidate at <a href="https://hull.ac.uk">Hull</a>
 
 profile:
   align: right
-  image: profile_pic.jpg
+  image: profile-pic.jpg
   image_circular: true # crops the image to make it circular
   # address: >
+  
+{{< rawhtml >}}
+<img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/profile-pic.jpg" alt="Picture of me">
+<p align="center">Hi! I'm Roberto Finnisaro.</p>
+{{< /rawhtml >}}
 
 news: true  # includes a list of news items
 latest_posts: true  # includes a list of the newest posts
