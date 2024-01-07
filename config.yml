@@ -21,7 +21,7 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Robert Finnisaro
   # This is shown when website is posted in Discord and other socials
-  description: "Robotics PhD candiate at the University of Hull Welcome to my website!"
+  description: "Robotics PhD candiate at the University of Hull. Welcome to my website!"
   keywords: [Roberto Finnisaro, Blog, Portfolio, UNC, Computer Science, Mathematics, CS, Robotics, University of Hull]
   # author: ["Me", "You"] # multiple authors
   author: "Roebrto Finnisaro"
@@ -78,7 +78,7 @@ params:
     enabled: true
     title: Roberto Finnisaro
     # I changed this to use HTML instead of Markdown in index_profile.html
-    subtitle: "{Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ <a href=\"https://hull.ac.uk\"</a>. <a href=\"/about\"><ins>More about me</ins></a>"
+    subtitle: "{Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ <a href=\"https://hull.ac.uk\">HoH</a>. <a href=\"/about\"><ins>More about me</ins></a>"
       #imageUrl: "/me.jpg"
       #imageWidth: 150
       #imageHeight: 150
