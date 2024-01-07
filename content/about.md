@@ -6,7 +6,7 @@ subtitle: Robotics PhD candidate at <a href="https://hull.ac.uk">Hull</a>
 summary: "Information about me"
 
 {{< rawhtml >}}
-<img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/profile-pic.jpg" alt="Picture of me">
+<img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/static/profile-pic.jpg" alt="Picture of me">
 <p align="center">Hi! I'm Roberto Finnisaro.</p>
 {{< /rawhtml >}}
 
