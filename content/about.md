@@ -4,6 +4,7 @@ title: "About Me"
 permalink: /
 subtitle: Robotics PhD candidate at <a href="https://hull.ac.uk">Hull</a>
 summary: "Information about me"
+---
 
 {{< rawhtml >}}
 <img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/asses/profile-pic.jpg" alt="Picture of me">
