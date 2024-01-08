@@ -80,8 +80,8 @@ params:
     # I changed this to use HTML instead of Markdown in index_profile.html
     subtitle: "{Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ <a href=\"https://hull.ac.uk\">UoH</a>. <a href=\"/about\"><ins>More about me</ins></a>"
     imageUrl: "/profile-pic.jpg"
-    imageWidth: 150
-    imageHeight: 150
+    imageWidth: 300
+    imageHeight: 400
     imageTitle: Picture of me
     buttons:
       - name: Posts
