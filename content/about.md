@@ -7,7 +7,7 @@ summary: "Information about me"
 ---
 
 {{< rawhtml >}}
-<img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/asses/profile-pic.jpg" alt="Picture of me">
+<img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="50%" src="/assets/profile-pic.jpg" alt="Picture of me">
 <p align="center">Hi! I'm Roberto Finnisaro.</p>
 {{< /rawhtml >}}
 
