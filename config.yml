@@ -79,7 +79,6 @@ params:
     # Needs to be explicitly set
     enabled: true
 
-    ---
     title: Roberto Finnisaro
     # I changed this to use HTML instead of Markdown in index_profile.html
     subtitle: "{Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ <a href=\"https://hull.ac.uk\">UoH</a>. \n<a href=\"/about\"><ins>More about me</ins></a>"
