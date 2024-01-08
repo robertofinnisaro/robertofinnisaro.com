@@ -9,6 +9,8 @@ buildDrafts: true
 buildFuture: false
 buildExpired: false
 pluralizeListTitles: false
+customCSS:
+  - assets/css/img-alignment.css
 
 googleAnalytics: G-Q603T56FWT
 
@@ -79,10 +81,13 @@ params:
     title: Roberto Finnisaro
     # I changed this to use HTML instead of Markdown in index_profile.html
     subtitle: "{Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ <a href=\"https://hull.ac.uk\">UoH</a>. <a href=\"/about\"><ins>More about me</ins></a>"
-    imageUrl: "/profile-pic.jpg"
-    imageWidth: 300
-    imageHeight: 400
-    imageTitle: Picture of me
+    #imageUrl: "/profile-pic.jpg"
+    #imageWidth: 300
+    #imageHeight: 400
+    #imageTitle: Picture of me
+    {{< rawhtml >}}
+    <img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="20%" src="/profile-pic.jpg" alt="Picture of me" align="right">
+    {{< /rawhtml >}}
     buttons:
       - name: Posts
         url: /posts
