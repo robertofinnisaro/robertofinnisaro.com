@@ -23,7 +23,7 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Roberto Finnisaro
   # This is shown when website is posted in Discord and other socials
-  description: "Robotics PhD candiate at the University of Hull. Welcome to my website!"
+  description: "Robotics PhD candidate at the University of Hull. Welcome to my website!"
   keywords: [Roberto Finnisaro, Blog, Portfolio, UNC, Computer Science, Mathematics, CS, Robotics, University of Hull]
   # author: ["Me", "You"] # multiple authors
   author: "Roberto Finnisaro"
