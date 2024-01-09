@@ -9,6 +9,6 @@ cover:
     hidden: true
     hiddenInSingle: true
 summary: "\"How to integrate ROS into a steam deck - multi robot control.\""
-tags: ["ROS", "Hardware", Linux"]
+tags: ["ROS", "Hardware", "Linux"]
 ---
 
