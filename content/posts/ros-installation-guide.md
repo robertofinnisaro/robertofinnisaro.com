@@ -9,9 +9,9 @@ It is recommended to use Ubuntu 16.04, 18.04 or 20.04 as the base operating syst
 In this guide it will run through how to download and install ROS assuming that Ubuntu 20.04 is used.
 
 # Overview
-Depending on the Ubuntu version that is used will depend on the installion of ROS that can be installed on the operating system.
+Depending on the Ubuntu version that is used will depend on the installation of ROS that can be installed on the operating system.
 For the likes of Ubuntu 20.04, the ROS version used is ROS-Noetic-Niniemys, this version of ROS will be supported until 2025.
-Once booted into your operating system open up a termainal 
+Once booted into your operating system open up a terminal 
 ```bash
 Ctrl + Alt + T
 ```
@@ -42,7 +42,7 @@ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo ap
 ```
 
 ## 1.2 ROS installation
-Now that the system is setup and configured for ROS, the installtion process can now be indertaken.
+Now that the system is set-up and configured for ROS, the installation process can now be undertaken.
 To install ROS the following command is used:
 ```bash
 sudo apt install ros-noetic-desktop-full
@@ -64,7 +64,7 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-To check that this has been appeneded into the `~/.bashrc` correctly run the following:
+To check that this has been appended into the `~/.bashrc` correctly run the following:
 ```bash
 cat ~/.bashrc
 ```
@@ -75,13 +75,13 @@ source /opt/ros/noetic/setup.bash
 ```
 
 ## 1.4 Building Dependencies for Packages
-To make ROS compatable with some terminal applications and programs, some dependancies need to be installed: 
+To make ROS compatible with some terminal applications and programs, some dependencies need to be installed: 
 ```bash
 sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
 ```
 
 ### 1.4.1 Initialsing rosdep
-Before ROS tools can be used, rosdep needs to be initalised which allows you to install system dependancies for source.
+Before ROS tools can be used, rosdep needs to be initalised which allows you to install system dependencies for source.
 To initalise rosdep as follows:
 ```bash
 sudo apt install python3-rosdep
@@ -98,7 +98,7 @@ mkdir -p ~/catkin_ws/src
 ```
 
 ## 2.1 Building the Environment
-Once the directory has been created move to the directory and then build the folder. This will be used anytime you make dependancy changes to your packages located in this workspace or when you create new packages.
+Once the directory has been created move to the directory and then build the folder. This will be used anytime you make dependency changes to your packages located in this workspace or when you create new packages.
 ```bash
 cd catkin_ws && catkin_make
 ```
@@ -116,7 +116,7 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 ```
 
 This command only needs to be run.
-To check that this has been appeneded into the `~/.bashrc` correctly run the following:
+To check that this has been appended into the `~/.bashrc` correctly run the following:
 ```bash
 cat ~/.bashrc
 ```
