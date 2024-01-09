@@ -84,7 +84,9 @@ params:
     subtitle: | 
       {Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant} @ [UoH](https://www.hull.ac.uk)‎ ‎ ‎ ‎ ‎ ‎ ‎ 
       [More about me](/about)
-    imageUrl: "/profile-pic.jpg"
+    imageUrl: |
+      <img style="border-radius:50%;margin-left:auto;margin-right:auto;" width="20%" src="/profile-pic.jpg" alt="Picture of me" align="right">
+    #imageUrl: "/profile-pic.jpg"
     imageWidth: 300
     imageHeight: 400
     imageTitle: Picture of me
