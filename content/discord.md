@@ -9,6 +9,6 @@ editPost:
 summary: "Link to my Discord profile and my Discord username."
 ---
 
-[Click here](https//discord.com/users/219827174180388864) to add me.
+[Click here](https://discord.com/users/219827174180388864) to add me.
 
 My Discord username is, 'robertofinnisaro#6260'
