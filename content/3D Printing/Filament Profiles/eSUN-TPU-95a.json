@@ -1,0 +1,57 @@
+{
+    "default_filament_colour": [
+        "#000000"
+    ],
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_cost": [
+        "30"
+    ],
+    "filament_flow_ratio": [
+        "0.9506"
+    ],
+    "filament_max_volumetric_speed": [
+        "3"
+    ],
+    "filament_retraction_length": [
+        "1"
+    ],
+    "filament_settings_id": [
+        "eSUN-TPU-95a"
+    ],
+    "filament_start_gcode": [
+        ""
+    ],
+    "filament_type": [
+        "TPU"
+    ],
+    "from": "User",
+    "hot_plate_temp": [
+        "50"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "50"
+    ],
+    "inherits": "Creality Generic PLA",
+    "name": "eSUN-TPU-95a",
+    "nozzle_temperature": [
+        "235"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "235"
+    ],
+    "nozzle_temperature_range_high": [
+        "240"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ],
+    "pressure_advance": [
+        "0.022"
+    ],
+    "slow_down_layer_time": [
+        "1"
+    ],
+    "version": "1.6.2.0"
+}
