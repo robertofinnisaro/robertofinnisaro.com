@@ -12,4 +12,10 @@ summary: "\"Current 3D printing filament profiles for OrcaSlicer.\""
 tags: ["3D Printing", "OrcaSlicer", "Filament Profiles"]
 ---
 
+# eSUN Filaments
 [eSUN PLA+](eSUN-PLA.json)
+[eSUN PETG](eSUN-PETG.json)
+[eSUN TPU-95a](eSUN-TPU-95a.json)
+
+# Special Filaments
+[Wood PLA](Wood-PLA.json)
