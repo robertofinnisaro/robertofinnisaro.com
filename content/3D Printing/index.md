@@ -12,4 +12,4 @@ summary: "\"Current 3D printing process profiles for OrcaSlicer.\""
 tags: ["3D Printing", "OrcaSlicer"]
 ---
 
-[eSUN PLA+ 0.16mm layer height](eSUN-PLA-0.16mm.json)
+[eSUN PLA+ 0.16mm layer height](Process Profiles/eSUN-PLA-0.16mm.json)
