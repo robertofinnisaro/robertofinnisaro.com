@@ -14,12 +14,12 @@ tags: ["3D Printing", "OrcaSlicer", "Filament Profiles"]
 
 ## eSUN Filaments
 
-[eSUN PLA+](eSUN-PLA.json)
+[eSUN PLA+](eSUN/eSUN-PLA.json)
 
-[eSUN PETG](eSUN-PETG.json)
+[eSUN PETG](eSUN/eSUN-PETG.json)
 
-[eSUN TPU-95a](eSUN-TPU-95a.json)
+[eSUN TPU-95a](eSUN/eSUN-TPU-95a.json)
 
 ## Special Filaments
 
-[Wood PLA](Wood-PLA.json)
+[Wood PLA](special/Wood-PLA.json)
