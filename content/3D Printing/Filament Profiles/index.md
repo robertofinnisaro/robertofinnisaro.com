@@ -11,3 +11,5 @@ cover:
 summary: "\"Current 3D printing filament profiles for OrcaSlicer.\""
 tags: ["3D Printing", "OrcaSlicer", "Filament Profiles"]
 ---
+
+[eSUN PLA+](eSUN-PLA.json)
