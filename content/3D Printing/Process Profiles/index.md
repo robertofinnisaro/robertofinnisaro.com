@@ -11,3 +11,21 @@ cover:
 summary: "\"Current 3D printing process profiles for OrcaSlicer.\""
 tags: ["3D Printing", "OrcaSlicer", "Process Profiles"]
 ---
+
+## eSUN PLA+
+
+[0.16mm](eSUN/eSUN-PLA-0.16mm.json)
+
+[0.20mm](eSUN/eSUN-PLA-0.2mm.json)
+
+## eSUN PETG
+
+[0.16mm](eSUN/eSUN-PETG-0.16mm.json)
+
+## eSUN TPU-95a
+
+[0.16mm](eSUN/eSUN-TPU-95a-0.16mm.json)
+
+## Special Filaments
+
+[0.16mm - Wood](special/Wood-PLA-0.16mm.json)
