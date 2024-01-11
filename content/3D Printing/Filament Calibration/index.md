@@ -91,6 +91,23 @@ If the original flow ratio was `0.98`, and the best results was with `+5`. The n
 
 ## Pressure Advance
 
+**What is it?**
+
+Pressure advance is the calibration technique that compensates for side effects of instant speed changes that occur during fast print speeds.
+Pressure advance can reduce stringing, provide sharper corners to your prints, and delivers a high print quality even at speeds over `100ms^-1`.
+
+**Line Method**
+
+**What is it?**
+
+The line method is a quick method for calibrating pressure advance. 
+However, the accuracy of this method is dependent on the quality of your first layer.
+To get the best results for this method, it is recommended to turn on auto bed mesh leveling before running the test.
+
+**How to run it**
+
+1. Select the printer, filament and process that you would like to run for the test.
+2. Print the project and check the results. You will want to identify the line that has the best combination of being a precise angle and the filament is not separating. You can select the value of the most even line and then update the pressure advance value in the filament settings.
 
 ## Tolerance Test
 
