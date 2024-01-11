@@ -94,7 +94,7 @@ If the original flow ratio was `0.98`, and the best results was with `+5`. The n
 **What is it?**
 
 Pressure advance is the calibration technique that compensates for side effects of instant speed changes that occur during fast print speeds.
-Pressure advance can reduce stringing, provide sharper corners to your prints, and delivers a high print quality even at speeds over `100ms^-1`.
+Pressure advance can reduce stringing, provide sharper corners to your prints, and delivers a high print quality even at speeds over `100m/s`.
 
 **Line Method**
 
