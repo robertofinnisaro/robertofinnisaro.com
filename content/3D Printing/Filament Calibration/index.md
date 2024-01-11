@@ -35,19 +35,23 @@ Below are the current options that are available.
 # Temperature Tower
 
 **What is it?**
+
 The temperature tower is a calibration technique that determine the ideal printing temperature for the filament being used.
 Choosing the correct temperature will help get the best print quality, and in partnership with process profiles it can help obtain the best strength for the parts.
 Additionally, the correct temperature can help to reduce stringing and under-extrusion or over-extrusion issues.
 
-OrcaSlicer uses a remix of the (Smart compact temperature calibration tower)[ https://www.thingiverse.com/thing:2729076 ] by gaaZolee. The calibration can be programed in 5&deg;C temperature steps.
+OrcaSlicer uses a remix of the [Smart compact temperature calibration tower](https://www.thingiverse.com/thing:2729076) by gaaZolee. 
+The calibration can be programed in 5&deg;C temperature steps.
 Use the recommended temperatures for your limits that are provided by the manufacture of the filament.
 
 **How to run it**
+
 1. Select "Temperature" from the Calibration Menu.
 2. Enter the limits for the temperature tests - these can be left at the default depending on the material.
 3. Print the temperature tower. OrcaSlicer will automatically change the temperature throughout the print so that you are then able to inspect the temperatures and see which one suits your filament the best.
 
 **How to analyse the tower**
+
 Once the tower has been printed, you will notice that some of the temperature steps have better print quality than others.
 The optimal temperature is the one which has the least amount of print issues. 
 Print issues to look out for:
@@ -60,13 +64,16 @@ Print issues to look out for:
 # Flow Rate
 
 **What is it?**
+
 Flow Rate allows for the control of how much extrusion flow of a filament occurs when it leaves the nozzle. Whilst every material type melts differently, 
 this is an important calibration step as it is best to have just the right amount of filament extruded out of the nozzle to get better quality prints.
 
 If the flow rate is too high, this is known as over-extrusion, and it can cause issues when seeing fine details on a print and also the layer lines will be larger than optimal.
-If the flow rate is too low however, this is known as under-extrusion, and this will have inconsistent side profiles and a weakness to the print, whilst leaving holes and gaps in the print.
+If the flow rate is too low however, this is known as under-extrusion, and this will have inconsistent side profiles and a weakness to the print, 
+whilst leaving holes and gaps in the print.
 
 **How to run it**
+
 The flow rate test in OrcaSlicer can be found by the Flow Ration in OrcaSlicer, it is set to 100% or 1 by default and this may not be appropriate for the filament.
 The steps to run the flow rate test are as follows:
 
