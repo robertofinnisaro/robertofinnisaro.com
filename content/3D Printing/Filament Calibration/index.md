@@ -183,3 +183,19 @@ This is important to determine how fast your printer can print without experienc
 
 
 ## Retraction Test
+
+**What is it?**
+
+Retraction is how much the printer can pull back (retract) filament from the nozzle when the nozzle moves from one section to the next.
+The value is normally measured in millimeters that the filament is pulled back.
+Slicers usually provide options from retraction distance and speed.
+
+**How to run it**
+
+1. Select "Retraction Test" in the OrcaSlicer calibration menu.
+2. Choose the start and end parameters of the test. The default values can be used as a reference. 
+3. Print the retraction test model.
+
+**How to analyse the results**
+
+Look at the model and find the height that has the least amount of stringing between the two posts of the tower using calipers.
