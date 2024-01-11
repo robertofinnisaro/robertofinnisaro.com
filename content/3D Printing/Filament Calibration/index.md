@@ -32,3 +32,48 @@ Below are the current options that are available.
 - Vertical Fine Artifacts
 - Retraction Test
 
+# Temperature Tower
+
+**What is it?**
+The temperature tower is a calibration technique that determine the ideal printing temperature for the filament being used.
+Choosing the correct temperature will help get the best print quality, and in partnership with process profiles it can help obtain the best strength for the parts.
+Additionally, the correct temperature can help to reduce stringing and under-extrusion or over-extrusion issues.
+
+OrcaSlicer uses a remix of the (Smart compact temperature calibration tower)[ https://www.thingiverse.com/thing:2729076 ] by gaaZolee. The calibration can be programed in 5&deg;C temperature steps.
+Use the recommended temperatures for your limits that are provided by the manufacture of the filament.
+
+**How to use it?**
+
+1. Select "Temperature" from the Calibration Menu.
+2. Enter the limits for the temperature tests - these can be left at the default depending on the material.
+3. Print the temperature tower. OrcaSlicer will automatically change the temperaute throughout the print so that you are then able to inspect the temperautres and see which one suits your filament the best.
+
+**How to analyse the tower**
+Once the tower has been printed, you will notice that some of the temperature steps have better print quaity than other.
+The optimal temperature is the one which has the least amount of print issues. 
+Print issues to look out for:
+- Surface Finish
+- Bridging
+- Stringing
+- Layer Adhesion
+- Strength
+
+# Flow Rate
+
+
+# Pressure Advance
+
+
+# Tolerance Test
+
+
+
+# Max (Volumetric) Flow Rate
+
+
+
+# Vertical Fine Artifacts
+
+
+
+# Retraction Test
