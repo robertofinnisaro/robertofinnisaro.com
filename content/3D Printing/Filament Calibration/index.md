@@ -84,7 +84,7 @@ The steps to run the flow rate test are as follows:
 5. The best flow rate will be the object that has the smoothest top surface. If there are two which are close together, then the higher flow rate is to be chosen.
 6. Use the formula: `FlowRatio_old * (100 + modifier) / 100` and update the flow ratio in your filament profile settings.
 
-If the original flow ratio was $`0.98`$, and the best results was with `+5`. The new flow ratio value would be `1.029`:
+If the original flow ratio was `0.98`, and the best results was with `+5`. The new flow ratio value would be `1.029`:
 ```math
 0.98 * (100 + 5) / 100 = 1.029
 ```
