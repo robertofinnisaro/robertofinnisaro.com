@@ -150,7 +150,23 @@ pressureAdvance = 0 + 10.2 * 0.002 = 0.0204
 
 ## Tolerance Test
 
+**Tolerance Test**
 
+**What is it?**
+
+The tolerance test is used to determine the printer's ability to reproduce fine details and tight tolerances. 
+Tolerances in 3D printing is one of the more important aspects as it is vital for the precision and accuracy for parts. 
+This is more important for mechanical parts.
+It ensures that parts can fit together seamlessly which is important when working with parts that require assembly.
+
+**How to run it**
+
+1. Select the printer, filament and process that you want to use for the test.
+2. Print the tolerance model provided by OrcaSlicer from the calibration menu.
+
+**How to analyse the tower**
+
+After printing, measure the gaps between the various sections of the model to determine the printer's tolerance capabilities.
 
 ## Max (Volumetric) Flow Rate
 
