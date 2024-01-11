@@ -170,10 +170,16 @@ After printing, measure the gaps between the various sections of the model to de
 
 ## Max (Volumetric) Flow Rate
 
+**What is it?**
 
+The Max Flow Rate test is used to determine the maximum flow rate that the printer can operate without running into problems such as under-extrusion. 
+This is important to determine how fast your printer can print without experiencing problems. 
 
-## Vertical Fine Artifacts
+**How to run it**
 
+1. Select the printer, filament and process that you want to use for the test.
+2. Print the Max Flow Rate test.
+3. Examine the print for signs of under-extrusion. The flow rate at which these issues first appear is the maximum flow rate that you can use.
 
 
 ## Retraction Test
