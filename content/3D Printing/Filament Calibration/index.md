@@ -19,7 +19,7 @@ This process can take a while, but it will overall increase your productivity wh
 For this process, OrcaSlicer has great in-built tools that can be used to fine tune your printer for a new filament calibration.
 There are multiple options in OrcaSlicer's calibration menu and this guide will look into how they work and how they can be used to calibrate a filament.
 
-# OrcaSlicer Calibration Menu
+## OrcaSlicer Calibration Menu
 
 The OrcaSlicer calibration menu is built directly into the slicer.
 Below are the current options that are available.
@@ -32,7 +32,7 @@ Below are the current options that are available.
 - Vertical Fine Artifacts
 - Retraction Test
 
-# Temperature Tower
+## Temperature Tower
 
 **What is it?**
 
@@ -61,7 +61,7 @@ Print issues to look out for:
 - Layer Adhesion
 - Strength
 
-# Flow Rate
+## Flow Rate
 
 **What is it?**
 
@@ -87,19 +87,19 @@ The steps to run the flow rate test are as follows:
 If the original flow ratio was 0.98, and the best results was with +5. The new flow ratio value would be 1.029:
 $$ 0.98 * (100 + 5) / 100 = 1.029 $$
 
-# Pressure Advance
+## Pressure Advance
 
 
-# Tolerance Test
-
-
-
-# Max (Volumetric) Flow Rate
+## Tolerance Test
 
 
 
-# Vertical Fine Artifacts
+## Max (Volumetric) Flow Rate
 
 
 
-# Retraction Test
+## Vertical Fine Artifacts
+
+
+
+## Retraction Test
