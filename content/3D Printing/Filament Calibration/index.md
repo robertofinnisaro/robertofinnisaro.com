@@ -109,6 +109,18 @@ To get the best results for this method, it is recommended to turn on auto bed m
 1. Select the printer, filament and process that you would like to run for the test.
 2. Print the project and check the results. You will want to identify the line that has the best combination of being a precise angle and the filament is not separating. You can select the value of the most even line and then update the pressure advance value in the filament settings.
 
+**Pattern Method**
+
+**What is it?**
+
+The pattern method is adapted from [Andrew Ellis' Pattern Method Generator](https://ellis3dp.com/Print-Tuning-Guide/articles/pressure_linear_advance/pattern_method.html). 
+
+**How to run it**
+
+1. When you initiate the test, there will be a small rectangular prism on the plate. This generated object serves several purposes.
+   i. The test pattern is custom G-Code, when in preview mode, you'll see the full test pattern.
+   ii. The prism can be moved anywhere on the build plate.
+
 ## Tolerance Test
 
 
