@@ -121,6 +121,33 @@ The pattern method is adapted from [Andrew Ellis' Pattern Method Generator](http
    i. The test pattern is custom G-Code, when in preview mode, you'll see the full test pattern.
    ii. The prism can be moved anywhere on the build plate.
 
+**Tower Method**
+
+**What is it?**
+
+The tower method is the longest print to do, however, it can be the most accurate.
+It does not rely on the first layer quality and the pressure advance value increases by `0.002` for every `1mm` in height. (This is `0.02` for Bowden set-ups)
+
+**How to run it**
+
+1. Select the printer, filament, and process you want to use for the test.
+2. Select "Pressure Advance" from the calibration menu, choose "DDE" or "Bowden" and then "PA Tower"
+3. Print the test part.
+
+**How to analyse the tower**
+
+Examine each corner of the print and use calipers to determine the height that yields the best results.
+To do this, look for the height that has the most previse corners and measure to that layer.
+This formula can be used to calculate the new pressure advance value in the filament settings:
+```math
+pressureAdvance = <start> + <height> * <factor>
+```
+
+For instance, if a height of `10.2mm` was measured and a factor of `0.002` was used then the new pressure advance would be 
+```math
+pressureAdvance = 0 + 10.2 * 0.002 = 0.0204
+```
+
 ## Tolerance Test
 
 
