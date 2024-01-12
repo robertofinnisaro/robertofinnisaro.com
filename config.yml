@@ -1,7 +1,7 @@
 baseURL: "https://robertofinnisaro.com"
 languageCode: en-GB
 title: Roberto Finnisaro
-theme: PaperMod
+theme: PaperModX
 paginate: 5
 
 enableRobotsTXT: true
