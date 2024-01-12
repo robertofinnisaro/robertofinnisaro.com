@@ -89,7 +89,6 @@ params:
     imageWidth: 300
     imageHeight: 400
     imageTitle: Picture of me
-    imageSide: right
     buttons:
       - name: Posts
         url: /posts
