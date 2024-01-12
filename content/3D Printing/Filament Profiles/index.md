@@ -1,6 +1,6 @@
 ---
 title: "3D Printing Filament Profiles"
-date: 2024-10-01T16:00-00:00
+date: 2024-01-10T16:00-00:00
 draft: false
 cover:
     image: img/3d-filament.jpg
