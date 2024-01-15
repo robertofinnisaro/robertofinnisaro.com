@@ -30,6 +30,7 @@ Ender 3v2 Printer addons:
 - Metal Extruder
 - Stiffer Springs
 
+
 Klipper configuration:
 - Raspberry Pi 4 (4Gb)
 - Raspberry Pi Case
@@ -42,6 +43,6 @@ Klipper configuration:
 
 To make the Klipper firmware compatible with the klack ender, there were a few problems. 
 The main snag with the installation was configuring the probe in the firmware, when the printer was in the homing sequence,
-the console continuously outputted `"Probe tr under the `[probe]` seiggered prior to movement"` - to solve this the probe had to made high.
+the console continuously outputted `"Probe triggered prior to movement"` - to solve this the probe had to made high.
 
 This was done in the `KlackEnder.cfg`, under the `[probe]` section by changing `pin: PA7` to `pin: ^PA7` 
