@@ -21,6 +21,6 @@ with future plans to upgrade to the [Belt Driven Ender 3](https://kevinakasam.co
 
 To make the Klipper firmware compatible with the klack ender, there were a few problems. 
 The main snag with the installation was configuring the probe in the firmware, when the printer was in the homing sequence,
-the console continuously outputted 'Probe triggered prior to movement' - to solve this the probe had to made high.
+the console continuously outputted `Probe triggered prior to movement` - to solve this the probe had to made high.
 
-This was done in the 'KlackEnder.cfg', under the '[probe]' section by changing 'pin: PA7' to 'pin: ^PA7' 
+This was done in the `KlackEnder.cfg`, under the `[probe]` section by changing `pin: PA7` to `pin: ^PA7` 
