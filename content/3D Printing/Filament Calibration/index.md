@@ -1,6 +1,6 @@
 ---
 title: "Calibrating New Filaments for 3D Printing"
-date: 2024-01-11T21:00-00:00
+date: 2024-01-11T21:00:00-00:00
 draft: false
 cover:
     image: img/3d-calibration.jpg
