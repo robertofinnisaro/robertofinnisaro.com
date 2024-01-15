@@ -21,6 +21,7 @@ with future plans to upgrade to the [Belt Driven Ender 3](https://kevinakasam.co
 
 ## Component List
 
+Ender 3v2 Printer addons:
 - 3x Noctua Fan 20x10mm
 - 1x Noctua Fan 40x10mm
 - 1x Noctua Fan 90x25mm
@@ -28,6 +29,14 @@ with future plans to upgrade to the [Belt Driven Ender 3](https://kevinakasam.co
 - Direct Drive
 - Metal Extruder
 - Stiffer Springs
+
+Klipper configuration:
+- Raspberry Pi 4 (4Gb)
+- Raspberry Pi Case
+- Raspberry Pi Fan
+- Raspberry Pi Cam 2
+- Logitech C720 HD
+- Tripod
 
 ## Klack Ender
 
