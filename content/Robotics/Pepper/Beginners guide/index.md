@@ -3,7 +3,7 @@ title: "Beginners guide to Pepper"
 date: 2024-01-16T20:00:00-00:00
 draft: false
 cover:
-    image: img/Pepper.jpg
+    image: img/pepper.jpg
     alt: "Pepper Robot"
     caption: "Pepper Robot"
     hidden: true
