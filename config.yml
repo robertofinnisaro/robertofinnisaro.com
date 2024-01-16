@@ -165,9 +165,13 @@ menu:
       url: /3D Printing/
       weight: 3
     - identifier: search
+      name: Robotics
+      url: /Robotics/
+      weight: 4
+    - identifier: search
       name: Search
       url: /search/
-      weight: 4
+      weight: 5
 
 
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
