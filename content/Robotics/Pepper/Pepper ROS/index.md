@@ -3,7 +3,7 @@ title: "Setting up ROS with to Pepper"
 date: 2024-01-17T09:00:00-00:00
 draft: false
 cover:
-    image: img/Pepper-ros.jpg
+    image: img/pepper-ros.png
     alt: "Pepper Robot"
     caption: "Pepper Robot"
     hidden: true
