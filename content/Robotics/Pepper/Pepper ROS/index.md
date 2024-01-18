@@ -114,5 +114,3 @@ You can load it through the tool bar at the location below:
 ```bash
 ~/catkin_ws/src/pepper_robot/pepper_description/config/pepper.rviz
 ```
-
-
