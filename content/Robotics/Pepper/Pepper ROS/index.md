@@ -78,3 +78,20 @@ You can then connect to your robot by running:
 ```bash
 roslaunch naoqi_driver naoqi_driver.launch nao_ip:=<yourRobotIP>  [network_interface:=<eth0|wlan0|vpn0>] [username:=<name>] [password:=<passwd>]
 ```
+
+
+## Pepper and Python
+
+Now that Pepper is fully integrated with ROS, it is time to look at launching a python version of Pepper. Python is one of the chosen languages to control robotic systems using ROS. For this to work, you will need to find the official NAOqi SDK.
+
+After this you need to install the Pepper bring-up package but in order to execute the python bridge you will need to run the following command: 
+
+```bash
+roslaunch pepper_bringup pepper_full_py.launch nao_ip:=<RobotIP> roscore_ip:=<roscoreIP>
+```
+
+If you do not have `pepper_bringup` then this can be installed by running:
+
+```bash
+sudo apt-get install ros-$ROS_DISTRIB-pepper-.*
+```
