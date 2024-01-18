@@ -3,7 +3,7 @@ title: "Pepper Documentation and Tutorials"
 date: 2024-01-17T09:00:00-00:00
 draft: false
 cover:
-    image: Beginners guide/img/pepper.png
+    image: Beginners guide/img/pepper.jpg
     alt: "Pepper Robot"
     caption: "Pepper Robot"
     hidden: true
