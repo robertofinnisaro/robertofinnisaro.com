@@ -49,3 +49,8 @@ To use the tablet, find the `Show Image` box located in `Multimedia` > `Tablet` 
 One of the videos that can be used in this section is an OpenDay video from your marketing team, download the video and place it in your project files and it will be able to be referenced through to the `Show Image` box. 
 
 This feature can be integrated with `Animated Say` to better entertain visitors.
+
+### Q&A Session
+Implementation of a `Dialog` box found in `Speech` > `Creation` > `Dialog`, this can be used to respond to some common questions that visitors may be asking. In a future tutorial, we will look into integrating this with a database providing more detailed information about courses and the campus to visitors.
+
+With this implementation, it is possible to use speech recognition to understand and answer visitor queries.
