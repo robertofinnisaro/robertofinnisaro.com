@@ -1,6 +1,6 @@
 ---
 title: "Pepper Introduction with Choregraphe"
-date: 2024-01-16T20:00:00-00:00
+date: 2024-01-19T23:00:00-00:00
 draft: false
 cover:
     image: img/pepper-choregraphe.jpg
