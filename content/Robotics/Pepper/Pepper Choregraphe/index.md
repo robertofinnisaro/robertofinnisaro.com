@@ -3,7 +3,7 @@ title: "Pepper Introduction with Choregraphe"
 date: 2024-01-19T23:00:00-00:00
 draft: false
 cover:
-    image: img/pepper-choregraphe.jpg
+    image: img/pepper-choregraphe.png
     alt: "Pepper and Choregraphe"
     caption: "Pepper and Choregraphe "
     hidden: true
