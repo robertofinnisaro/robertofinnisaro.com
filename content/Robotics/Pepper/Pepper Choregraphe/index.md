@@ -32,3 +32,11 @@ Once Pepper has been connected, the next step is to create a new project for you
 For this, go to `File` > `New Project`.
 
 Name your project with a suitable name: i.e `OpenDay` and choose a suitable location for the project to be saved in.
+
+## Design the Open Day program
+### Welcome Interaction
+In the `Box Libraries` find the predefined `Animated Say` block located in `Speech` > `Creation` > `Animated Say`.
+
+Double click on the box to edit some of the functionality. It is recommended to turn the speech speed down to 90%. This is also where you can enter a friendly welcome message to greet the visitors. 
+
+You could implement a `Say` box here but `Animated Say` builds a more engaging welcome.
