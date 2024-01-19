@@ -70,3 +70,6 @@ To test that the program works, first run the program on Pepper.
 Then ensure that you run through all of the interactions that you programmed to see what all of the behaviours do.
 
 During this process, you can make adjustments as needed to enhance the user experience with Pepper.
+
+## Conclusion
+After this tutorial, you should have successfully created an open day program for Pepper using Choregraphe. This is an ever evolving process that can be customised for events based on specific goals and features that you wish to completed depending on the event.
