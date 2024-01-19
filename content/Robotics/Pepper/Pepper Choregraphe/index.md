@@ -26,3 +26,9 @@ Before getting started, there are some prerequisites that need to be completed. 
 The first step is to open Choregraphe, for this find and locate the application and launch it.
 After the application has been opened, connect to your Pepper by entering the IP address.
 To find the IP address, press the chest button on Pepper once and it will announce the IP address.
+
+## Create a New Project
+Once Pepper has been connected, the next step is to create a new project for your open day project.
+For this, go to `File` > `New Project`.
+
+Name your project with a suitable name: i.e `OpenDay` and choose a suitable location for the project to be saved in.
