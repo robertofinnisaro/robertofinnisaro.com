@@ -59,3 +59,8 @@ With this implementation, it is possible to use speech recognition to understand
 In order for Choregraphe to understand any of the boxes they have to be connected to each other. To start connect the output arrows of each box to create a flow of interactions.
 
 Ensure that there are smooth transitions between different behaviours.
+
+## Compile and Install
+To run the program on Pepper first the program needs to be complied, for this hit the compile button in the tool bar to build your Choregraphe project.
+
+After the project has been complied, you can then install the compiled behaviour onto Pepper.
