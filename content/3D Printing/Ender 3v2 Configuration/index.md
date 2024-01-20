@@ -71,6 +71,8 @@ The function tells you whether you need to adjust the screw clockwise or anti-cl
 
 ## Klipper Configurations
 
-[printer.cfg](/Config/printer.cfg)
-[macro.cfg](/Config/macro.cfg)
-[KlackEnder.cfg](/Config/KlackEnder.cfg)
+[printer.cfg](Config/printer.cfg)
+
+[macro.cfg](Config/macro.cfg)
+
+[KlackEnder.cfg](Config/KlackEnder.cfg)
