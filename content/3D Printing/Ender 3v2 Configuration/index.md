@@ -46,3 +46,11 @@ The main snag with the installation was configuring the probe in the firmware, w
 the console continuously outputted `"Probe triggered prior to movement"` - to solve this the probe had to made high.
 
 This was done in the `KlackEnder.cfg`, under the `[probe]` section by changing `pin: PA7` to `pin: ^PA7` 
+
+## Direct Drive
+
+The current setup uses a direct drive mount from Creality, this enables me to print with various different filament.
+My retraction settings have greatly reduced from 6.5mm, 40mm/s to 2mm, 120mm/s. 
+The increase in retraction speed has ensured that there are no blobs forming in the prints. 
+WHen retracting, a faster retraction does not allow for the nozzle to ouze filament which is a common problem when trying to get good quality prints.
+
