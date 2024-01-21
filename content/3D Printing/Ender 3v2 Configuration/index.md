@@ -76,3 +76,15 @@ The function tells you whether you need to adjust the screw clockwise or anti-cl
 [macro.cfg](Config/macro.cfg)
 
 [KlackEnder.cfg](Config/KlackEnder.cfg)
+
+[klack-variables.cfg](Config/klack-variables.cfg)
+
+[klack-probe.cfg](Config/klack-probe.cfg)
+
+[klack-macros.cfg](Config/klack-macros.cfg)
+
+[klack-adaptive-bed-mesh-calibrate.cfg](Config/klack-adaptive-bed-mesh-calibrate.cfg)
+
+[klack-bed-mesh-calibrate.cfg](Config/klack-bed-mesh-calibrate.cfg)
+
+[klack-screws-tilt-calculate](Config/klack-screws-tilt-calculate.cfg)
