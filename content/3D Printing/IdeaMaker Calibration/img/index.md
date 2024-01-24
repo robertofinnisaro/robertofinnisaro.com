@@ -32,6 +32,15 @@ This can be found under `Printer settings -> Advacned -> Step-E per MM`
 ̣<!--- pic ref here --->
 
 ## Flow rate calibration
+Flow rate has been covered before but the process is slightly different in IdeaMaker.
+Flow rate should be calibrated for each type of filament that  is being printed and is different on all filaments, even if it is the same type of filament.
+Most of the time, you will find that the values do not differentiate that much between filament and could be left, but it is best practice to calibrate this every time.
+
+To do this a guide will be posted soon showing how to calibrate the flow rate.
+After the calibration values have been identified for the specific filament, it can be inserted into IdeaMaker.
+
+This setting can be found under: `Template Settings -> Advanced -> Primary Filament Flowrate`. 
+To ensure that this setting takes effect when printing, the `Override Filament Setting` must be checked.
 
 ## Temperature calibration
 
