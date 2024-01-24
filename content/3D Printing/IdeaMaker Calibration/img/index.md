@@ -12,4 +12,22 @@ summary: "\"Calibration Guide using IdeaMaker.\""
 tags: ["3D Printing", "Filament Calibration"]
 ---
 
+# 3D printer calibration steps
 
+## Extruder calibration
+
+## Flow rate calibration
+
+## Temperature calibration
+
+## Retraction calibration
+
+# Fine tuning
+
+## Top and bottom layer flow rate
+
+## X and Y compensation
+
+## Fix hole dimensions
+
+## Z seam calibration
