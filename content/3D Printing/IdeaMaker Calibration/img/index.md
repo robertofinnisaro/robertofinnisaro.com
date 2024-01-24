@@ -17,9 +17,19 @@ Whilst this is good for hobbyist printers such as a printer like my personal End
 Cura is the most commonly used slicer that is not behind a firewall, however for printers that I run at the University, they use a different slicing software.
 Therefore, this guide will dive into how to configure a 3D printer with IdeaMaker, using the Raise3D Pro 2 printer.
 
-# 3D printer calibration steps
+# 3D printer calibration steps 
 
 ## Extruder calibration
+One of the first steps that has been neglected thus far in my other guides is the calibration of the extruder. 
+A full guide on how to calibrate this will be posted soon.
+
+Calibrating the extruder is one of the most important aspects of 3D printing asn something that I find myself doing on a regular basis.
+By calibrating the extruder, it ensures that the amount of filament requested by the printer is the same amount of filament extruded.
+
+Once the extruder has been calibrated, ender the value into your filament profile in IdeaMaker.
+
+This can be found under `Printer settings -> Advacned -> Step-E per MM`
+̣<!--- pic ref here --->
 
 ## Flow rate calibration
 
