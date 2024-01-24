@@ -43,6 +43,30 @@ This setting can be found under: `Template Settings -> Advanced -> Primary Filam
 To ensure that this setting takes effect when printing, the `Override Filament Setting` must be checked.
 
 ## Temperature calibration
+The next step of calibration is the calibrating the temperature, this can be done by importing a temperature tower into IdeaMaker.
+When 3D printing, you will find that each filament reacts slightly different at various temperatures and finding the most appropriate temperature will provide the best properties.
+This is something that will need to be considered when changing filament type (i.e. PLA - PETG), but it might also have an impact on colour  of the same filament type.
+
+Finding the best temperature for the selected filament will ensure that there is the best print quality and best layer adhesion providing the best strength for a part.
+After calibrating the temperature for the filament, you will be able to assess the best temperature which can be used for your prints.
+
+The temperature tower in IdeaMaker is a little more finicky and requires a little more effort to set up compared to other slicers such as OrcaSlicer or Cura.
+IdeaMaker will require you to manually change the hotend temperature for each layer of the tower.
+
+The calibration method on other slicers uses a fork of the [gaaZolee smart temperature tower](https://www.thingiverse.com/thing:2729076), however if you want to save time you can download this [pre-set tower](Temperature-Calibration-Tower.zip).
+This guide will still run through how to calibrate the tower manually so that you have an understanding for future reference.
+
+Once the model has been imported into IdeaMaker, select the model and navigate through `Group and Layer Settings -> Setting Group 1`.
+After this you can hit the [+] symbol to add a new setting into the model. 
+From here you an adjust the min and max layer height of the section; once this has been set, the pen function will allow you to edit the layer settings.
+In the search bar, type `Temperature` and make sure that the `Left Extruder` has been checked, this will then allow you to set the temperature of the tower for that section.
+
+This process can then be repeated for all of the remaining layers of the model. 
+
+Once the tower has been printed you can inspect the tower to find the best layer temperature. 
+This can be done by choosing the section which looks the best and has the most detail. 
+You should ignore the stringing elements at this point as the retraction of the filament may not be correct at this stage of calibration.
+This will be calibrated in the next section of this guide.
 
 ## Retraction calibration
 
