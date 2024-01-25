@@ -12,7 +12,7 @@ summary: "\"Calibration Guide using IdeaMaker.\""
 tags: ["3D Printing", "Filament Calibration"]
 ---
 
-In my previous [guide](content/3D Printing/Filament Calibration/index.md), it ran through how to configure a filament using OrcaSlicer.
+In my previous [guide](/content/3D Printing/Filament Calibration/index.md), it ran through how to configure a filament using OrcaSlicer.
 Whilst this is good for hobbyist printers such as a printer like my personal Ender3v2, it is something that does not necessarily work on all printers.
 Cura is the most commonly used slicer that is not behind a firewall, however for printers that I run at the University, they use a different slicing software.
 Therefore, this guide will dive into how to configure a 3D printer with IdeaMaker, using the Raise3D Pro 2 printer.
@@ -53,7 +53,7 @@ After calibrating the temperature for the filament, you will be able to assess t
 The temperature tower in IdeaMaker is a little more finicky and requires a little more effort to set up compared to other slicers such as OrcaSlicer or Cura.
 IdeaMaker will require you to manually change the hotend temperature for each layer of the tower.
 
-The calibration method on other slicers uses a fork of the [gaaZolee smart temperature tower](https://www.thingiverse.com/thing:2729076), however if you want to save time you can download this [pre-set tower](Temperature-Calibration-Tower.zip).
+The calibration method on other slicers uses a fork of the [gaaZolee smart temperature tower](https://www.thingiverse.com/thing:2729076), however if you want to save time you can download this [pre-set tower](/Temperature-Calibration-Tower.zip).
 This guide will still run through how to calibrate the tower manually so that you have an understanding for future reference.
 
 Once the model has been imported into IdeaMaker, select the model and navigate through `Group and Layer Settings -> Setting Group 1`.
