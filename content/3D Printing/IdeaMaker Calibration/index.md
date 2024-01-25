@@ -69,6 +69,35 @@ You should ignore the stringing elements at this point as the retraction of the 
 This will be calibrated in the next section of this guide.
 
 ## Retraction calibration
+Progressing onto the next stage of calibration we will cover the retraction settings for a filament.
+This is important to do straight after the temperature calibration; this is due to the values of the retraction test can change according to the temperature.
+
+Retraction is the extruder minimising the pressure in the nozzle. 
+If there is no pressure inside the nozzle, filament will ooze out of the nozzle and leave a stringing effect on the prints, this is due to gravity.
+
+There are two types of extruder assembly; direct drive and bowden set-ups.
+For direct drive setups, the retraction settings is generally between 0.2mm and 2.0mm.
+For bowden set-ups it is in the ball part of 0.5mm to 5mm.
+
+The retraction test can be configured in a similar way to the temperature tower however when configuring the per-layer settings, change the `Retraction Material Amount` under the left extrduer.
+
+To update the retraction value, navigate to:
+
+`Advanced settings -> Extruder -> Retraction Material Amount`
+
+Retraction can be further tuned to eliminate the remaining stringing on a print but implementing coasting into the profile.
+
+The coasting values stops the printer from extruding for a set value, before finishing the line it is printing. 
+This way the remaining pressure in the nozzle will push a bit of filament through the nozzle when the extruder has stopped.
+
+General rule of thumb is the bowden set-ups require 0.2mm to 0.4mm of coasting.
+The way to identify if there is too much under-extrusion by the Z seam then the coasting value is too high; lower this value to fix this problem.
+Coasting can be changed by going to:
+
+`Advanced settings -> Extruder -> Coasting Distance`
+
+Make sure that the `Apply Coasting on Grid Infill and Lines Solid Fill` setting has been enabled.
+
 
 # Fine tuning
 
