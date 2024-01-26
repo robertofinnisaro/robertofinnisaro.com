@@ -134,5 +134,13 @@ Remember when calculating the XY compensation that the over spill measurement fr
 E.g: If the measurement is 20.01mm on a 20.00mm cube, the adjustment would be 0.05mm. 
 
 ## Fix hole dimensions
+One of the final aspects of calibrating your 3D printer is the hole dimensions.
+Even though the printer is calibrated, sometimes the holes in the printed parts can be smaller than designed; this can be caused by material expansion of variances in the extrusion of the material.
+
+For this XY Size Compensation for Holes can be used to adjust and compensate.
+
+A simple test for this is push fitting a bearing into a part. If the bearing is too tight or lose then the compensation needs to be changed.
+
+`Advanced settings -> Layer -> XY Size Compensatoin for Holes`
 
 ## Z seam calibration
