@@ -142,5 +142,3 @@ For this XY Size Compensation for Holes can be used to adjust and compensate.
 A simple test for this is push fitting a bearing into a part. If the bearing is too tight or lose then the compensation needs to be changed.
 
 `Advanced settings -> Layer -> XY Size Compensatoin for Holes`
-
-## Z seam calibration
