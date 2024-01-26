@@ -102,6 +102,22 @@ Make sure that the `Apply Coasting on Grid Infill and Lines Solid Fill` setting 
 # Fine tuning
 
 ## Top and bottom layer flow rate
+When the main bulk of the filament has been calibrated, the filament can be fine-tuned to really make strides in improving the print quality.
+Over extrusion or under extrusion can be found in the top and bottom layer, this can be possible even if the flow rate of your filament has been configured properly. 
+
+This setting can be overriden by changing the value in:
+
+`Solid Fill -> Top Surface Solid Fill Flowerate`
+
+`Solid Fill -> Bottom Surface Solid Fill Flowerate`
+
+For this, a simple test can be done by printing out a simple shape such as a cube from the primitive menu and set the dimensions to 20mm cubed.
+
+`Right Click -> Add Standard Primitive -> Cube`
+
+Adjust the value for top and bottom layers and then upon inspection you can find the best value for your filament.
+The adjustment of bottom flow rate can help with elephants foot if this is something you are struggling to mitigate.
+Elephants foot is when the nozzle is too close to the bed or if the extruder is extruding too much filament on the first later.
 
 ## X and Y compensation
 
