@@ -51,7 +51,7 @@ Finding the best temperature for the selected filament will ensure that there is
 After calibrating the temperature for the filament, you will be able to assess the best temperature which can be used for your prints.
 
 The temperature tower in IdeaMaker is a little more finicky and requires a little more effort to set up compared to other slicers such as OrcaSlicer or Cura.
-IdeaMaker will require you to manually change the hotend temperature for each layer of the tower.
+IdeaMaker will require you to manually change the hot end temperature for each layer of the tower.
 
 The calibration method on other slicers uses a fork of the [gaaZolee smart temperature tower](https://www.thingiverse.com/thing:2729076), however if you want to save time you can download this [pre-set tower](/Temperature-Calibration-Tower.zip).
 This guide will still run through how to calibrate the tower manually so that you have an understanding for future reference.
@@ -79,7 +79,8 @@ There are two types of extruder assembly; direct drive and bowden set-ups.
 For direct drive setups, the retraction settings is generally between 0.2mm and 2.0mm.
 For bowden set-ups it is in the ball part of 0.5mm to 5mm.
 
-The retraction test can be configured in a similar way to the temperature tower however when configuring the per-layer settings, change the `Retraction Material Amount` under the left extrduer.
+The retraction test can be configured in a similar way to the temperature tower however when configuring the per-layer settings, change the `Retraction Material Amount` under the left extruder.
+You can also download a retraction file from [here](/Retraction-Calibratoin-Tower.zip)
 
 To update the retraction value, navigate to:
 
