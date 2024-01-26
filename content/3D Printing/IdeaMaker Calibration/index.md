@@ -120,6 +120,18 @@ The adjustment of bottom flow rate can help with elephants foot if this is somet
 Elephants foot is when the nozzle is too close to the bed or if the extruder is extruding too much filament on the first later.
 
 ## X and Y compensation
+Once the top and bottom layers have been tuned and there is no elephants foot, the cube should have a high level of print quality.
+However, the cube might not be the correct dimensions and therefore X and Y compensation can be induced in the filament settings.
+
+The larger the cube printed, the easier it is to calculate the compensation as there will be a larger deficient. 
+TO get the best measurement of the cube, measure the full length of the sube and not just the top and bottom.
+
+The X and Y compensation can be adjusted by:
+
+`Advanced settings -> Layer -> XY Size Compensation for Contours`
+
+Remember when calculating the XY compensation that the over spill measurement from the calipers needs to be half.
+E.g: If the measurement is 20.01mm on a 20.00mm cube, the adjustment would be 0.05mm. 
 
 ## Fix hole dimensions
 
