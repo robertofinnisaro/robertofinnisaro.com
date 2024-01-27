@@ -29,7 +29,8 @@ By calibrating the extruder, it ensures that the amount of filament requested by
 Once the extruder has been calibrated, ender the value into your filament profile in IdeaMaker.
 
 This can be found under `Printer settings -> Advacned -> Step-E per MM`
-̣<!--- pic ref here --->
+
+![Changing the value of the Extruder Steps in IdeaMaker](img/e-calibration.png "Changing the value of the Extruder Steps in IdeaMaker")
 
 ## Flow rate calibration
 Flow rate has been covered before but the process is slightly different in IdeaMaker.
