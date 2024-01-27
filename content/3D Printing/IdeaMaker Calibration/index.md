@@ -30,6 +30,8 @@ Once the extruder has been calibrated, ender the value into your filament profil
 
 This can be found under `Printer settings -> Advacned -> Step-E per MM`
 
+![Printer settings menu](img/printer-settings.png "Printer settings located in IdeaMaker")
+
 ![Changing the value of the Extruder Steps in IdeaMaker](img/e-calibration.png "Changing the value of the Extruder Steps in IdeaMaker")
 
 ## Flow rate calibration
@@ -42,6 +44,8 @@ After the calibration values have been identified for the specific filament, it 
 
 This setting can be found under: `Template Settings -> Advanced -> Primary Filament Flowrate`. 
 To ensure that this setting takes effect when printing, the `Override Filament Setting` must be checked.
+
+![Changing the flow rate value for a filament](img/flowrate.png "Changing the flow rate of the current filament selected")
 
 ## Temperature calibration
 The next step of calibration is the calibrating the temperature, this can be done by importing a temperature tower into IdeaMaker.
@@ -57,15 +61,27 @@ IdeaMaker will require you to manually change the hot end temperature for each l
 The calibration method on other slicers uses a fork of the [gaaZolee smart temperature tower](https://www.thingiverse.com/thing:2729076), however if you want to save time you can download this [pre-set tower](Temperature-Calibration-Tower.zip).
 This guide will still run through how to calibrate the tower manually so that you have an understanding for future reference.
 
+![Smart temperature tower](img/temp-tower.png "Smart temperature tower")
+
 Once the model has been imported into IdeaMaker, select the model and navigate through `Group and Layer Settings -> Setting Group 1`.
 After this you can hit the [+] symbol to add a new setting into the model. 
+
+![Changing individual layers by adding custom parameters](img/temp-layer.png "Changing the individual layers by adding in custom parameters")
+
 From here you an adjust the min and max layer height of the section; once this has been set, the pen function will allow you to edit the layer settings.
 In the search bar, type `Temperature` and make sure that the `Left Extruder` has been checked, this will then allow you to set the temperature of the tower for that section.
+
+![Adding temperature for the left extruder](img/temp-temp.png "Adding temperature for the left extruder")
+
+![Setting the temperature for the left extruder](img/temp-set.png "Setting the temperature for the left extruder")
 
 This process can then be repeated for all of the remaining layers of the model. 
 
 Once the tower has been printed you can inspect the tower to find the best layer temperature. 
 This can be done by choosing the section which looks the best and has the most detail. 
+
+![Setting the new temperature in the filament profile](img/fila-temp.png "Setting the new temperature in the filament profile")
+
 You should ignore the stringing elements at this point as the retraction of the filament may not be correct at this stage of calibration.
 This will be calibrated in the next section of this guide.
 
@@ -83,9 +99,17 @@ For bowden set-ups it is in the ball part of 0.5mm to 5mm.
 The retraction test can be configured in a similar way to the temperature tower however when configuring the per-layer settings, change the `Retraction Material Amount` under the left extruder.
 You can also download a retraction file from [here](Retraction-Calibration-Tower.zip).
 
+![Retraction tower in IdeaMaker](img/retraction-tower.png "Retraction tower in IdeaMaker")
+
+![Adding the retraction material amount to layer settings](img/retraction-layer.png "Adding the retraction material amount to layer settings")
+
+![Changing the retraction amount depending on the layer selected](img/retraction-set.png "Changing the reaction amount depending on the layer selected")
+
 To update the retraction value, navigate to:
 
 `Advanced settings -> Extruder -> Retraction Material Amount`
+
+![Setting the new retraction amount in the filament profile](img/fila-retract.png "Setting the new retraction amount in the filament profile")
 
 Retraction can be further tuned to eliminate the remaining stringing on a print but implementing coasting into the profile.
 
@@ -100,6 +124,7 @@ Coasting can be changed by going to:
 
 Make sure that the `Apply Coasting on Grid Infill and Lines Solid Fill` setting has been enabled.
 
+![Changing the coasting value in filament settings](img/coasting.png "Changing the coasting value in filament settings")
 
 # Fine tuning
 
@@ -112,6 +137,8 @@ This setting can be overriden by changing the value in:
 `Solid Fill -> Top Surface Solid Fill Flowerate`
 
 `Solid Fill -> Bottom Surface Solid Fill Flowerate`
+
+![Changing the top and bottom flow rate](img/top-bottom-fr.png "Changing the top and bottom flow rate")
 
 For this, a simple test can be done by printing out a simple shape such as a cube from the primitive menu and set the dimensions to 20mm cubed.
 
@@ -132,8 +159,10 @@ The X and Y compensation can be adjusted by:
 
 `Advanced settings -> Layer -> XY Size Compensation for Contours`
 
+![Adjusting the XY compensation for over/under expansion](img/xy-compensation.png "XY compensation for over/under expansion")
+
 Remember when calculating the XY compensation that the over spill measurement from the calipers needs to be half.
-E.g: If the measurement is 20.01mm on a 20.00mm cube, the adjustment would be 0.05mm. 
+E.g: If the measurement is 20.01mm on a 20.00mm cube, the adjustment would be 0.05mm.
 
 ## Fix hole dimensions
 One of the final aspects of calibrating your 3D printer is the hole dimensions.
@@ -144,3 +173,5 @@ For this XY Size Compensation for Holes can be used to adjust and compensate.
 A simple test for this is push fitting a bearing into a part. If the bearing is too tight or lose then the compensation needs to be changed.
 
 `Advanced settings -> Layer -> XY Size Compensatoin for Holes`
+
+![Adjusting the XY compensation for holes](img/xy-compensation-holes.png "XY compensation for hole adjustments")
