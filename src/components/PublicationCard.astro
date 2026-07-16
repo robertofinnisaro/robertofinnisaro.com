@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  publication: CollectionEntry<'publications'>;
+}
+
+const { publication } = Astro.props;
+
+const {
+  title,
+  abstract,
+  authors,
+  published,
+  publicationType,
+  venue,
+  doi,
+  tags,
+} = publication.data;
+
+const formattedDate = published.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="publication-card">
+  <div class="publication-card__meta">
+    <span>{publicationType}</span>
+    <span aria-hidden="true">·</span>
+    <time datetime={published.toISOString()}>{formattedDate}</time>
+  </div>
+
+  <h2>
+    <a href={`/publications/${publication.slug}/`}>
+      {title}
+    </a>
+  </h2>
+
+  <p class="publication-card__authors">
+    {authors.join(', ')}
+  </p>
+
+  {venue && <p class="publication-card__venue">{venue}</p>}
+
+  <p>{abstract}</p>
+
+  {tags.length > 0 && (
+    <ul class="publication-card__tags" aria-label="Publication topics">
+      {tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+
+  <div class="publication-card__links">
+    <a href={`/publications/${publication.slug}/`}>
+      Read publication details
+    </a>
+
+    {doi && (
+      <a
+        href={`https://doi.org/${doi}`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        DOI
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .publication-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color, rgba(191, 164, 105, 0.35));
+    border-radius: 0.75rem;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(191, 164, 105, 0.06),
+        transparent 55%
+      );
+  }
+
+  .publication-card h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .publication-card h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .publication-card h2 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .publication-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-color, #bfa469);
+  }
+
+  .publication-card__authors {
+    margin: 0.25rem 0;
+    font-weight: 600;
+  }
+
+  .publication-card__venue {
+    margin: 0.25rem 0 1rem;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  .publication-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 1rem 0;
+    list-style: none;
+  }
+
+  .publication-card__tags li {
+    padding: 0.25rem 0.6rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  .publication-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+</style>

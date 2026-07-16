@@ -9,42 +9,105 @@ const baseSchema = z.object({
   featured: z.boolean().default(false),
   draft: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
-  cover: z.string().optional()
+  cover: z.string().optional(),
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/projects',
+  }),
   schema: baseSchema.extend({
-    status: z.enum(['planned', 'in-progress', 'complete']).default('complete'),
+    status: z
+      .enum(['planned', 'in-progress', 'complete'])
+      .default('complete'),
     disciplines: z.array(z.string()).default([]),
-    repository: z.string().url().optional()
-  })
+    repository: z.string().url().optional(),
+  }),
 });
 
 const tutorials = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/tutorials' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/tutorials',
+  }),
   schema: baseSchema.extend({
-    difficulty: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
-    duration: z.string().optional()
-  })
+    difficulty: z
+      .enum(['beginner', 'intermediate', 'advanced'])
+      .default('beginner'),
+    duration: z.string().optional(),
+  }),
 });
 
 const research = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/research' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/research',
+  }),
   schema: baseSchema.extend({
     topic: z.string(),
-    status: z.enum(['note', 'study', 'published']).default('note')
-  })
+    status: z
+      .enum(['note', 'study', 'published'])
+      .default('note'),
+  }),
 });
 
 const prints = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/prints' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/prints',
+  }),
   schema: baseSchema.extend({
     printer: z.string(),
     material: z.string(),
     layerHeight: z.string().optional(),
-    printTime: z.string().optional()
-  })
+    printTime: z.string().optional(),
+  }),
 });
 
-export const collections = { projects, tutorials, research, prints };
+const publications = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/publications',
+  }),
+
+  schema: baseSchema.extend({
+    abstract: z.string(),
+
+    authors: z.array(z.string()).min(1),
+
+    publicationType: z.enum([
+      'Journal Article',
+      'Conference Paper',
+      'Preprint',
+      'Technical Report',
+      'Book Chapter',
+      'Thesis',
+      'Dataset',
+      'Poster',
+      'Other',
+    ]),
+
+    venue: z.string().optional(),
+    publisher: z.string().optional(),
+    volume: z.string().optional(),
+    issue: z.string().optional(),
+    pages: z.string().optional(),
+
+    doi: z.string().optional(),
+    url: z.string().url().optional(),
+    pdf: z.string().optional(),
+    repository: z.string().url().optional(),
+
+    citation: z.string().optional(),
+    bibtex: z.string().optional(),
+  }),
+});
+
+export const collections = {
+  projects,
+  tutorials,
+  research,
+  prints,
+  publications,
+};
