@@ -1,0 +1,11 @@
+<img src="{{ site.baseurl }}{{ site.data.sidebar.profile.image }}" alt="{{ site.data.sidebar.profile.name }}">
+<h2>{{ site.data.sidebar.profile.name }}</h2>
+<p>{{ site.data.sidebar.profile.subtitle }}</p>
+
+{% for btn in site.data.sidebar.profile.buttons %}
+  <a href="{{ btn.url }}">{{ btn.name }}</a>
+{% endfor %}
+
+{% for s in site.data.sidebar.profile.social %}
+  <a href="{{ s.url }}">{{ s.name }}</a>
+{% endfor %}
