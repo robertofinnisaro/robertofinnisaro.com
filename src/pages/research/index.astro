@@ -1,0 +1,6 @@
+---
+import { getCollection } from 'astro:content';
+import ListingPage from '../../components/ListingPage.astro';
+const entries=(await getCollection('research',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+---
+<ListingPage title="Research" eyebrow="The archive" intro="Long-form studies, experiments, references and working notes." entries={entries} base="research" />

@@ -1,0 +1,6 @@
+---
+import { getCollection } from 'astro:content';
+import ListingPage from '../../components/ListingPage.astro';
+const entries=(await getCollection('prints',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+---
+<ListingPage title="3D Printing" eyebrow="Crafted objects" intro="Print profiles, models, iterations, failures and lessons from the workshop." entries={entries} base="prints" />

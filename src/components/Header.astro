@@ -1,0 +1,19 @@
+---
+const links = [
+  ['/', 'Home'], ['/projects', 'Works'], ['/prints', '3D Printing'],
+  ['/research', 'Research'], ['/tutorials', 'Tutorials'], ['/about', 'About']
+];
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="mark" href="/" aria-label="Home"><span>ᚱ</span> The Maker's Archive</a>
+    <nav aria-label="Primary navigation">
+      {links.map(([href,label]) => <a href={href}>{label}</a>)}
+    </nav>
+  </div>
+</header>
+<style>
+.site-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(13,17,14,.72);border-bottom:1px solid var(--line)}
+.bar{height:72px;display:flex;justify-content:space-between;align-items:center}.mark{text-decoration:none;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.2rem}.mark span{color:var(--gold);margin-right:.45rem}nav{display:flex;gap:1.15rem}nav a{text-decoration:none;color:var(--muted);font-size:.85rem}nav a:hover{color:var(--ink)}
+@media(max-width:800px){.bar{height:auto;padding:.8rem 0;align-items:flex-start;gap:.8rem;flex-direction:column}nav{width:100%;overflow:auto;padding-bottom:.2rem}}
+</style>

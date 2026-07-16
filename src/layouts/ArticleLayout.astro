@@ -1,0 +1,13 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title, description, published, tags=[] } = Astro.props;
+---
+<BaseLayout title={`${title} | The Maker's Archive`} description={description}>
+  <header class="article-hero container">
+    <p class="eyebrow">Archive entry · {published.toLocaleDateString('en-GB')}</p>
+    <h1>{title}</h1><p class="lead">{description}</p>
+    <div class="meta">{tags.map((tag:string)=><span class="tag">{tag}</span>)}</div>
+  </header>
+  <article class="prose"><slot/></article>
+</BaseLayout>
+<style>.article-hero{padding:6rem 0 4rem;border-bottom:1px solid var(--line);margin-bottom:4rem}.article-hero h1{font-size:clamp(3rem,8vw,6.5rem);max-width:1000px}.lead{font-size:1.2rem;max-width:700px}</style>

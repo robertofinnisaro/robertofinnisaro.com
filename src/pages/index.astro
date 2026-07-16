@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EntryCard from '../components/EntryCard.astro';
+import { getCollection } from 'astro:content';
+const projects=(await getCollection('projects',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+const tutorials=(await getCollection('tutorials',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+---
+<BaseLayout>
+<section class="hero container"><div><p class="eyebrow">A digital workshop and field archive</p><h1>Made by hand.<br/><em>Recorded in code.</em></h1><p class="intro">A portfolio of experiments in 3D printing, software, research and practical craft—presented as an evolving archive.</p><div class="actions"><a class="button" href="/projects">Explore the works →</a><a class="button" href="/tutorials">Read tutorials</a></div></div><div class="seal" aria-hidden="true"><span>ᚠ</span><span>ᚱ</span><span>ᛟ</span></div></section>
+<section class="section container"><div class="section-head"><div><p class="eyebrow">Selected works</p><h2>Recent expeditions</h2></div><a href="/projects">View all works →</a></div><div class="grid">{projects.slice(0,3).map(p=><EntryCard href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} label={p.data.status} tags={p.data.tags}/>)}</div></section>
+<section class="section callout"><div class="container callout-grid"><div><p class="eyebrow">The field guide</p><h2>Build, document and deploy.</h2></div><div><p>Practical walkthroughs for creating this site, publishing through Git and deploying static Astro builds to Cloudflare Pages.</p><a class="button" href="/tutorials">Open the tutorials →</a></div></div></section>
+<section class="section container"><div class="section-head"><div><p class="eyebrow">Tutorials</p><h2>Notes for fellow makers</h2></div></div><div class="grid">{tutorials.map(t=><EntryCard href={`/tutorials/${t.id}`} title={t.data.title} description={t.data.description} label={t.data.difficulty} tags={t.data.tags}/>)}</div></section>
+</BaseLayout>
+<style>.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:1.4fr .6fr;gap:3rem;align-items:center;padding:6rem 0}.hero h1 em{color:var(--gold);font-weight:500}.intro{font-size:1.2rem;max-width:650px}.actions{display:flex;gap:.7rem;margin-top:2rem}.seal{aspect-ratio:1;border:1px solid var(--line);border-radius:50%;display:grid;place-content:center;gap:1rem;text-align:center;font-size:2.2rem;color:var(--gold);box-shadow:0 0 80px rgba(205,177,112,.08),inset 0 0 50px rgba(205,177,112,.04)}.seal span:nth-child(2){font-size:4rem}.callout{border-block:1px solid var(--line);background:rgba(205,177,112,.04)}.callout-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}@media(max-width:800px){.hero,.callout-grid{grid-template-columns:1fr}.seal{display:none}.actions{align-items:flex-start;flex-direction:column}}</style>

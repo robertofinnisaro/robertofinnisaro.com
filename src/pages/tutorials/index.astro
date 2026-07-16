@@ -1,0 +1,6 @@
+---
+import { getCollection } from 'astro:content';
+import ListingPage from '../../components/ListingPage.astro';
+const entries=(await getCollection('tutorials',({data})=>!data.draft)).sort((a,b)=>a.data.published.valueOf()-b.data.published.valueOf());
+---
+<ListingPage title="Tutorials" eyebrow="Field guide" intro="Step-by-step guides for building, maintaining and publishing modern static websites." entries={entries} base="tutorials" />

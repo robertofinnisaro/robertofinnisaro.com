@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EntryCard from './EntryCard.astro';
+const { title, eyebrow, intro, entries, base } = Astro.props;
+---
+<BaseLayout title={`${title} | The Maker's Archive`} description={intro}>
+<section class="container page-head"><p class="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{intro}</p></section>
+<section class="container grid">{entries.map((entry:any)=><EntryCard href={`/${base}/${entry.id}`} title={entry.data.title} description={entry.data.description} label={entry.data.published.toLocaleDateString('en-GB')} tags={entry.data.tags}/>)}</section>
+</BaseLayout>
+<style>.page-head{padding:6rem 0 3rem}.page-head h1{font-size:clamp(4rem,10vw,8rem)}.page-head>p:last-child{max-width:650px;font-size:1.15rem}</style>
