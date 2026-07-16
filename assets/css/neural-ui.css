@@ -1,0 +1,264 @@
+/* =====================================================
+   NEURAL INTERFACE THEME
+   Hydejack override layer (green-accent sci-fi UI)
+   ===================================================== */
+
+:root {
+  /* Core palette */
+  --bg: #081015;
+  --surface: #101c24;
+  --surface-2: #16252f;
+
+  --accent: rgb(0, 220, 140);
+  --accent-glow: rgba(0, 220, 140, 0.45);
+
+  --text: #f5f7fa;
+  --muted: #8ea2b0;
+
+  --danger: #ff5c73;
+  --warning: #ffb84d;
+
+  --radius: 16px;
+
+  --border: rgba(0, 220, 140, 0.15);
+}
+
+/* =====================================================
+   GLOBAL BACKGROUND
+   ===================================================== */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Neural ambient background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,220,140,0.08), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,220,140,0.05), transparent 45%),
+    radial-gradient(circle at 40% 80%, rgba(0,220,140,0.04), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* =====================================================
+   TYPOGRAPHY
+   ===================================================== */
+
+h1, h2, h3 {
+  letter-spacing: 0.03em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-shadow: 0 0 14px var(--accent-glow);
+}
+
+/* =====================================================
+   SIDEBAR (HYDEJACK OVERRIDE)
+   ===================================================== */
+
+.sidebar {
+  background: linear-gradient(180deg, #081015, #0d1a22);
+  border-right: 1px solid rgba(0, 220, 140, 0.08);
+}
+
+.sidebar a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* =====================================================
+   CARDS (CORE UI ELEMENT)
+   ===================================================== */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 220, 140, 0.35);
+  box-shadow:
+    0 0 25px rgba(0, 220, 140, 0.12),
+    0 0 60px rgba(0, 220, 140, 0.05);
+}
+
+/* =====================================================
+   GRID SYSTEM
+   ===================================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* =====================================================
+   DASHBOARD TABLES
+   ===================================================== */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0,220,140,0.1);
+  text-align: left;
+}
+
+.data-table th {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.data-table tr:hover {
+  background: rgba(0,220,140,0.05);
+}
+
+/* =====================================================
+   FILTER BAR
+   ===================================================== */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+input,
+select {
+  background: var(--surface);
+  border: 1px solid rgba(0,220,140,0.25);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(0,220,140,0.2);
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0,220,140,0.3);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: rgba(0,220,140,0.12);
+  box-shadow: 0 0 20px rgba(0,220,140,0.2);
+}
+
+.button.active {
+  background: rgba(0,220,140,0.18);
+  border-color: var(--accent);
+}
+
+/* =====================================================
+   BADGES (AMS / MATERIAL TAGS)
+   ===================================================== */
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0,220,140,0.25);
+  background: rgba(255,255,255,0.03);
+}
+
+.badge.yes {
+  background: rgba(0,220,140,0.15);
+  border-color: rgba(0,220,140,0.4);
+}
+
+.badge.no {
+  background: rgba(255,92,115,0.08);
+  border-color: rgba(255,92,115,0.3);
+}
+
+/* =====================================================
+   HEADERS / HERO
+   ===================================================== */
+
+h1 {
+  color: var(--accent);
+  text-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* =====================================================
+   FILAMENT CARDS SPECIAL STATE
+   ===================================================== */
+
+.filament-card {
+  overflow: hidden;
+}
+
+.filament-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(0,220,140,0.12),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.filament-card:hover::after {
+  opacity: 1;
+}
+
+/* =====================================================
+   SCROLLBAR (optional polish)
+   ===================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,220,140,0.25);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,220,140,0.4);
+}

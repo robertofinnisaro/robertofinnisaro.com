@@ -1,0 +1,16 @@
+---
+layout: page
+---
+
+<p>{{ content }}</p>
+
+{% assign sorted = site.research | sort: "date" | reverse %}
+
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem;">
+  {% for research in sorted %}
+    <div style="border:1px solid #ddd; padding:1.5rem; border-radius:8px;">
+      <h2><a href="{{ research.url }}">{{ research.title }}</a></h2>
+      <p>{{ research.description }}</p>
+    </div>
+  {% endfor %}
+</div>

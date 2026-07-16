@@ -1,0 +1,18 @@
+profile:
+  name: "Roberto Finnisaro"
+  subtitle: "Robotics Masters Graduate, PhD Candidate, Graduate Teaching Assistant @ University of Hull"
+  image: "/assets/images/profile-pic.jpg"
+  buttons:
+    - name: Posts
+      url: "/posts/"
+    - name: Projects
+      url: "/projects/"
+    - name: Archives
+      url: "/archives/"
+  social:
+    - name: GitHub
+      url: "https://github.com/robertofinnisaro"
+    - name: LinkedIn
+      url: "https://www.linkedin.com/in/rob-finnis-meng-59356b235/"
+    - name: Email
+      url: "mailto:r.finnis@hull.ac.uk"

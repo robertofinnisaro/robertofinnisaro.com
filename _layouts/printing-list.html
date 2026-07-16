@@ -1,0 +1,106 @@
+---
+layout: default
+---
+
+<div class="printing-container">
+
+  {% if page.category == "brands" %}
+
+    <h1>{{ page.title }}</h1>
+
+    <div class="grid">
+
+      {% assign items = site.printing | where: "brand", page.brand %}
+
+      {% for item in items %}
+        {% if item.category == "filaments" %}
+
+        <a class="card" href="{{ item.url }}">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.material }} · {{ item.color }}</p>
+        </a>
+
+        {% endif %}
+      {% endfor %}
+
+    </div>
+
+  {% elsif page.category == "filaments" %}
+
+    {% assign def = site.printing | where: "filament_id", page.id | first %}
+
+    <div class="card">
+
+      <h1>{{ page.title }}</h1>
+
+      <p><b>Brand:</b> {{ page.brand }}</p>
+      <p><b>Material:</b> {{ page.material }}</p>
+      <p><b>Color:</b> {{ page.color }}</p>
+
+      {% if def %}
+        <a class="button" href="{{ def.url }}">
+          View Default Profile
+        </a>
+      {% endif %}
+
+    </div>
+
+  {% elsif page.category == "defaults" %}
+
+    {% assign fil = site.printing | where: "default_id", page.id | first %}
+
+    <div class="card">
+
+      <h1>{{ page.title }}</h1>
+
+      <p><b>Brand:</b> {{ page.brand }}</p>
+      <p><b>Material:</b> {{ page.material }}</p>
+
+      {% if fil %}
+        <a class="button" href="{{ fil.url }}">
+          Back to Filament
+        </a>
+      {% endif %}
+
+      <hr>
+
+      <div class="spec-section">
+        <h3>Temperatures</h3>
+        <p>Nozzle: {{ page.temperatures.nozzle }}</p>
+        <p>Bed: {{ page.temperatures.bed }}</p>
+      </div>
+
+      <div class="spec-section">
+        <h3>Flow</h3>
+        <p>{{ page.flow.flow_ratio }}</p>
+      </div>
+
+      <div class="spec-section">
+        <h3>AMS</h3>
+        <p>{{ page.ams.lite }}</p>
+      </div>
+
+    </div>
+
+  {% elsif page.category == "materials" %}
+
+    <h1>Materials</h1>
+
+    <div class="grid">
+
+      {% assign mats = site.printing | group_by: "material" %}
+
+      {% for m in mats %}
+
+        <div class="card">
+          <h3>{{ m.name }}</h3>
+          <p>{{ m.items | size }} filaments</p>
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  {% endif %}
+
+</div>
