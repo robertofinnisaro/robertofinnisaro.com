@@ -2,7 +2,7 @@
 title: Docker Platform
 description: Building a maintainable Docker host for the lab's containerised services.
 published: '2026-06-23'
-systemType: infrastructure
+systemType: software
 type: chapter
 part: 3
 chapter: 10

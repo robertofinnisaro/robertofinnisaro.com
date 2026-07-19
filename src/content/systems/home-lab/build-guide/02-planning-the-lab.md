@@ -65,6 +65,10 @@ For Project Erebor, the physical platform will be based on **Lab Rax**, a modula
 
 This choice makes the physical construction of the lab part of the project rather than simply a container for it.
 
+Once the rack has been assembled, update the
+[Rack Layout reference](/systems/home-lab/reference/rack-layout)
+with the final rack-unit allocation, mount revisions and measured clearances.
+
 ### Why the enclosure matters
 
 The rack determines more than the appearance of the completed lab. It influences:
@@ -100,10 +104,6 @@ Unlike a traditional steel rack, its frame, panels, shelves and device mounts ca
 The rack can be adapted by printing different posts, panels and equipment mounts. This allows Project Erebor to use device-specific brackets rather than placing every component on a generic shelf.
 
 The resulting system is smaller and more configurable than a conventional 19-inch server rack.
-
-Once the rack has been assembled, update the
-[Rack Layout reference](/systems/home-lab/reference/rack-layout)
-with the final rack-unit allocation, mount revisions and measured clearances.
 
 ### Why a 10-inch rack
 
