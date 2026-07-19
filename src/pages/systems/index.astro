@@ -1,0 +1,373 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const systems = (
+  await getCollection(
+    'systems',
+    ({ data }) => !data.draft,
+  )
+).sort((a, b) => {
+  if (a.data.order !== b.data.order) {
+    return a.data.order - b.data.order;
+  }
+
+  return b.data.published.getTime() - a.data.published.getTime();
+});
+
+const systemTypes = [
+  {
+    id: 'infrastructure',
+    title: 'Infrastructure',
+    description:
+      'Home-lab architecture, virtualisation and self-hosted services.',
+  },
+  {
+    id: 'compute',
+    title: 'Compute',
+    description:
+      'Servers, virtualisation hosts and processing systems.',
+  },
+  {
+    id: 'network',
+    title: 'Networking',
+    description:
+      'Routing, switching, DNS, remote access and network segmentation.',
+  },
+  {
+    id: 'storage',
+    title: 'Storage',
+    description:
+      'NAS systems, backup infrastructure and shared storage.',
+  },
+  {
+    id: '3d-printer',
+    title: '3D Printers',
+    description:
+      'Printer configurations, CoreXY machines and maintained printing systems.',
+  },
+  {
+    id: 'fabrication',
+    title: 'Fabrication',
+    description:
+      'Enclosures, filament systems and workshop fabrication infrastructure.',
+  },
+  {
+    id: 'automation',
+    title: 'Automation',
+    description:
+      'Home Assistant, sensors and automated technical systems.',
+  },
+  {
+    id: 'electronics',
+    title: 'Electronics',
+    description:
+      'Controllers, embedded devices and electronics systems.',
+  },
+  {
+    id: 'workshop',
+    title: 'Workshop',
+    description:
+      'Tools, benches and maintained workshop setups.',
+  },
+  {
+    id: 'software',
+    title: 'Software Stacks',
+    description:
+      'Klipper, monitoring, orchestration and supporting software platforms.',
+  },
+  {
+    id: 'other',
+    title: 'Other Systems',
+    description:
+      'Systems that do not fit into the main categories.',
+  },
+] as const;
+
+const featuredSystems = systems.filter(
+  ({ data }) => data.featured,
+);
+---
+
+<BaseLayout
+  title="Systems"
+  description="Maintained infrastructure, machines, software platforms and workshop systems."
+>
+  <main class="systems-page">
+    <header class="page-header">
+      <p class="eyebrow">The Technical Archive</p>
+
+      <h1>Systems</h1>
+
+      <p class="intro">
+        Maintained infrastructure, machines and technical environments,
+        including the home lab, 3D printers, workshop equipment and
+        supporting software.
+      </p>
+    </header>
+
+    {
+      featuredSystems.length > 0 && (
+        <section
+          class="systems-section"
+          aria-labelledby="featured-systems"
+        >
+          <header class="section-header">
+            <p class="eyebrow">Selected Systems</p>
+            <h2 id="featured-systems">Featured</h2>
+          </header>
+
+          <div class="systems-grid">
+            {featuredSystems.map((system) => (
+              <article class="system-card">
+                <div class="system-card__meta">
+                  <span>{system.data.systemType}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{system.data.status}</span>
+                </div>
+
+                <h3>
+                  <a href={`/systems/${system.id}/`}>
+                    {system.data.title}
+                  </a>
+                </h3>
+
+                <p>{system.data.description}</p>
+
+                <a
+                  class="system-card__link"
+                  href={`/systems/${system.id}/`}
+                >
+                  View system
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      systemTypes.map((type) => {
+        const matchingSystems = systems.filter(
+          ({ data }) => data.systemType === type.id,
+        );
+
+        if (matchingSystems.length === 0) {
+          return null;
+        }
+
+        return (
+          <section
+            class="systems-section"
+            aria-labelledby={`${type.id}-heading`}
+          >
+            <header class="section-header">
+              <h2 id={`${type.id}-heading`}>
+                {type.title}
+              </h2>
+
+              <p>{type.description}</p>
+            </header>
+
+            <div class="systems-grid">
+              {matchingSystems.map((system) => (
+                <article class="system-card">
+                  <div class="system-card__meta">
+                    <span>{system.data.status}</span>
+
+                    {system.data.parent && (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span>{system.data.parent}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <h3>
+                    <a href={`/systems/${system.id}/`}>
+                      {system.data.title}
+                    </a>
+                  </h3>
+
+                  <p>{system.data.description}</p>
+
+                  {system.data.tags.length > 0 && (
+                    <ul
+                      class="system-card__tags"
+                      aria-label="System topics"
+                    >
+                      {system.data.tags.map((tag) => (
+                        <li>{tag}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <a
+                    class="system-card__link"
+                    href={`/systems/${system.id}/`}
+                  >
+                    View system
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      })
+    }
+
+    {
+      systems.length === 0 && (
+        <section class="empty-state">
+          <h2>No systems found</h2>
+
+          <p>
+            Add Markdown files to
+            <code>src/content/systems/</code>
+            and restart the Astro development server.
+          </p>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>
+
+<style>
+  .systems-page {
+    width: min(76rem, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 5rem 0;
+  }
+
+  .page-header {
+    max-width: 54rem;
+    margin-bottom: 5rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--accent-color, #bfa469);
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.95;
+  }
+
+  .intro {
+    margin-top: 1.5rem;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+
+  .systems-section + .systems-section {
+    margin-top: 5rem;
+  }
+
+  .section-header {
+    max-width: 42rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
+
+  .section-header p {
+    margin: 0.75rem 0 0;
+    line-height: 1.7;
+    opacity: 0.75;
+  }
+
+  .systems-grid {
+    display: grid;
+    grid-template-columns:
+      repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1rem;
+  }
+
+  .system-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+    border-radius: 0.75rem;
+    background:
+      linear-gradient(
+        140deg,
+        rgba(191, 164, 105, 0.08),
+        transparent 55%
+      );
+  }
+
+  .system-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--accent-color, #bfa469);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .system-card h3 {
+    margin: 0.75rem 0;
+    font-size: 1.5rem;
+  }
+
+  .system-card h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .system-card h3 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .system-card p {
+    line-height: 1.7;
+    opacity: 0.82;
+  }
+
+  .system-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0;
+    margin: 1rem 0;
+    list-style: none;
+  }
+
+  .system-card__tags li {
+    padding: 0.2rem 0.55rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .system-card__link {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  .empty-state {
+    padding: 2rem;
+    border: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+  }
+
+  .empty-state code {
+    margin-left: 0.35rem;
+  }
+</style>

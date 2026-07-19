@@ -1,0 +1,318 @@
+---
+import {
+  getCollection,
+  render,
+  type CollectionEntry,
+} from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const systems = await getCollection(
+    'systems',
+    ({ data }) => !data.draft,
+  );
+
+  return systems.map((system) => ({
+    params: {
+      id: system.id,
+    },
+
+    props: {
+      system,
+    },
+  }));
+}
+
+interface Props {
+  system: CollectionEntry<'systems'>;
+}
+
+const { system } = Astro.props;
+const { Content } = await render(system);
+
+const {
+  title,
+  description,
+  systemType,
+  status,
+  published,
+  updated,
+  parent,
+  hardware,
+  software,
+  repository,
+  documentation,
+  tags,
+} = system.data;
+
+const formattedPublished = published.toLocaleDateString(
+  'en-GB',
+  {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  },
+);
+
+const formattedUpdated = updated?.toLocaleDateString(
+  'en-GB',
+  {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  },
+);
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="system-page">
+    <article>
+      <header class="system-header">
+        <a href="/systems/">← Systems</a>
+
+        <div class="system-header__meta">
+          <span>{systemType}</span>
+          <span aria-hidden="true">·</span>
+          <span>{status}</span>
+
+          {parent && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{parent}</span>
+            </>
+          )}
+        </div>
+
+        <h1>{title}</h1>
+
+        <p class="description">{description}</p>
+
+        <dl>
+          <div>
+            <dt>Published</dt>
+            <dd>{formattedPublished}</dd>
+          </div>
+
+          {formattedUpdated && (
+            <div>
+              <dt>Updated</dt>
+              <dd>{formattedUpdated}</dd>
+            </div>
+          )}
+        </dl>
+
+        <div class="system-actions">
+          {repository && (
+            <a
+              href={repository}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Repository
+            </a>
+          )}
+
+          {documentation && (
+            <a
+              href={documentation}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Documentation
+            </a>
+          )}
+        </div>
+      </header>
+
+      {(hardware.length > 0 || software.length > 0) && (
+        <section class="system-inventory">
+          {hardware.length > 0 && (
+            <div>
+              <h2>Hardware</h2>
+
+              <ul>
+                {hardware.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {software.length > 0 && (
+            <div>
+              <h2>Software</h2>
+
+              <ul>
+                {software.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+
+      <div class="system-content">
+        <Content />
+      </div>
+
+      {tags.length > 0 && (
+        <footer>
+          <h2>Topics</h2>
+
+          <ul>
+            {tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </footer>
+      )}
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .system-page {
+    width: min(72rem, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 5rem 0;
+  }
+
+  article {
+    max-width: 54rem;
+    margin: 0 auto;
+  }
+
+  .system-header {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+  }
+
+  .system-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    color: var(--accent-color, #bfa469);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0.75rem 0 1.25rem;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1;
+  }
+
+  .description {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    opacity: 0.82;
+  }
+
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+  }
+
+  .system-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .system-actions a {
+    padding: 0.65rem 1rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+
+  .system-inventory {
+    display: grid;
+    grid-template-columns:
+      repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+  }
+
+  .system-inventory h2 {
+    margin-top: 0;
+  }
+
+  .system-content {
+    margin-top: 3rem;
+    font-size: 1.05rem;
+    line-height: 1.85;
+  }
+
+  .system-content :global(h2) {
+    margin-top: 3rem;
+  }
+
+  .system-content :global(h3) {
+    margin-top: 2rem;
+  }
+
+  .system-content :global(table) {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+  }
+
+  .system-content :global(th),
+  .system-content :global(td) {
+    padding: 0.75rem;
+    border: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+    text-align: left;
+  }
+
+  .system-content :global(pre) {
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid
+      var(--border-color, rgba(191, 164, 105, 0.3));
+  }
+
+  footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  footer li {
+    padding: 0.25rem 0.65rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+  }
+</style>

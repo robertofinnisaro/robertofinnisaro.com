@@ -104,10 +104,77 @@ const publications = defineCollection({
   }),
 });
 
+const systems = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/systems',
+  }),
+
+  schema: baseSchema.extend({
+    systemType: z.enum([
+      'infrastructure',
+      'compute',
+      'network',
+      'storage',
+      '3d-printer',
+      'fabrication',
+      'automation',
+      'electronics',
+      'workshop',
+      'software',
+      'other',
+    ]),
+
+    type: z
+      .enum([
+        'overview',
+        'documentation',
+        'chapter',
+        'reference',
+      ])
+      .default('documentation'),
+
+    status: z
+      .enum([
+        'planned',
+        'building',
+        'active',
+        'maintenance',
+        'retired',
+      ])
+      .default('active'),
+
+    order: z.number().int().default(0),
+
+    chapter: z.number().int().positive().optional(),
+    series: z.string().optional(),
+    section: z.string().optional(),
+
+    estimatedTime: z.string().optional(),
+
+    difficulty: z
+      .enum([
+        'Beginner',
+        'Intermediate',
+        'Advanced',
+      ])
+      .optional(),
+
+    hardware: z.array(z.string()).default([]),
+    software: z.array(z.string()).default([]),
+
+    parent: z.string().optional(),
+
+    repository: z.string().url().optional(),
+    documentation: z.string().url().optional(),
+  }),
+});
+
 export const collections = {
   projects,
   tutorials,
   research,
   prints,
   publications,
+  systems,
 };
