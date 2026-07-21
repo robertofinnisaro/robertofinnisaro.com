@@ -31,14 +31,14 @@ monitoring, automation and disaster recovery into a single maintainable platform
 
 ## Core systems
 
-| Role | Name | Platform |
-|---|---|---|
-| Primary compute node | Erebor | Dell OptiPlex Micro running Proxmox VE |
-| Secondary compute node | Orthanc | Planned Proxmox VE node |
-| Storage platform | Moria | Planned ZimaBoard-based NAS |
-| Firewall and router | Minas Tirith | Planned OPNsense appliance |
-| Core switch | Argonath | Planned managed switch |
-| Raspberry Pi nodes | Dwarven names | Lightweight infrastructure services |
+| Role                   | Name          | Platform                               |
+| ------------------------| ---------------| ----------------------------------------|
+| Primary compute node   | Erebor        | Dell OptiPlex Micro running Proxmox VE |
+| Secondary compute node | Barad-dur     | Planned Proxmox VE node                |
+| Storage platform       | Moria         | Planned ZimaBoard-based NAS            |
+| Firewall and router    | Minas Tirith  | Planned OPNsense appliance             |
+| Core switch            | Argonath      | Planned managed switch                 |
+| Raspberry Pi nodes     | Dwarven names | Lightweight infrastructure services    |
 
 ## Reading the project
 

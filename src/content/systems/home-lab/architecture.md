@@ -40,7 +40,7 @@ Argonath
 Managed switch
    |
    +-- Erebor      Primary Proxmox node
-   +-- Orthanc     Secondary Proxmox node
+   +-- Barad-dur   Secondary Proxmox node
    +-- Moria       NAS and backup storage
    +-- Dwarven Pis Lightweight infrastructure
    +-- Access points and client networks

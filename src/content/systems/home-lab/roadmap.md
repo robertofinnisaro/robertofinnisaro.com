@@ -41,7 +41,7 @@ The lab is being built incrementally so each stage remains usable before the nex
 
 ## Phase 4 — Expansion
 
-- Add Orthanc as the second Proxmox node.
+- Add Barad-dur as the second Proxmox node.
 - Introduce centralised backups.
 - Add monitoring, logging and alerting.
 - Test recovery procedures.
