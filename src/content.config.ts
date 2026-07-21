@@ -122,17 +122,30 @@ const systems = defineCollection({
       'electronics',
       'workshop',
       'software',
+      'operations',
       'other',
     ]),
 
-    type: z
-      .enum([
-        'overview',
-        'documentation',
-        'chapter',
-        'reference',
-      ])
-      .default('documentation'),
+    contentType: z.enum([
+      'overview',
+      'documentation',
+      'chapter',
+      'reference',
+      'diagram',
+    ])
+    .default('documentation'),
+    
+    referenceType: z.enum([
+      'architecture',
+      'inventory',
+      'host',
+      'network',
+      'storage',
+      'software',
+      'operations',
+      'validation',
+      'glossary',
+    ]).optional(),
 
     status: z
       .enum([

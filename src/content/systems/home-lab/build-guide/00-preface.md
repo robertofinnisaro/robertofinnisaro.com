@@ -1,7 +1,7 @@
 ---
 title: Preface
 description: The purpose, scope and conventions used throughout Project Erebor.
-published: '2026-06-23'
+published: '2026-07-16'
 systemType: infrastructure
 type: chapter
 part: 0

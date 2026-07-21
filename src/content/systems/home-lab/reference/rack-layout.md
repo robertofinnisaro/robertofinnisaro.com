@@ -1,13 +1,28 @@
 ---
-title: Rack Layout
-description: Physical equipment placement, cabling and rack organisation.
-published: '2026-06-23'
+title: "Rack Layout"
+description: "Physical rack positions, device placement, power distribution and network connections for the home lab."
+published: 2026-07-20
+
 systemType: infrastructure
 contentType: reference
-order: 2
+referenceType: architecture
+
+order: 3
+
+hardware:
+  - Network Rack
+  - Managed Switch
+  - Patch Panel
+  - Power Distribution Unit
+
+software: []
+
 tags:
-- Rack
-- Hardware
+  - Rack
+  - Hardware
+  - Cabling
+  - Infrastructure
+
 draft: false
 ---
 
@@ -45,17 +60,16 @@ The following table is the authoritative record of rack-unit usage.
 
 Update it whenever equipment is added, removed or moved.
 
-| Rack unit | Device | Role | Mount type | Status |
-|---:|---|---|---|---|
-| U01 | Patch panel | Network termination | Printed rack panel | Planned |
-| U02 | Argonath | Managed network switch | Device-specific mount | Planned |
-| U03 | Minas Tirith | OPNsense firewall | Device-specific tray | Planned |
-| U04–U05 | Erebor | Primary Proxmox node | OptiPlex Micro mount | Planned |
-| U06–U07 | Orthanc | Secondary Proxmox node | OptiPlex Micro mount | Future |
-| U08–U10 | Moria | Storage platform | Device-specific tray | Future |
-| U11–U12 | Raspberry Pi nodes | Lightweight infrastructure | Multi-device shelf | Planned |
-| U13 | Power distribution | Power delivery | Printed or metal shelf | Planned |
-| U14–U15 | Reserved | Future expansion | Empty | Reserved |
+| Rack unit | Device             | Role                       | Mount type             | Status  |
+| ----------:| --------------------| ----------------------------| ------------------------| ---------|
+| U01       | Patch panel        | Network termination        | Printed rack panel     | Planned |
+| U02       | Argonath           | Managed network switch     | Device-specific mount  | Planned |
+| U03       | Minas Tirith       | OPNsense firewall          | Device-specific tray   | Planned |
+| U04       | Erebor             | Primary Proxmox node       | OptiPlex Micro mount   | Planned |
+| U05       | Barad-dur          | Secondary Proxmox node     | OptiPlex Micro mount   | Future  |
+| U06       | Raspberry Pi nodes | Lightweight infrastructure | Multi-device shelf     | Planned |
+| U07-U09   | Moria              | Storage platform           | Device-specific tray   | Future  |
+| U10       | Power distribution | Power delivery             | Printed or metal shelf | Planned |
 
 > Rack-unit numbering should be updated once the final orientation is confirmed. This document assumes numbering from the top of the rack downward.
 
@@ -87,7 +101,7 @@ This is a planning elevation. Replace it with the final arrangement once the rac
 ## Equipment inventory
 
 | Property          | Value                       |
-| ----------------- | --------------------------- |
+| -------------------| -----------------------------|
 | Device            | To be confirmed             |
 | Function          | Network cable termination   |
 | Mount             | Printed 10-inch patch panel |
@@ -131,7 +145,7 @@ The switch should remain accessible from the front so that patch cables can be r
 
 The firewall is positioned close to the switch to keep the trunk and management connections short.
 
-## U04–U05 — Erebor
+## U04 — Erebor
 
 | Property               | Value                                            |
 | ---------------------- | ------------------------------------------------ |
@@ -147,19 +161,32 @@ The firewall is positioned close to the switch to keep the trunk and management 
 
 The mount must preserve access to:
 
-the power button;
-front USB ports;
-rear network and display ports;
-ventilation openings;
-removable panels used during maintenance.
+- the power button
+- front USB ports
+- rear network and display ports
+- ventilation openings
+- removable panels used during maintenance
 
-## U06–U07 — Orthanc
+## U05 — Barad-dur
 
-Orthanc is reserved as the future secondary Proxmox node.
+Barad-dur is reserved as the future secondary Proxmox node.
 
 Until the node is installed, these rack units should remain empty or use removable blanking panels.
 
-## U08–U10 — Moria
+## U06 — Raspberry Pi shelf
+
+| Property       | Value                               |
+| ----------------| -------------------------------------|
+| Devices        | Raspberry Pi systems                |
+| Function       | Lightweight infrastructure services |
+| Mount          | Multi-device printed shelf          |
+| Power method   | To be confirmed                     |
+| Network method | Wired Ethernet                      |
+| Cooling method | Passive or active, to be confirmed  |
+
+The shelf should allow individual Raspberry Pi systems to be removed without dismantling the entire assembly.
+
+## U07–U09 — Moria
 
 | Property           | Value                                     |
 | ------------------ | ----------------------------------------- |
@@ -175,20 +202,7 @@ Until the node is installed, these rack units should remain empty or use removab
 
 The storage platform is positioned in the lower portion of the rack because it is expected to be one of the heavier assemblies.
 
-## U11–U12 — Raspberry Pi shelf
-
-| Property       | Value                               |
-| ----------------| -------------------------------------|
-| Devices        | Raspberry Pi systems                |
-| Function       | Lightweight infrastructure services |
-| Mount          | Multi-device printed shelf          |
-| Power method   | To be confirmed                     |
-| Network method | Wired Ethernet                      |
-| Cooling method | Passive or active, to be confirmed  |
-
-The shelf should allow individual Raspberry Pi systems to be removed without dismantling the entire assembly.
-
-## U13 — Power distribution
+## U10 — Power distribution
 
 | Property                 | Value                                  |
 | ------------------------ | -------------------------------------- |
@@ -204,13 +218,13 @@ Manufacturer-supplied power adapters should remain identifiable and should not b
 ## Mount inventory
 
 | Mount ID | Device                   | Rack units | Material        | Revision | Status  |
-| -------- | ------------------------ | ---------: | --------------- | -------- | ------- |
-| MNT-001  | Patch panel              |         1U | To be confirmed | R1       | Planned |
-| MNT-002  | Managed switch           |         1U | To be confirmed | R1       | Planned |
-| MNT-003  | OPNsense appliance       |         1U | To be confirmed | R1       | Planned |
-| MNT-004  | Dell OptiPlex 3060 Micro |         2U | To be confirmed | R1       | Planned |
-| MNT-005  | ZimaBoard 2              |         3U | To be confirmed | R1       | Future  |
-| MNT-006  | Raspberry Pi shelf       |         2U | To be confirmed | R1       | Planned |
+| ----------| --------------------------| -----------:| -----------------| ----------| ---------|
+| MNT-001  | Patch panel              | 1U         | To be confirmed | R1       | Planned |
+| MNT-002  | Managed switch           | 1U         | To be confirmed | R1       | Planned |
+| MNT-003  | OPNsense appliance       | 1U         | To be confirmed | R1       | Planned |
+| MNT-004  | Dell OptiPlex 3060 Micro | 2U         | To be confirmed | R1       | Planned |
+| MNT-005  | ZimaBoard 2              | 3U         | To be confirmed | R1       | Future  |
+| MNT-006  | Raspberry Pi shelf       | 1U         | To be confirmed | R1       | Planned |
 
 Each custom mount should have a matching record under the fabrication section of the project repository.
 
@@ -230,11 +244,11 @@ Each custom mount should have a matching record under the fabrication section of
 The airflow plan should be completed after the equipment positions have been tested.
 
 | Device       | Intake          | Exhaust         | Clearance required | Observed temperature |
-| ------------ | --------------- | --------------- | ------------------ | -------------------- |
+| --------------| -----------------| -----------------| --------------------| ----------------------|
 | Argonath     | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
 | Minas Tirith | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
 | Erebor       | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
-| Orthanc      | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
+| Barad-dur    | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
 | Moria        | To be confirmed | To be confirmed | To be confirmed    | Not measured         |
 
 ## Airflow rules
@@ -258,11 +272,11 @@ Power cables should be routed separately from network cables where practical.
 
 External power adapters should be:
 
-mechanically supported;
-labelled with the destination device;
-positioned where heat can escape;
-removable without cutting cable ties;
-protected from cable strain.
+- mechanically supported
+- labelled with the destination device
+- positioned where heat can escape
+- removable without cutting cable ties
+- protected from cable strain
 
 ### Cable labels
 
@@ -270,37 +284,38 @@ Every cable should be labelled at both ends.
 
 Recommended format:
 
-<source>-<port>__<destination>-<port>
+\<source\>-\<port\>__\<destination\>-\<port\>
 
 Example:
-
+```
 ARG-GE01__ERE-NIC01
-
+```
 See Naming Conventions for the final label structure.
 
 ## Power budget
 
-| Device               |   Supply rating |   Expected draw | Measured idle | Measured load |
-| -------------------- | --------------: | --------------: | ------------: | ------------: |
-| Argonath             | To be confirmed | To be confirmed |  Not measured |  Not measured |
-| Minas Tirith         | To be confirmed | To be confirmed |  Not measured |  Not measured |
-| Erebor               | To be confirmed | To be confirmed |  Not measured |  Not measured |
-| Orthanc              | To be confirmed | To be confirmed |  Not measured |  Not measured |
-| Moria                | To be confirmed | To be confirmed |  Not measured |  Not measured |
-| Raspberry Pi systems | To be confirmed | To be confirmed |  Not measured |  Not measured |
+| Device               | Supply rating   | Expected draw   | Measured idle | Measured load |
+| ----------------------| ----------------:| ----------------:| --------------:| --------------:|
+| Argonath             | To be confirmed | To be confirmed | Not measured  | Not measured  |
+| Minas Tirith         | To be confirmed | To be confirmed | Not measured  | Not measured  |
+| Erebor               | To be confirmed | To be confirmed | Not measured  | Not measured  |
+| Barad-dur            | To be confirmed | To be confirmed | Not measured  | Not measured  |
+| Moria                | To be confirmed | To be confirmed | Not measured  | Not measured  |
+| Raspberry Pi systems | To be confirmed | To be confirmed | Not measured  | Not measured  |
 
 
 The power budget should be based on measured consumption rather than only the maximum rating printed on each power adapter.
 
 ## Weight register
 
-| Device or assembly | Estimated weight | Measured weight | Position    |
-| ------------------ | ---------------: | --------------: | ----------- |
-| Rack frame         |  To be confirmed |    Not measured | Entire rack |
-| Erebor and mount   |  To be confirmed |    Not measured | U04–U05     |
-| Orthanc and mount  |  To be confirmed |    Not measured | U06–U07     |
-| Moria and storage  |  To be confirmed |    Not measured | U08–U10     |
-| Power equipment    |  To be confirmed |    Not measured | U13         |
+| Device or assembly     | Estimated weight | Measured weight | Position    |
+| ------------------------| -----------------:| ----------------:| -------------|
+| Rack frame             | To be confirmed  | Not measured    | Entire rack |
+| Erebor and mount       | To be confirmed  | Not measured    | U04         |
+| Barad-dur and mount    | To be confirmed  | Not measured    | U05         |
+| Raspberry Pi and mount | To be confirmed  | Not measured    | U06         |
+| Moria and storage      | To be confirmed  | Not measured    | U07-U09     |
+| Power equipment        | To be confirmed  | Not measured    | U13         |
 
 Heavier equipment should remain in the lower portion of the rack.
 
@@ -344,5 +359,6 @@ Perform the following checks after assembly and following any significant rack c
 - [ ] The rack-unit allocation table is current.
 
 | Date       | Change                                | Author         |
-| ---------- | ------------------------------------- | -------------- |
-| 2026-06-23 | Initial rack-layout reference created | Project Erebor |
+| ------------| ---------------------------------------| ----------------|
+| 2026-07-17 | Initial rack-layout reference created | Project Erebor |
+| 2026-07-20 | Added Raspberry Pi to rack            | Project Erebor |

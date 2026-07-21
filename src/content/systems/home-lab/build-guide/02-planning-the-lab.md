@@ -1,7 +1,7 @@
 ---
 title: Planning the Lab
 description: "Planning the architecture, hardware, physical rack, network and expansion path for Project Erebor."
-published: '2026-06-23'
+published: '2026-07-18'
 systemType: infrastructure
 type: chapter
 part: 1

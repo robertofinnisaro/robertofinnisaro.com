@@ -1,7 +1,7 @@
 ---
 title: Introduction
 description: Why the lab exists, what it will provide and how the book is organised.
-published: '2026-06-23'
+published: '2026-07-16'
 systemType: infrastructure
 type: chapter
 part: 1
