@@ -1,13 +1,22 @@
 ---
-title: Glossary
-description: Definitions of terms used throughout Project Erebor.
-published: '2026-06-23'
+title: "Home Lab Glossary"
+description: "Definitions of technical terms, abbreviations, hostnames and project-specific terminology used throughout the documentation."
+published: 2026-07-20
+
 systemType: other
 contentType: reference
-order: 12
+referenceType: glossary
+
+order: 17
+
+hardware: []
+software: []
+
 tags:
-- Reference
-- Documentation
+  - Glossary
+  - Terminology
+  - Documentation
+
 draft: false
 ---
 
@@ -25,6 +34,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

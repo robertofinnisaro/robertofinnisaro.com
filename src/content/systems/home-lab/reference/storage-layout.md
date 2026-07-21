@@ -1,13 +1,30 @@
 ---
-title: Storage Layout
-description: Storage pools, mounts, datasets and data ownership.
-published: '2026-06-23'
+title: "Storage Layout"
+description: "Storage pools, filesystems, mount points, datasets and capacity assignments used across the home lab."
+published: 2026-07-20
+
 systemType: storage
 contentType: reference
-order: 6
+referenceType: storage
+
+order: 7
+
+hardware:
+  - Solid-State Drives
+  - Hard Disk Drives
+  - Network Attached Storage
+
+software:
+  - ZFS
+  - NFS
+  - SMB
+
 tags:
-- Storage
-- NAS
+  - Storage
+  - ZFS
+  - Filesystems
+  - Mount Points
+
 draft: false
 ---
 
@@ -25,6 +42,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

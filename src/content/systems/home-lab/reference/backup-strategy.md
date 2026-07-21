@@ -1,13 +1,27 @@
 ---
-title: Backup Strategy Reference
-description: Backup schedules, retention periods, targets and restore procedures.
-published: '2026-06-23'
+title: "Backup Strategy Reference"
+description: "Backup schedules, retention periods, targets and restore procedures for home-lab systems and services."
+published: 2026-07-20
+
 systemType: storage
 contentType: reference
-order: 9
+referenceType: operations
+
+order: 13
+
+hardware:
+  - Backup Storage
+  - Network Attached Storage
+
+software:
+  - Proxmox Backup Server
+
 tags:
-- Backups
-- Recovery
+  - Backups
+  - Recovery
+  - Retention
+  - Restore Testing
+
 draft: false
 ---
 
@@ -25,6 +39,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

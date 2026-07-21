@@ -1,13 +1,26 @@
 ---
-title: Virtual Machine Inventory
-description: Inventory of virtual machines, resources and responsibilities.
-published: '2026-06-23'
+title: "Virtual Machine Inventory"
+description: "Inventory of virtual machines and containers, including host placement, resources, network assignments and responsibilities."
+published: 2026-07-20
+
 systemType: compute
 contentType: reference
-order: 8
+referenceType: inventory
+
+order: 10
+
+hardware: []
+
+software:
+  - Proxmox VE 9
+  - Linux Containers
+
 tags:
-- Proxmox
-- Virtual Machines
+  - Virtual Machines
+  - Containers
+  - Proxmox
+  - Inventory
+
 draft: false
 ---
 
@@ -25,6 +38,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

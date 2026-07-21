@@ -1,13 +1,27 @@
 ---
-title: Troubleshooting Reference
-description: Known faults, diagnostic steps and verified resolutions.
-published: '2026-06-23'
-systemType: infrastructure
+title: "Troubleshooting Reference"
+description: "Diagnostic procedures for common compute, network, storage and application failures."
+published: 2026-07-20
+
+systemType: operations
 contentType: reference
-order: 11
+referenceType: operations
+
+order: 15
+
+hardware: []
+
+software:
+  - Proxmox VE 9
+  - OPNsense
+  - Docker
+
 tags:
-- Troubleshooting
-- Operations
+  - Troubleshooting
+  - Diagnostics
+  - Recovery
+  - Operations
+
 draft: false
 ---
 
@@ -25,6 +39,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

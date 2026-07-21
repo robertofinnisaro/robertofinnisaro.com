@@ -1,13 +1,23 @@
 ---
-title: Naming Conventions
-description: Naming rules for hosts, virtual machines, containers and network devices.
-published: '2026-06-23'
+title: "Naming Conventions"
+description: "Hostname, virtual-machine, container, service and network naming conventions used throughout the home lab."
+published: 2026-07-20
+
 systemType: infrastructure
 contentType: reference
-order: 5
+referenceType: architecture
+
+order: 4
+
+hardware: []
+software: []
+
 tags:
-- Naming
-- Documentation
+  - Naming
+  - Hostnames
+  - Standards
+  - Documentation
+
 draft: false
 ---
 
@@ -25,6 +35,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

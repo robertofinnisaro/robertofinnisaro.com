@@ -1,13 +1,27 @@
 ---
-title: Update Procedure
-description: Standard process for patching infrastructure and services.
-published: '2026-06-23'
-systemType: infrastructure
+title: "Update Procedure"
+description: "Standard procedure for updating hosts, virtual machines, containers, network services and applications."
+published: 2026-07-20
+
+systemType: operations
 contentType: reference
-order: 10
+referenceType: operations
+
+order: 14
+
+hardware: []
+
+software:
+  - Proxmox VE 9
+  - Docker
+  - OPNsense
+
 tags:
-- Maintenance
-- Updates
+  - Updates
+  - Maintenance
+  - Change Management
+  - Rollback
+
 draft: false
 ---
 
@@ -25,6 +39,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |

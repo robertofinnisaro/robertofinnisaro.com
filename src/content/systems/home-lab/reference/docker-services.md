@@ -1,13 +1,26 @@
 ---
-title: Docker Services
-description: Inventory of Docker hosts, Compose projects and containers.
-published: '2026-06-23'
+title: "Docker Services"
+description: "Inventory and configuration summary for containerised applications running within the home lab."
+published: 2026-07-20
+
 systemType: software
 contentType: reference
-order: 7
+referenceType: software
+
+order: 11
+
+hardware: []
+
+software:
+  - Docker
+  - Docker Compose
+
 tags:
-- Docker
-- Inventory
+  - Docker
+  - Containers
+  - Services
+  - Self Hosting
+
 draft: false
 ---
 
@@ -25,6 +38,6 @@ Content to be added as Project Erebor develops.
 
 ## Change log
 
-| Date | Change |
-|---|---|
-| 2026-06-23 | Initial reference page created |
+| Date       | Change                         |
+| ------------| --------------------------------|
+| 2026-07-20 | Initial reference page created |
