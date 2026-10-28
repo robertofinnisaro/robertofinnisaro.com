@@ -4,7 +4,6 @@ description: "Host reference for Gimli, including its hardware, network assignme
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: host
 
 host: gimli
@@ -37,12 +36,12 @@ draft: false
 | Property | Value               |
 | ----------| ---------------------|
 | Asset    | Gimli               |
-| Hardware | Raspberry Pi 4B     |
+| Hardware | Raspberry Pi 3B |
 | Role     | Infrastructure Node |
 
 ## Services
 
-Pi-hole
+- Pi-hole
 
 ## Hardware Specification
 
@@ -62,15 +61,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

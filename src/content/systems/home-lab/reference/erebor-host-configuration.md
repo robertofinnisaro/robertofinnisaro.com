@@ -3,7 +3,7 @@ title: Erebor Host Configuration
 description: The current firmware, BIOS, hardware and power configuration of the Erebor Proxmox host.
 published: '2026-07-20'
 systemType: compute
-contentType: reference
+referenceType: host
 order: 1
 hardware:
 - Dell OptiPlex 3060 Micro
@@ -12,7 +12,7 @@ software:
 - Proxmox VE 9
 tags:
 - Erebor
-- BIOD
+- BIOS
 - Proxmox
 - Compute
 - Host Configuration
@@ -40,7 +40,7 @@ The preparation process is described in
 | Model | OptiPlex 3060 Micro |
 | Service tag | Stored privately |
 | Role | Primary Proxmox node |
-| Physical location | See [Rack Layout](./rack-layout/) |
+| Physical location | See [Rack Layout](/systems/home-lab/reference/rack-layout/) |
 | Rack position | To be confirmed |
 
 ## Processor
@@ -66,7 +66,7 @@ The preparation process is described in
 |---|---|
 | Total memory | To be confirmed |
 | Maximum supported memory | To be confirmed |
-| Memory test status | See [Hardware Validation Log](./hardware-validation-log/) |
+| Memory test status | See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/) |
 
 ## Storage
 

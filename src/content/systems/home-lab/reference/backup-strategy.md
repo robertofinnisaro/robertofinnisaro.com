@@ -4,7 +4,6 @@ description: "Backup schedules, retention periods, targets and restore procedure
 published: 2026-07-20
 
 systemType: storage
-contentType: reference
 referenceType: operations
 
 order: 13

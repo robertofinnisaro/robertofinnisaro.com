@@ -4,7 +4,6 @@ description: "Diagnostic, memory, storage, thermal and stability test results fo
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: validation
 
 order: 8

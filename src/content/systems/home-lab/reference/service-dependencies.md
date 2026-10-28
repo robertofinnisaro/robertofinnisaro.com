@@ -4,7 +4,6 @@ description: "Dependencies between network, storage, authentication, proxy, moni
 published: 2026-07-20
 
 systemType: infrastructure
-contentType: reference
 referenceType: architecture
 
 order: 12

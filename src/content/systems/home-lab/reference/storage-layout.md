@@ -4,7 +4,6 @@ description: "Storage pools, filesystems, mount points, datasets and capacity as
 published: 2026-07-20
 
 systemType: storage
-contentType: reference
 referenceType: storage
 
 order: 7

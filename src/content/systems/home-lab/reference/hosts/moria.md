@@ -4,7 +4,6 @@ description: "Host reference for Moria, including its storage hardware, shared d
 published: 2026-07-20
 
 systemType: storage
-contentType: reference
 referenceType: host
 
 host: moria
@@ -47,7 +46,7 @@ draft: false
 
 ## Services
 
-SMB
+- SMB
 - NFS
 - Media Storage
 
@@ -69,15 +68,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

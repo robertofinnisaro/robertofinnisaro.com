@@ -4,7 +4,6 @@ description: "Inventory of virtual machines and containers, including host place
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: inventory
 
 order: 10

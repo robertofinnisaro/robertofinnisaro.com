@@ -33,7 +33,7 @@ const formattedDate = published.toLocaleDateString('en-GB', {
   </div>
 
   <h2>
-    <a href={`/publications/${publication.slug}/`}>
+    <a href={`/publications/${publication.id}/`}>
       {title}
     </a>
   </h2>
@@ -53,7 +53,7 @@ const formattedDate = published.toLocaleDateString('en-GB', {
   )}
 
   <div class="publication-card__links">
-    <a href={`/publications/${publication.slug}/`}>
+    <a href={`/publications/${publication.id}/`}>
       Read publication details
     </a>
 

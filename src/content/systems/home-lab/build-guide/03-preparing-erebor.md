@@ -3,7 +3,6 @@ title: Preparing Erebor
 description: Preparing a Dell OptiPlex Micro for its role as the first Proxmox node.
 published: '2026-07-20'
 systemType: compute
-type: chapter
 part: 1
 chapter: 3
 order: 3
@@ -46,13 +45,13 @@ Preparing the host includes:
 > **Operational references**
 >
 > The current hardware specification is maintained in the
-> [Hardware Inventory](/system/home-lab/reference/hardware-inventory).
+> [Hardware Inventory](/systems/home-lab/reference/hardware-inventory/).
 >
 > The final firmware and BIOS settings are recorded in the
-> [Erebor Host Configuration](/system/home-lab/reference/erebor-host-configurationuration).
+> [Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/).
 >
 > Hardware test results are recorded in the
-> [Hardware Validation Log](/system/home-lab/reference/hardware-validation-log).
+> [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Objectives
 
@@ -179,7 +178,7 @@ Example:
 | BIOS version  | To be confirmed             |
 | Power adapter | To be confirmed             |
 
-Record the final values in the [Hardware Inventory](/system/home-lab/reference/hardware-inventory/)
+Record the final values in the [Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
 
 ## External inspection
 Inspect the system before opening it.
@@ -302,7 +301,7 @@ The battery may be replaced proactively if:
 - BIOS settings have previously reset
 - the date and time are not retained
 
-Record the replacment date in the [Maintenance Log](/system/home-lab/reference/maintenance-log)
+Record the replacment date in the [Maintenance Log](/systems/home-lab/reference/maintenance-log/)
 
 ## Memory inspection
 Identify:
@@ -321,7 +320,7 @@ If modules are removed:
 4. reinstall it firmly
 5. confirm both retaining clips lock
 
-Record the final arrangement in the [Hardware Validation Log](/system/home-lab/reference/hardware-validation-log)
+Record the final arrangement in the [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
 
 ## Storage inspection
 Idenify the installed storage device.
@@ -399,7 +398,7 @@ Record:
 - error codes
 -corrective action
 
-Store the results in the [Hardware Validation Log](/system/home-lab/reference/hardware-validation-log)
+Store the results in the [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
 
 ## Updating the BIOS
 
@@ -453,7 +452,7 @@ After the update:
 6. confirm the date and time
 7. run a basic boot test
 
-Record the result in the [Erebor Host Configuration](/system/home-lab/reference/erebor-host-configuration).
+Record the result in the [Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/).
 
 ### BIOS configuration
 
@@ -659,7 +658,7 @@ Never place firmware passwords directly in public Markdown files.
 | Firmware password               | Optional and securely recorded        |
 
 
-The authoritative deployed values belong in the [Erebor Host Configuration.](/system/home-lab/refernce/erebor-host-configuration)
+The authoritative deployed values belong in the [Erebor Host Configuration.](/systems/home-lab/reference/erebor-host-configuration/)
 
 ### Memory testing
 
@@ -873,7 +872,7 @@ Confirm:
 - the Ethernet cable can be removed
 - the device can be serviced without dismantling the rack
 
-The deployed rack position is maintained in the [Rack Layout](/systems/home-lab/reference/rack-layout).
+The deployed rack position is maintained in the [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Host labelling
 
@@ -963,9 +962,9 @@ The host should have:
 The next chapter installs Proxmox VE and establishes Erebor as the first active compute node in Project Erebor.
 
 ## Related references
-[Hardware Inventory](/systems/home-lab/reference/hardware-inventory)
-[Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration)
-[Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log)
-[Maintenance Log](/systems/home-lab/reference/maintenance-log)
-[Rack Layout](/systems/home-lab/reference/rack-layout)
-[Naming Conventions](/systems/home-lab/reference/naming-conventions)
+[Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
+[Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/)
+[Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
+[Maintenance Log](/systems/home-lab/reference/maintenance-log/)
+[Rack Layout](/systems/home-lab/reference/rack-layout/)
+[Naming Conventions](/systems/home-lab/reference/naming-conventions/)

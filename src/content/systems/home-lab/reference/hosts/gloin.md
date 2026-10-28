@@ -1,10 +1,9 @@
 ---
-title: "Gimli"
-description: "Host reference for Gimli, including its hardware, network assignment, services and operational role."
+title: "Gloin"
+description: "Host reference for Gloin, including its hardware, network assignment, services and operational role."
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: host
 
 host: gloin
@@ -37,12 +36,12 @@ draft: false
 | Property | Value |
 |---|---|
 | Asset | Gloin |
-| Hardware | Raspberry Pi 4B |
+| Hardware | Raspberry Pi 3B |
 | Role | Edge Services Node |
 
 ## Services
 
-Tailscale
+- Tailscale
 - Nginx Proxy Manager
 
 ## Hardware Specification
@@ -63,15 +62,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

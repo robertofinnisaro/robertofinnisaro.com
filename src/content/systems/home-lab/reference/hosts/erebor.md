@@ -4,7 +4,6 @@ description: "Host reference for Erebor, the primary Proxmox compute node in the
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: host
 
 host: erebor
@@ -45,7 +44,7 @@ draft: false
 
 ## Services
 
-Proxmox VE
+- Proxmox VE
 - Home Assistant
 
 ## Hardware Specification
@@ -66,15 +65,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

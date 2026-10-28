@@ -4,7 +4,6 @@ description: "Diagnostic procedures for common compute, network, storage and app
 published: 2026-07-20
 
 systemType: operations
-contentType: reference
 referenceType: operations
 
 order: 15
