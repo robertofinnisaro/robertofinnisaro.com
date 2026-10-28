@@ -4,7 +4,6 @@ description: "Host reference for Argonath, including its hardware, network assig
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: host
 
 host: argonath
@@ -42,7 +41,7 @@ draft: false
 
 ## Services
 
-VLAN Switching
+- VLAN Switching
 
 ## Hardware Specification
 
@@ -62,15 +61,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

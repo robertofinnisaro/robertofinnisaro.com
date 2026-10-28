@@ -4,7 +4,6 @@ description: "Functional, network, storage, service and recovery validation resu
 published: 2026-07-20
 
 systemType: infrastructure
-contentType: reference
 referenceType: validation
 
 order: 9

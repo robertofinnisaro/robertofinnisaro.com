@@ -4,7 +4,6 @@ description: "Private address ranges, gateway conventions, reserved addresses an
 published: 2026-07-20
 
 systemType: network
-contentType: reference
 referenceType: network
 
 order: 5

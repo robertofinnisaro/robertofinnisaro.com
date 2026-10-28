@@ -3,7 +3,6 @@ title: Planning the Lab
 description: "Planning the architecture, hardware, physical rack, network and expansion path for Project Erebor."
 published: '2026-07-18'
 systemType: infrastructure
-type: chapter
 part: 1
 chapter: 2
 order: 2
@@ -29,7 +28,7 @@ draft: false
 > This chapter explains how the physical rack is planned and constructed.
 > The current installed equipment positions, mount revisions, cable routes and
 > power allocation are recorded in the
-> [Rack Layout reference](/systems/home-lab/reference/rack-layout).
+> [Rack Layout reference](/systems/home-lab/reference/rack-layout/).
 
 ## Overview
 
@@ -66,7 +65,7 @@ For Project Erebor, the physical platform will be based on **Lab Rax**, a modula
 This choice makes the physical construction of the lab part of the project rather than simply a container for it.
 
 Once the rack has been assembled, update the
-[Rack Layout reference](/systems/home-lab/reference/rack-layout)
+[Rack Layout reference](/systems/home-lab/reference/rack-layout/)
 with the final rack-unit allocation, mount revisions and measured clearances.
 
 ### Why the enclosure matters
@@ -1473,8 +1472,8 @@ This chapter provides the foundation for the next stage of Project Erebor.
 
 ## Related references
 
-- [Rack Layout](/systems/home-lab/reference/rack-layout)
-- [Hardware Inventory](/systems/home-lab/reference/hardware-inventory)
-- [VLAN Plan](/systems/home-lab/reference/vlan-plan)
-- [IP Addressing](/systems/home-lab/reference/ip-addressing)
-- [Storage Layout](/systems/home-lab/reference/storage-layout)
+- [Rack Layout](/systems/home-lab/reference/rack-layout/)
+- [Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
+- [VLAN Plan](/systems/home-lab/reference/vlan-plan/)
+- [IP Addressing](/systems/home-lab/reference/ip-addressing/)
+- [Storage Layout](/systems/home-lab/reference/storage-layout/)

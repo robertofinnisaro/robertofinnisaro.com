@@ -4,7 +4,6 @@ description: "Hostname, virtual-machine, container, service and network naming c
 published: 2026-07-20
 
 systemType: infrastructure
-contentType: reference
 referenceType: architecture
 
 order: 4

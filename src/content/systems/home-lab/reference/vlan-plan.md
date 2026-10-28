@@ -4,7 +4,6 @@ description: "VLAN identifiers, subnet assignments, trust boundaries and firewal
 published: 2026-07-20
 
 systemType: network
-contentType: reference
 referenceType: network
 
 order: 6

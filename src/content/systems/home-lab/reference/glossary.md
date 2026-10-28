@@ -4,7 +4,6 @@ description: "Definitions of technical terms, abbreviations, hostnames and proje
 published: 2026-07-20
 
 systemType: other
-contentType: reference
 referenceType: glossary
 
 order: 17

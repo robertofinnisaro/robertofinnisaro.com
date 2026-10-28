@@ -4,7 +4,6 @@ description: "Chronological record of hardware maintenance, software updates, co
 published: 2026-07-20
 
 systemType: operations
-contentType: reference
 referenceType: operations
 
 order: 16

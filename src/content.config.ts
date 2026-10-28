@@ -132,9 +132,8 @@ const systems = defineCollection({
       'chapter',
       'reference',
       'diagram',
-    ])
-    .default('documentation'),
-    
+    ]).optional(),
+
     referenceType: z.enum([
       'architecture',
       'inventory',
@@ -159,6 +158,7 @@ const systems = defineCollection({
 
     order: z.number().int().default(0),
 
+    part: z.number().int().min(0).optional(),
     chapter: z.number().int().positive().optional(),
     series: z.string().optional(),
     section: z.string().optional(),

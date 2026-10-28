@@ -42,5 +42,5 @@ monitoring, automation and disaster recovery into a single maintainable platform
 
 ## Reading the project
 
-The **book** documents the complete build in sequence. The **reference** section records the current
+The **Build Guide** documents the complete build in sequence. The **reference** section records the current
 operational state of the lab, including addressing, VLANs, virtual machines, storage and backup policy.

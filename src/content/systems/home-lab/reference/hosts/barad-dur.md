@@ -4,7 +4,6 @@ description: "Host reference for Barad-dûr, including its hardware, network ass
 published: 2026-07-20
 
 systemType: compute
-contentType: reference
 referenceType: host
 
 host: barad-dur
@@ -42,7 +41,7 @@ draft: false
 
 ## Services
 
-Jellyfin
+- Jellyfin
 - Sonarr
 - Radarr
 - Prowlarr
@@ -68,15 +67,15 @@ _To be completed._
 
 ## Rack Position
 
-See ../rack-layout.md
+See [Rack Layout](/systems/home-lab/reference/rack-layout/).
 
 ## Validation
 
-See ../hardware-validation-log.md
+See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/).
 
 ## Maintenance
 
-See ../maintenance-log.md
+See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
 ## Planned Upgrades
 

@@ -4,7 +4,6 @@ description: "Inventory and configuration summary for containerised applications
 published: 2026-07-20
 
 systemType: software
-contentType: reference
 referenceType: software
 
 order: 11

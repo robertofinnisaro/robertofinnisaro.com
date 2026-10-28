@@ -4,7 +4,6 @@ description: "Physical rack positions, device placement, power distribution and 
 published: 2026-07-20
 
 systemType: infrastructure
-contentType: reference
 referenceType: architecture
 
 order: 3
@@ -124,8 +123,8 @@ The patch panel is positioned adjacent to the managed switch to minimise patch-c
 | Power input        | To be confirmed                       |
 | Network ports      | To be confirmed                       |
 | Cooling direction  | To be confirmed                       |
-| Management address | See [IP Addressing](./ip-addressing/) |
-| VLAN configuration | See [VLAN Plan](./vlan-plan/)         |
+| Management address | See [IP Addressing](/systems/home-lab/reference/ip-addressing/) |
+| VLAN configuration | See [VLAN Plan](/systems/home-lab/reference/vlan-plan/)         |
 
 
 The switch should remain accessible from the front so that patch cables can be replaced without removing surrounding equipment.
@@ -140,7 +139,7 @@ The switch should remain accessible from the front so that patch cables can be r
 | WAN connection          | To be confirmed                         |
 | LAN or trunk connection | To be confirmed                         |
 | Cooling direction       | To be confirmed                         |
-| Management address      | See [IP Addressing](./ip-addressing/)   |
+| Management address      | See [IP Addressing](/systems/home-lab/reference/ip-addressing/)   |
 
 
 The firewall is positioned close to the switch to keep the trunk and management connections short.
@@ -156,8 +155,8 @@ The firewall is positioned close to the switch to keep the trunk and management 
 | Network connection     | Argonath                                         |
 | Cooling intake         | To be confirmed                                  |
 | Cooling exhaust        | To be confirmed                                  |
-| Proxmox address        | See [IP Addressing](./ip-addressing/)            |
-| Hosted workloads       | See [Virtual Machine Inventory](./vm-inventory/) |
+| Proxmox address        | See [IP Addressing](/systems/home-lab/reference/ip-addressing/)            |
+| Hosted workloads       | See [Virtual Machine Inventory](/systems/home-lab/reference/vm-inventory/) |
 
 The mount must preserve access to:
 
@@ -197,8 +196,8 @@ The shelf should allow individual Raspberry Pi systems to be removed without dis
 | Power input        | To be confirmed                           |
 | Network connection | To be confirmed                           |
 | Cooling method     | To be confirmed                           |
-| Storage layout     | See [Storage Layout](./storage-layout/)   |
-| Backup role        | See [Backup Strategy](./backup-strategy/) |
+| Storage layout     | See [Storage Layout](/systems/home-lab/reference/storage-layout/)   |
+| Backup role        | See [Backup Strategy](/systems/home-lab/reference/backup-strategy/) |
 
 The storage platform is positioned in the lower portion of the rack because it is expected to be one of the heavier assemblies.
 
