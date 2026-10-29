@@ -1,0 +1,47 @@
+# Teaching-related work alongside modules. Each item needs a unique id.
+# category: supervision, support, outreach or recognition
+# years: one or more academic years, e.g. ["2024–25", "2025–26"]
+
+- id: honours-project-proposal
+  category: supervision
+  title: "Proposed an Honours Stage project"
+  detail: "Project proposal for the 2024–25 cohort."
+  years: ["2023–24"]
+
+- id: meng-taught-content
+  category: support
+  title: "Created taught content for the MEng programme"
+  years: ["2024–25"]
+
+- id: ros2-resources
+  category: support
+  title: "ROS 2 teaching resources and software checking"
+  detail: "Prepared resources and checked software ahead of September teaching."
+  years: ["2023–24"]
+
+- id: lab-maintenance
+  category: support
+  title: "3D printing and robotics lab maintenance"
+  years: ["2023–24"]
+
+- id: printer-training-lead
+  category: support
+  title: "CS 3D printer training lead"
+  detail: "Running 3D printer training, machine servicing and general lab maintenance."
+  years: ["2024–25", "2025–26"]
+
+- id: yisec-committee
+  category: outreach
+  title: "YISEC organising committee"
+  detail: "Helped organise and run the event."
+  years: ["2023–24"]
+
+- id: open-day-pepper
+  category: outreach
+  title: "Open Day setup with the Pepper robot"
+  years: ["2023–24"]
+
+- id: afhea
+  category: recognition
+  title: "Associate Fellow of the Higher Education Academy (AFHEA)"
+  years: ["2024–25"]

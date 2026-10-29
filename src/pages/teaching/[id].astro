@@ -1,0 +1,88 @@
+---
+import { render } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpecList from '../../components/SpecList.astro';
+import { getTeaching, kindLabels, yearKey, type TeachingEntry } from '../../lib/teaching';
+
+export async function getStaticPaths() {
+  const teaching = await getTeaching();
+  return teaching.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: TeachingEntry;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const t = entry.data;
+const roles = [...t.roles].sort((a, b) => yearKey(b.year) - yearKey(a.year));
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+---
+
+<BaseLayout title={t.title} description={t.description ?? `${t.title}${t.code ? ` (${t.code})` : ''} at the ${t.institution}.`}>
+  <section class="container teaching-head">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/teaching/">Teaching</a></nav>
+    <p class="eyebrow">{kindLabels[t.kind]}{t.code && ` · ${t.code}`}{t.current && ' · Current'}</p>
+    <h1>{t.title}</h1>
+    {t.description && <p class="teaching-head__lead">{t.description}</p>}
+  </section>
+
+  <div class="container">
+    <SpecList
+      items={[
+        { label: 'Institution', value: t.institution },
+        { label: 'Module code', value: t.code },
+        { label: 'Level', value: t.level },
+      ]}
+    />
+
+    <section class="roles">
+      <h2>Role history</h2>
+      <ol>
+        {roles.map(({ year, role }) => (
+          <li><span class="roles__year">{year}</span><span>{role}</span></li>
+        ))}
+      </ol>
+    </section>
+
+    {t.materials.length > 0 && (
+      <section class="materials">
+        <h2>Materials</h2>
+        <ul>
+          {t.materials.map(({ label, href }) => (
+            <li>
+              {isExternal(href)
+                ? <a href={href} rel="noreferrer" target="_blank">{label} ↗</a>
+                : <a href={href} download>{label}</a>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="prose notes"><Content /></section>
+
+    {t.tags.length > 0 && <div class="meta">{t.tags.map((tag) => <span class="tag">{tag}</span>)}</div>}
+
+    <p class="back"><a href="/teaching/">← Full teaching record</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .teaching-head { padding: 4.5rem 0 2.5rem; }
+  .crumbs { margin-bottom: 1.4rem; font-size: .82rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .teaching-head__lead { max-width: 680px; font-size: 1.12rem; }
+  .roles, .materials { margin-top: 2.5rem; }
+  .roles h2, .materials h2 { font-size: 1.8rem; }
+  .roles ol, .materials ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .roles li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid var(--line-soft); color: var(--ink-soft); }
+  .roles__year { color: var(--gold); font-variant-numeric: tabular-nums; }
+  .materials li { padding: .7rem 0; border-bottom: 1px solid var(--line-soft); }
+  .notes { margin: 2.5rem 0 0; }
+  .notes:empty { display: none; }
+  .back { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+</style>

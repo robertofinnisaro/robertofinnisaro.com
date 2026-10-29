@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import {
+  formatYears,
+  getTeaching,
+  getTeachingActivities,
+  getTeachingByYear,
+  institution,
+  position,
+} from '../../lib/teaching';
+
+const teaching = await getTeaching();
+const current = teaching.filter(({ data }) => data.current);
+const byYear = getTeachingByYear(teaching);
+const activityGroups = await getTeachingActivities();
+const recognition = activityGroups.find(({ title }) => title === 'Recognition')?.entries ?? [];
+
+const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+
+const difficultyLabels = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
+---
+
+<BaseLayout title="Teaching" description={`Teaching record of Robert Finnis, ${position} at the ${institution}.`}>
+  <section class="container page-head">
+    <p class="eyebrow">Teaching</p>
+    <h1>Teaching</h1>
+    <p class="page-head__role">{position}, {institution}</p>
+    <p>Teaching, marking and supervision across robotics, computer science and engineering modules, alongside lab leadership, teaching resources and outreach.</p>
+    {recognition.length > 0 && (
+      <ul class="recognition">
+        {recognition.map(({ data }) => <li>{data.title} · {formatYears(data.years)}</li>)}
+      </ul>
+    )}
+  </section>
+
+  {teaching.length === 0 ? (
+    <section class="container">
+      <div class="empty">
+        <h2>Teaching record in progress</h2>
+        <p>Modules will be listed here as they're added.</p>
+      </div>
+    </section>
+  ) : (
+    <>
+      {current.length > 0 && (
+        <section class="container current">
+          <h2>Currently teaching</h2>
+          <div class="grid">
+            {current.map((entry) => (
+              <a class="card current__card" href={`/teaching/${entry.id}/`}>
+                <p class="eyebrow">{entry.data.code} · {entry.data.roles.at(-1)?.year}</p>
+                <h3>{entry.data.title}</h3>
+                <p>{entry.data.roles.at(-1)?.role}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="section container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">By academic year</p>
+            <h2>Teaching record</h2>
+          </div>
+        </div>
+
+        {byYear.map(({ year, items }) => (
+          <section class="year">
+            <h3 class="year__label">{year}</h3>
+            <ul class="year__list">
+              {items.map(({ entry, role }) => (
+                <li>
+                  <a href={`/teaching/${entry.id}/`}>
+                    <span class="year__code">{entry.data.code}</span>
+                    <span class="year__title">{entry.data.title}</span>
+                    <span class="year__role">{role}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </section>
+    </>
+  )}
+
+  {activityGroups.filter(({ title }) => title !== 'Recognition').length > 0 && (
+    <section class="container activities">
+      <div class="rule" aria-hidden="true"><span></span></div>
+      <div class="activities__grid">
+        {activityGroups.filter(({ title }) => title !== 'Recognition').map(({ title, entries }) => (
+          <section>
+            <h2>{title}</h2>
+            <ul>
+              {entries.map(({ data }) => (
+                <li>
+                  <span class="activities__years">{formatYears(data.years)}</span>
+                  <span class="activities__title">{data.title}</span>
+                  {data.detail && <span class="activities__detail">{data.detail}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {tutorials.length > 0 && (
+    <section class="section container" id="tutorials">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Self-paced</p>
+          <h2>Tutorials</h2>
+        </div>
+        <a href="/tutorials/">All tutorials →</a>
+      </div>
+      <div class="grid">
+        {tutorials.slice(0, 6).map((tutorial) => (
+          <EntryCard
+            href={`/tutorials/${tutorial.id}`}
+            title={tutorial.data.title}
+            description={tutorial.data.description}
+            label={[difficultyLabels[tutorial.data.difficulty], tutorial.data.duration].filter(Boolean).join(' · ')}
+            tags={tutorial.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .page-head { padding: 5rem 0 2.5rem; }
+  .page-head > p:not(.eyebrow) { max-width: 650px; font-size: 1.12rem; }
+  .page-head__role { margin: -.3rem 0 .6rem; color: var(--ink-soft) !important; font-family: var(--serif-text); font-size: 1.25rem !important; font-style: italic; }
+  .recognition { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
+  .recognition li { padding: .35rem .8rem; border: 1px solid var(--gold); background: var(--gold-wash); color: var(--ink); font-size: .85rem; }
+  .empty { padding: 2.5rem; border: 1px dashed var(--line); text-align: center; }
+  .empty h2 { font-size: 2rem; }
+  .current h2 { font-size: 2rem; }
+  .current__card { min-height: 0; }
+  .year { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; padding: 1.2rem 0; border-top: 1px solid var(--line); }
+  .year__label { margin: 0; color: var(--gold); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+  .year__list { margin: 0; padding: 0; list-style: none; }
+  .year__list a { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: baseline; padding: .5rem 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; }
+  .year__list li:last-child a { border-bottom: 0; }
+  .year__list a:hover .year__title { color: var(--gold); }
+  .year__code { color: var(--muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+  .year__title { font-weight: 500; transition: color .2s ease; }
+  .year__role { color: var(--muted); font-size: .9rem; }
+  .activities__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 2.5rem; padding-top: 2.5rem; }
+  .activities h2 { font-size: 1.6rem; }
+  .activities ul { margin: 0; padding: 0; list-style: none; }
+  .activities li { display: flex; flex-direction: column; gap: .15rem; padding: .7rem 0; border-top: 1px solid var(--line-soft); }
+  .activities__years { color: var(--gold); font-size: .72rem; font-weight: 600; letter-spacing: .12em; }
+  .activities__title { color: var(--ink); font-weight: 500; }
+  .activities__detail { color: var(--muted); font-size: .88rem; }
+  @media (max-width: 800px) {
+    .year { grid-template-columns: 1fr; gap: .4rem; }
+    .year__list a { grid-template-columns: 4rem 1fr; }
+    .year__role { grid-column: 2; }
+  }
+</style>
