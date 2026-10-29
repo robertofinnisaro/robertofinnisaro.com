@@ -1,0 +1,32 @@
+---
+import { formatAsOf, getMetrics } from '../lib/metrics';
+import { owner } from '../lib/site';
+
+const metrics = await getMetrics();
+const items = [
+  { label: 'Citations', value: metrics.citations },
+  { label: 'h-index', value: metrics.hIndex },
+  { label: 'i10-index', value: metrics.i10Index },
+];
+---
+
+<section class="metrics" aria-label="Citation metrics">
+  <dl>
+    {items.map(({ label, value }) => (
+      <div><dt>{label}</dt><dd>{value}</dd></div>
+    ))}
+  </dl>
+  <p class="metrics__source">
+    From <a href={`https://openalex.org/authors/${owner.openalex}`} rel="noreferrer" target="_blank">OpenAlex</a>,
+    as of {formatAsOf(metrics.asOf)}. See also{' '}
+    <a href={`https://scholar.google.com/citations?user=${owner.scholar}&hl=en`} rel="noreferrer" target="_blank">Google Scholar</a>.
+  </p>
+</section>
+
+<style>
+  .metrics dl { display: flex; flex-wrap: wrap; gap: 2.2rem; margin: 0; }
+  .metrics dl div { padding-left: 1rem; border-left: 1px solid var(--gold); }
+  .metrics dt { color: var(--muted); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+  .metrics dd { margin: 0; font-family: var(--serif-display); font-size: 2.4rem; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .metrics__source { margin: .9rem 0 0; font-size: .8rem; }
+</style>

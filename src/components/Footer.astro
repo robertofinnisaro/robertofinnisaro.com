@@ -1,2 +1,45 @@
-<footer><div class="container foot"><div><strong>The Maker's Archive</strong><p>Projects, research and crafted objects.</p></div><p>Built with Astro · Hosted on Cloudflare</p></div></footer>
-<style>footer{border-top:1px solid var(--line);padding:3rem 0;margin-top:5rem}.foot{display:flex;justify-content:space-between;gap:2rem}.foot p{margin:.3rem 0 0;font-size:.85rem}@media(max-width:700px){.foot{flex-direction:column}}</style>
+---
+import { profiles } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="container">
+    <div class="rule" aria-hidden="true"><span></span></div>
+    <div class="foot">
+      <div>
+        <strong>Robert Finnis</strong>
+        <p>Research, engineering and making, documented in the open.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="/research">Research</a>
+        <a href="/publications">Publications</a>
+        <a href="/projects">Projects</a>
+        <a href="/books">Books</a>
+        <a href="/printing">3D Printing</a>
+        <a href="/teaching">Teaching</a>
+        <a href="/about">About</a>
+      </nav>
+    </div>
+    <ul class="profiles" aria-label="Profiles">
+      {profiles.map(({ label, href }) => (
+        <li><a href={href} rel="me noreferrer" target="_blank">{label}</a></li>
+      ))}
+    </ul>
+    <p class="colophon">© {year} Robert Finnis · Built with Astro · Hosted on Cloudflare</p>
+  </div>
+</footer>
+<style>
+footer{padding:3rem 0 2.5rem;margin-top:5rem}
+.foot{display:flex;justify-content:space-between;gap:2rem;margin-top:2rem}
+.foot strong{font-family:var(--serif-display);font-size:1.4rem}
+.foot p{margin:.3rem 0 0;font-size:.88rem}
+.foot nav{display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start}
+.foot nav a{color:var(--muted);font-size:.85rem;text-decoration:none}
+.foot nav a:hover{color:var(--ink)}
+.profiles{display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0 0;padding:0;list-style:none}
+.profiles a{color:var(--gold);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+.profiles a:hover{color:var(--ink)}
+.colophon{margin:1.5rem 0 0;font-size:.78rem}
+@media(max-width:700px){.foot{flex-direction:column}}
+</style>

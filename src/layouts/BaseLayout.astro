@@ -2,6 +2,39 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-const { title='The Maker’s Archive', description='Projects, 3D printing, research and notes.' } = Astro.props;
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = 'Robert Finnis';
+const {
+  title,
+  description = 'Research, engineering projects, technical documentation and 3D printing by Robert Finnis.',
+} = Astro.props;
+const fullTitle = title ? `${title} | ${siteName}` : siteName;
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><meta name="generator" content={Astro.generator}/><title>{title}</title></head><body><Header/><main><slot/></main><Footer/></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{fullTitle}</title>
+    <!-- Apply a stored theme choice before first paint to avoid a flash. -->
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>

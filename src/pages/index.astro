@@ -1,14 +1,198 @@
 ---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EntryCard from '../components/EntryCard.astro';
-import { getCollection } from 'astro:content';
-const projects=(await getCollection('projects',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
-const tutorials=(await getCollection('tutorials',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+import {
+  getBookForSystem,
+  getChapters,
+  getEntryUrl,
+  getReferences,
+  getSystemEntries,
+} from '../lib/systems';
+
+const newestFirst = (
+  a: { data: { published: Date } },
+  b: { data: { published: Date } },
+) => b.data.published.valueOf() - a.data.published.valueOf();
+
+const publications = (await getCollection('publications', ({ data }) => !data.draft)).sort(newestFirst);
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(newestFirst);
+const research = (await getCollection('research', ({ data }) => !data.draft)).sort(newestFirst);
+const prints = (await getCollection('prints', ({ data }) => !data.draft)).sort(newestFirst);
+const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft)).sort(newestFirst);
+
+const book = await getBookForSystem('home-lab');
+const ereborEntries = await getSystemEntries('home-lab');
+const ereborChapters = getChapters(ereborEntries);
+const ereborReferences = getReferences(ereborEntries);
+const ereborHosts = ereborReferences.filter(({ id }) => id.includes('/hosts/'));
+
+const owner = 'Robert Finnis';
+
+function authorList(publication: CollectionEntry<'publications'>) {
+  return publication.data.authors.map((name) => ({ name, isOwner: name === owner }));
+}
+
+const notebooks = [
+  { title: 'Research notes', href: '/research', base: 'research', entries: research.slice(0, 3) },
+  { title: '3D printing', href: '/prints', base: 'prints', entries: prints.slice(0, 3) },
+  { title: 'Tutorials', href: '/tutorials', base: 'tutorials', entries: tutorials.slice(0, 3) },
+];
 ---
 <BaseLayout>
-<section class="hero container"><div><p class="eyebrow">A digital workshop and field archive</p><h1>Made by hand.<br/><em>Recorded in code.</em></h1><p class="intro">A portfolio of experiments in 3D printing, software, research and practical craft—presented as an evolving archive.</p><div class="actions"><a class="button" href="/projects">Explore the works →</a><a class="button" href="/tutorials">Read tutorials</a></div></div><div class="seal" aria-hidden="true"><span>ᚠ</span><span>ᚱ</span><span>ᛟ</span></div></section>
-<section class="section container"><div class="section-head"><div><p class="eyebrow">Selected works</p><h2>Recent expeditions</h2></div><a href="/projects">View all works →</a></div><div class="grid">{projects.slice(0,3).map(p=><EntryCard href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} label={p.data.status} tags={p.data.tags}/>)}</div></section>
-<section class="section callout"><div class="container callout-grid"><div><p class="eyebrow">The field guide</p><h2>Build, document and deploy.</h2></div><div><p>Practical walkthroughs for creating this site, publishing through Git and deploying static Astro builds to Cloudflare Pages.</p><a class="button" href="/tutorials">Open the tutorials →</a></div></div></section>
-<section class="section container"><div class="section-head"><div><p class="eyebrow">Tutorials</p><h2>Notes for fellow makers</h2></div></div><div class="grid">{tutorials.map(t=><EntryCard href={`/tutorials/${t.id}`} title={t.data.title} description={t.data.description} label={t.data.difficulty} tags={t.data.tags}/>)}</div></section>
+  <section class="hero container">
+    <div>
+      <p class="eyebrow">Research · Engineering · Making</p>
+      <h1>Robert Finnis</h1>
+      <p class="intro">
+        Research in brain–computer interfaces and assistive technology, alongside engineering
+        projects, long-form infrastructure documentation and 3D printing.
+      </p>
+      <div class="actions">
+        <a class="button button--primary" href="/publications">Publications</a>
+        <a class="button" href="/projects">Projects</a>
+        {book && <a class="button" href={`/books/${book.id}/`}>{book.data.title}</a>}
+      </div>
+    </div>
+
+    <!-- A geometric gate: nested chamfered frames and a keystone diamond. -->
+    <svg class="emblem" viewBox="0 0 240 280" aria-hidden="true" fill="none" stroke="currentColor">
+      <path d="M40 270V90L120 10l80 80v180" stroke-width="1.2" />
+      <path d="M60 270V100l60-60 60 60v170" stroke-width=".8" opacity=".7" />
+      <path d="M80 270V112l40-40 40 40v158" stroke-width=".6" opacity=".45" />
+      <path d="M120 58l14 14-14 14-14-14Z" stroke-width="1.2" />
+      <path d="M20 270h200M30 262h180" stroke-width=".8" />
+      <path d="M120 100v160" stroke-width=".5" opacity=".4" />
+      <path d="M88 150h64M88 190h64M88 230h64" stroke-width=".5" opacity=".35" />
+    </svg>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Research output</p>
+        <h2>Selected publications</h2>
+      </div>
+      <a href="/publications">All publications →</a>
+    </div>
+
+    <ol class="citations">
+      {publications.slice(0, 4).map((publication) => (
+        <li class="citation">
+          <p class="citation__meta">
+            {publication.data.publicationType}
+            {publication.data.venue && <> · {publication.data.venue}</>}
+            {' · '}{publication.data.published.getFullYear()}
+          </p>
+          <a class="citation__title" href={`/publications/${publication.id}/`}>{publication.data.title}</a>
+          <p class="citation__authors">
+            {authorList(publication).map(({ name, isOwner }, index) => (
+              <>{index > 0 && ', '}{isOwner ? <strong>{name}</strong> : name}</>
+            ))}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {book && (
+  <section class="feature">
+    <div class="container feature__grid">
+      <div>
+        <p class="eyebrow">Book in progress</p>
+        <h2>{book.data.title}</h2>
+        {book.data.subtitle && <p class="feature__subtitle">{book.data.subtitle}</p>}
+        <p class="feature__lead">{book.data.description}</p>
+        <div class="actions">
+          <a class="button button--primary" href={`/books/${book.id}/`}>About the book</a>
+          {ereborChapters[0] && <a class="button" href={getEntryUrl(ereborChapters[0])}>Start reading</a>}
+          <a class="button" href="/systems/home-lab/">Project Erebor</a>
+        </div>
+      </div>
+      <dl class="stats">
+        <div><dt>Chapters</dt><dd>{ereborChapters.length}</dd></div>
+        <div><dt>Reference documents</dt><dd>{ereborReferences.length}</dd></div>
+        <div><dt>Hosts</dt><dd>{ereborHosts.length}</dd></div>
+      </dl>
+    </div>
+  </section>
+  )}
+
+  <section class="section container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Portfolio</p>
+        <h2>Selected projects</h2>
+      </div>
+      <a href="/projects">All projects →</a>
+    </div>
+    <div class="grid">
+      {projects.slice(0, 3).map((project) => (
+        <EntryCard href={`/projects/${project.id}`} title={project.data.title} description={project.data.description} label={project.data.status} tags={project.data.tags} />
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="rule" aria-hidden="true"><span></span></div>
+    <div class="notebooks">
+      {notebooks.map(({ title, href, base, entries }) => (
+        <section>
+          <h3><a href={href}>{title}</a></h3>
+          <ul>
+            {entries.map((entry) => (
+              <li>
+                <a href={`/${base}/${entry.id}`}>{entry.data.title}</a>
+                <span>{entry.data.description}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
 </BaseLayout>
-<style>.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:1.4fr .6fr;gap:3rem;align-items:center;padding:6rem 0}.hero h1 em{color:var(--gold);font-weight:500}.intro{font-size:1.2rem;max-width:650px}.actions{display:flex;gap:.7rem;margin-top:2rem}.seal{aspect-ratio:1;border:1px solid var(--line);border-radius:50%;display:grid;place-content:center;gap:1rem;text-align:center;font-size:2.2rem;color:var(--gold);box-shadow:0 0 80px rgba(205,177,112,.08),inset 0 0 50px rgba(205,177,112,.04)}.seal span:nth-child(2){font-size:4rem}.callout{border-block:1px solid var(--line);background:rgba(205,177,112,.04)}.callout-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}@media(max-width:800px){.hero,.callout-grid{grid-template-columns:1fr}.seal{display:none}.actions{align-items:flex-start;flex-direction:column}}</style>
+
+<style>
+  .hero { display: grid; grid-template-columns: 1.5fr .5fr; gap: 3rem; align-items: center; padding: 5rem 0 1rem; }
+  .hero h1 { font-size: clamp(3.4rem, 8vw, 6rem); margin-bottom: 1rem; }
+  .intro { max-width: 640px; font-size: 1.2rem; line-height: 1.7; color: var(--ink-soft); }
+  .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+  .emblem { width: 100%; max-width: 240px; justify-self: center; color: var(--gold); }
+
+  .citations { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .citation { padding: 1.3rem 0; border-bottom: 1px solid var(--line); }
+  .citation__meta { margin: 0 0 .3rem; color: var(--gold); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; }
+  .citation__title { font-family: var(--serif-display); font-size: 1.55rem; font-weight: 600; line-height: 1.25; text-decoration: none; }
+  .citation__title:hover { color: var(--gold); }
+  .citation__authors { margin: .35rem 0 0; font-size: .92rem; }
+  .citation__authors strong { color: var(--ink); font-weight: 600; }
+
+  .feature { padding: 4.5rem 0; border-block: 1px solid var(--line); background: var(--gold-wash); }
+  .feature__grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 4rem; align-items: center; }
+  .feature__subtitle { margin: -.3rem 0 .8rem; color: var(--ink-soft); font-family: var(--serif-text); font-size: 1.15rem; font-style: italic; }
+  .feature__lead { max-width: 620px; font-size: 1.08rem; color: var(--ink-soft); }
+  .stats { display: grid; gap: 1.2rem; margin: 0; }
+  .stats div { padding-left: 1.2rem; border-left: 1px solid var(--gold); }
+  .stats dt { color: var(--muted); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; }
+  .stats dd { margin: 0; font-family: var(--serif-display); font-size: 2.6rem; font-weight: 600; line-height: 1.1; }
+
+  .notebooks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; padding: 3rem 0 1rem; }
+  .notebooks h3 { font-size: 1.5rem; }
+  .notebooks h3 a { text-decoration: none; }
+  .notebooks h3 a:hover { color: var(--gold); }
+  .notebooks ul { margin: 0; padding: 0; list-style: none; }
+  .notebooks li { padding: .7rem 0; border-top: 1px solid var(--line-soft); }
+  .notebooks li a { display: block; text-decoration: none; font-weight: 500; }
+  .notebooks li a:hover { color: var(--gold); }
+  .notebooks li span { display: block; margin-top: .15rem; color: var(--muted); font-size: .86rem; }
+
+  @media (max-width: 800px) {
+    .hero, .feature__grid, .notebooks { grid-template-columns: 1fr; }
+    .hero { padding-top: 3.5rem; }
+    .emblem { display: none; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stats dd { font-size: 2rem; }
+  }
+</style>

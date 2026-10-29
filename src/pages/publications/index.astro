@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import MetricsRow from '../../components/MetricsRow.astro';
 import PublicationCard from '../../components/PublicationCard.astro';
 
 const publications = (
@@ -21,18 +22,20 @@ const remainingPublications = publications.filter(
 ---
 
 <BaseLayout
-  title="Publications & Research"
+  title="Publications"
   description="Academic publications, technical reports, datasets and long-form research."
 >
   <main class="publications-page">
     <header class="page-header">
-      <p class="eyebrow">The Archive</p>
-      <h1>Publications & Research</h1>
+      <p class="eyebrow">Research output</p>
+      <h1>Publications</h1>
 
       <p class="intro">
         A record of formal publications, technical reports, conference
         papers, datasets and continuing research.
       </p>
+
+      <div class="page-header__metrics"><MetricsRow /></div>
     </header>
 
     {
@@ -78,6 +81,8 @@ const remainingPublications = publications.filter(
     padding: 5rem 0;
   }
 
+  .page-header__metrics { margin-top: 2rem; }
+
   .page-header {
     max-width: 50rem;
     margin-bottom: 4rem;
@@ -85,7 +90,7 @@ const remainingPublications = publications.filter(
 
   .eyebrow {
     margin-bottom: 0.75rem;
-    color: var(--accent-color, #bfa469);
+    color: var(--gold);
     font-size: 0.85rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;

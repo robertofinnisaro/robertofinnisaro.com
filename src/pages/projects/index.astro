@@ -1,6 +1,120 @@
 ---
 import { getCollection } from 'astro:content';
-import ListingPage from '../../components/ListingPage.astro';
-const entries=(await getCollection('projects',({data})=>!data.draft)).sort((a,b)=>b.data.published.valueOf()-a.data.published.valueOf());
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getEntryUrl, getSystemHubs } from '../../lib/systems';
+
+// One portfolio across collections: finite builds, maintained systems and
+// books. Each keeps its own collection and URL; only the index is shared.
+type Kind = 'build' | 'system' | 'book';
+
+interface Item {
+  kind: Kind;
+  href: string;
+  title: string;
+  description: string;
+  status: string;
+  tags: string[];
+  published: Date;
+}
+
+const kinds: { id: Kind; label: string; plural: string }[] = [
+  { id: 'build', label: 'Build', plural: 'Builds' },
+  { id: 'system', label: 'System', plural: 'Systems' },
+  { id: 'book', label: 'Book', plural: 'Books' },
+];
+
+const buildStatus = { planned: 'Planned', 'in-progress': 'In progress', complete: 'Complete' };
+const systemStatus = { planned: 'Planned', building: 'Being built', active: 'Maintained', maintenance: 'Under maintenance', retired: 'Retired' };
+const bookStatus = { planned: 'Planned', drafting: 'In progress', published: 'Published' };
+
+const builds = await getCollection('projects', ({ data }) => !data.draft);
+const systems = await getSystemHubs();
+const books = await getCollection('books', ({ data }) => !data.draft);
+
+const items: Item[] = [
+  ...builds.map(({ id, data }) => ({
+    kind: 'build' as const,
+    href: `/projects/${id}/`,
+    title: data.title,
+    description: data.description,
+    status: buildStatus[data.status],
+    tags: data.tags,
+    published: data.published,
+  })),
+  ...systems.map((hub) => ({
+    kind: 'system' as const,
+    href: getEntryUrl(hub),
+    title: hub.data.title,
+    description: hub.data.description,
+    status: systemStatus[hub.data.status],
+    tags: hub.data.tags,
+    published: hub.data.published,
+  })),
+  ...books.map(({ id, data }) => ({
+    kind: 'book' as const,
+    href: `/books/${id}/`,
+    title: data.title,
+    description: data.description,
+    status: bookStatus[data.status],
+    tags: data.tags,
+    published: data.published,
+  })),
+].sort((a, b) => b.published.valueOf() - a.published.valueOf());
+
+const counts = Object.fromEntries(
+  kinds.map(({ id }) => [id, items.filter((item) => item.kind === id).length]),
+);
 ---
-<ListingPage title="Works" eyebrow="Portfolio" intro="Software, fabrication and research projects documented from first question to final result." entries={entries} base="projects" />
+
+<BaseLayout title="Projects" description="Engineering builds, maintained systems and long-form technical writing by Robert Finnis.">
+  <section class="container page-head">
+    <p class="eyebrow">Portfolio</p>
+    <h1>Projects</h1>
+    <p>Engineering builds, maintained systems and long-form technical writing, documented from the first question to the final result.</p>
+  </section>
+
+  <section class="container portfolio">
+    <!-- Filtering is CSS-only: each radio hides the cards of other kinds. -->
+    <fieldset class="filters">
+      <legend class="sr-only">Show</legend>
+      <input type="radio" name="kind" id="kind-all" checked />
+      <label for="kind-all">All <span>{items.length}</span></label>
+      {kinds.filter(({ id }) => counts[id] > 0).map(({ id, plural }) => (
+        <>
+          <input type="radio" name="kind" id={`kind-${id}`} />
+          <label for={`kind-${id}`}>{plural} <span>{counts[id]}</span></label>
+        </>
+      ))}
+    </fieldset>
+
+    <div class="grid portfolio__grid">
+      {items.map((item) => (
+        <a class="card portfolio__card" href={item.href} data-kind={item.kind}>
+          <p class="eyebrow">
+            {kinds.find(({ id }) => id === item.kind)?.label} · {item.status}
+          </p>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          <div class="meta">{item.tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head { padding: 5rem 0 2.5rem; }
+  .page-head > p:last-child { max-width: 650px; font-size: 1.15rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2rem; padding: 0; border: 0; }
+  .filters input { position: absolute; opacity: 0; pointer-events: none; }
+  .filters label { padding: .45rem .9rem; border: 1px solid var(--line); color: var(--muted); font-size: .88rem; cursor: pointer; transition: .2s ease; }
+  .filters label span { margin-left: .3rem; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .filters label:hover { border-color: var(--gold); color: var(--ink); }
+  .filters input:checked + label { border-color: var(--gold); background: var(--gold-wash); color: var(--ink); }
+  .filters input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .portfolio:has(#kind-build:checked) .portfolio__card:not([data-kind='build']),
+  .portfolio:has(#kind-system:checked) .portfolio__card:not([data-kind='system']),
+  .portfolio:has(#kind-book:checked) .portfolio__card:not([data-kind='book']) { display: none; }
+</style>

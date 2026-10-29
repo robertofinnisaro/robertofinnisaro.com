@@ -1,20 +1,64 @@
 ---
-const links = [
-  ['/', 'Home'], ['/projects', 'Works'], ['/systems', 'Systems'], ['/prints', 'Prints'],
-  ['/research', 'Research'], ['/publications', 'Publications'], ['/tutorials', 'Tutorials'], 
-  ['/about', 'About']
+// Each link lists the URL prefixes it covers, so system pages highlight Projects.
+const links: { href: string; label: string; matches: string[] }[] = [
+  { href: '/research', label: 'Research', matches: ['/research'] },
+  { href: '/publications', label: 'Publications', matches: ['/publications'] },
+  { href: '/projects', label: 'Projects', matches: ['/projects', '/systems'] },
+  { href: '/books', label: 'Books', matches: ['/books'] },
+  { href: '/printing', label: '3D Printing', matches: ['/printing', '/prints'] },
+  { href: '/teaching', label: 'Teaching', matches: ['/teaching', '/tutorials'] },
+  { href: '/about', label: 'About', matches: ['/about'] },
 ];
+
+const current = Astro.url.pathname;
 ---
 <header class="site-header">
   <div class="container bar">
-    <a class="mark" href="/" aria-label="Home"><span>ᚱ</span> The Maker's Archive</a>
-    <nav aria-label="Primary navigation">
-      {links.map(([href,label]) => <a href={href}>{label}</a>)}
-    </nav>
+    <a class="mark" href="/" aria-label="Robert Finnis, home">
+      <span class="mark__seal" aria-hidden="true">RF</span>
+      <span class="mark__name">Robert Finnis</span>
+    </a>
+    <div class="bar__end">
+      <nav aria-label="Primary navigation">
+        {links.map(({ href, label, matches }) => (
+          <a href={href} aria-current={matches.some((prefix) => current.startsWith(prefix)) ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch colour theme" title="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" />
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
+
+<script>
+  // Toggling stores an explicit choice; without one the system preference applies.
+  const root = document.documentElement;
+  document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+    const current = root.dataset.theme
+      ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const next = current === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch {}
+  });
+</script>
+
 <style>
-.site-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(13,17,14,.72);border-bottom:1px solid var(--line)}
-.bar{height:72px;display:flex;justify-content:space-between;align-items:center}.mark{text-decoration:none;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.2rem}.mark span{color:var(--gold);margin-right:.45rem}nav{display:flex;gap:1.15rem}nav a{text-decoration:none;color:var(--muted);font-size:.85rem}nav a:hover{color:var(--ink)}
-@media(max-width:800px){.bar{height:auto;padding:.8rem 0;align-items:flex-start;gap:.8rem;flex-direction:column}nav{width:100%;overflow:auto;padding-bottom:.2rem}}
+.site-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:var(--header-bg);border-bottom:1px solid var(--line)}
+.bar{height:68px;display:flex;justify-content:space-between;align-items:center;gap:1.5rem}
+.mark{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+/* An angular seal: a square with clipped corners, like a dwarven door stone. */
+.mark__seal{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--gold);color:var(--gold);font-family:var(--serif-display);font-weight:700;font-size:.95rem;letter-spacing:.04em;clip-path:polygon(7px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0 calc(100% - 7px),0 7px)}
+.mark__name{font-family:var(--serif-display);font-weight:700;font-size:1.3rem;letter-spacing:.01em}
+.bar__end{display:flex;align-items:center;gap:1.2rem}
+nav{display:flex;gap:1.1rem}
+nav a{text-decoration:none;color:var(--muted);font-size:.85rem;padding:.3rem 0;border-bottom:1px solid transparent;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+nav a[aria-current='page']{color:var(--ink);border-bottom-color:var(--gold)}
+.theme-toggle{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--line);background:transparent;color:var(--gold);cursor:pointer}
+.theme-toggle:hover{border-color:var(--gold)}
+@media(max-width:900px){.bar{height:auto;padding:.8rem 0;align-items:flex-start;flex-direction:column;gap:.6rem}.bar__end{width:100%;justify-content:space-between}nav{overflow:auto;padding-bottom:.2rem;scrollbar-width:none}nav::-webkit-scrollbar{display:none}.theme-toggle{position:absolute;top:.8rem;right:1rem}}
 </style>
