@@ -1,31 +1,32 @@
 ---
-title: Automation
-description: Automating configuration, maintenance, notifications and repeatable deployments.
+title: Expanding the Lab
+description: Adding a second Proxmox node, central storage and dedicated routing hardware.
 published: '2026-06-23'
-systemType: automation
-part: 3
-chapter: 15
-order: 15
+systemType: infrastructure
+part: 4
+chapter: 18
+order: 18
 estimatedTime: 120 minutes
 difficulty: Advanced
 hardware:
-- Dell OptiPlex Micro
+- Second Dell OptiPlex
+- ZimaBoard 2
+- Managed Switch
 software:
-- Ansible
-- Git
-- Home Assistant
+- Proxmox VE 9
+- OPNsense
 tags:
-- Automation
-- Ansible
-- Operations
+- Scaling
+- Clustering
+- Infrastructure
 draft: false
 ---
 
-# Automation
+# Expanding the Lab
 
 ## Overview
 
-Automating configuration, maintenance, notifications and repeatable deployments.
+Adding a second Proxmox node, central storage and dedicated routing hardware.
 
 ## Objectives
 
@@ -39,23 +40,23 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Automation boundaries
+## Second node
 
 Content to be developed.
 
-## Git workflow
+## Cluster considerations
 
 Content to be developed.
 
-## Ansible
+## Shared services
 
 Content to be developed.
 
-## Scheduled maintenance
+## Dedicated firewall
 
 Content to be developed.
 
-## Notifications
+## Capacity planning
 
 Content to be developed.
 

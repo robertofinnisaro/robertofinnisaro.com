@@ -62,10 +62,10 @@ Update it whenever equipment is added, removed or moved.
 | Rack unit | Device             | Role                       | Mount type             | Status  |
 | ----------:| --------------------| ----------------------------| ------------------------| ---------|
 | U01       | Patch panel        | Network termination        | Printed rack panel     | Planned |
-| U02       | Argonath           | Managed network switch     | Device-specific mount  | Planned |
+| U02       | Argonath           | Managed network switch     | Device-specific mount  | Active  |
 | U03       | Minas Tirith       | OPNsense firewall          | Device-specific tray   | Planned |
 | U04       | Erebor             | Primary Proxmox node       | OptiPlex Micro mount   | Planned |
-| U05       | Barad-dur          | Secondary Proxmox node     | OptiPlex Micro mount   | Future  |
+| U05       | Barad-dur          | Media server (Docker)      | OptiPlex mount         | Active  |
 | U06       | Raspberry Pi nodes | Lightweight infrastructure | Multi-device shelf     | Planned |
 | U07-U09   | Moria              | Storage platform           | Device-specific tray   | Future  |
 | U10       | Power distribution | Power delivery             | Printed or metal shelf | Planned |

@@ -2,6 +2,7 @@
 title: Preparing Erebor
 description: Preparing a Dell OptiPlex Micro for its role as the first Proxmox node.
 published: '2026-07-20'
+updated: 2026-10-29
 systemType: compute
 part: 1
 chapter: 3
@@ -116,16 +117,16 @@ Before opening the system:
 1. shut the computer down
 2. disconnect the power adapter
 3. disconnect all peripherals
-4. press the power button briefly to dischange residual power
+4. press the power button briefly to discharge residual power
 5. work on a clean, stable surface
 6. avoid placing components on conductive material
 7. use appropriate electrostatic-discharge precautions. 
 
-Avoid wokring on carpet where practical.
+Avoid working on carpet where practical.
 Do no remove or install internal components while power is connected.
 
-## Requirement tools and meterials
-### Esential equipment
+## Required tools and materials
+### Essential equipment
 | Item            | Purpose                                        |
 | -----------------| ------------------------------------------------|
 | Keyboard        | BIOS navigation and diagnostics                |
@@ -161,7 +162,7 @@ The initial record should include:
 - memory module arrangement
 - storage device
 - network adapter
-- BIOD version
+- BIOS version
 - power-adapter rating
 
 Example:
@@ -208,10 +209,10 @@ Look for evidence of:
 
 Photographthe system for disassembly. These images provide a useful record of the original condition.
 
-## Opening the chasis
+## Opening the chassis
 Follow the manufacturer's chassis-removal procedure.
 Do not force the cover. If it does not move freely, confirm that all retaining screws and latches have been released.
-Once opened, record the internal arrangement before removing conponents.
+Once opened, record the internal arrangement before removing components.
 
 Useful photographs include:
 
@@ -228,7 +229,7 @@ Useful photographs include:
 Inspect the internal components for:
 - dust accumulation
 - fan obstruction
-- swolen or leaking capacitors
+- swollen or leaking capacitors
 - corrosion
 - damaged connectors
 - loose cables
@@ -254,7 +255,7 @@ Pay particular attention to the cooling fan. Dust may accumulate between the fan
 Do no allow the fan to spin at excessive speed while using compressed air.
 Avoid directing compressed air so closely that condensation or propellant reaches the components.
 
-### Fan inspecion
+### Fan inspection
 Check that the fan:
 - rotates freely
 - does not scrape
@@ -263,12 +264,12 @@ Check that the fan:
 - has an undamaged cable
 - uses a secure motherboard connector
 
-A fan that rattles, stalls or spons unevenly should be replaced before deployment.
+A fan that rattles, stalls or spins unevenly should be replaced before deployment.
 
 ### Thermal paste
 The existing thermal paste may be retained if temperatures are normal and the cooling assembly has not been disturbed.
 Replacement is reasonable when:
-- the system is serveral years old
+- the system is several years old
 - the heatsink has been removed
 - temperatures are unexpectedly high
 - the previous service history is unknown
@@ -280,7 +281,7 @@ Replacement is reasonable when:
 4. use lint-free material and suitable isopropyl alcohol
 5. allow both surfaces to dry
 6. apply an appropriate quantity of new paste
-7. reinstall the hearsink evenly
+7. reinstall the heatsink evenly
 8. tighten screws gradually using a cross pattern
 9. reconnect the fan if it was disconnected
 
@@ -289,7 +290,8 @@ Do not apply excessive paste.
 The objective is to fill microscopic surface imperfections, not create a thick insulating layer.
 
 ## CMOS battery
-A weak CMOS battery can cause
+A weak CMOS battery can cause:
+
 - loss of BIOS settings
 - incorrect time after power loss
 - boot warnings
@@ -297,11 +299,11 @@ A weak CMOS battery can cause
 
 The battery may be replaced proactively if:
 - the system is old
-- the service history is unkown
+- the service history is unknown
 - BIOS settings have previously reset
 - the date and time are not retained
 
-Record the replacment date in the [Maintenance Log](/systems/home-lab/reference/maintenance-log/)
+Record the replacement date in the [Maintenance Log](/systems/home-lab/reference/maintenance-log/)
 
 ## Memory inspection
 Identify:
@@ -323,8 +325,9 @@ If modules are removed:
 Record the final arrangement in the [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
 
 ## Storage inspection
-Idenify the installed storage device.
-Record
+Identify the installed storage device.
+Record:
+
 - manufacturer
 - model
 - capacity
@@ -334,7 +337,7 @@ Record
 - approximate age
 - physical condition
 
-Do no publish storage serial numebrs if the documentation is public.
+Do not publish storage serial numbers if the documentation is public.
 Inspect the mounting screw, thermal pad and connector.
 A loose M.2 device can cause intermittent errors or disappear from firmware detection.
 
@@ -364,19 +367,19 @@ Record its rated output.
 Where multiple identical adapters exist, label the ones assigned to Erebor
 
 ## First power-on inspection
-Before chaning the firmware:
+Before changing the firmware:
 1. reconnect the monitor and keyboard
 2. connect the power adapter
 3. start the system
 4. listen for abnormal fan or drive noise
-5. check for diagnositc light or beep codes
+5. check for diagnostic light or beep codes
 6. confirm that the firmware detects memory and storage
 7. check the date and time
 8. note the installed BIOS version
 
 Do not proceed with firmware updates if the system appears unstable
 
-## Dell diagnosics
+## Dell diagnostics
 
 Run the built-in Dell pre-boot diagnostics where available.
 
@@ -753,7 +756,7 @@ Monitor:
 
 Do not conduct prolonged stress testing until cooling has been inspected.
 
-Temperature baseline
+### Temperature baseline
 
 Record initial temperatures where possible.
 
@@ -782,7 +785,8 @@ At this stage, the permanent VLAN configuration does not need to be implemented.
 The purpose is to verify the physical network interface.
 
 ## Preparing the Proxmox installer
-Download the installation image
+
+### Download the installation image
 
 Obtain the intended Proxmox VE ISO.
 
@@ -899,11 +903,11 @@ Asset: CMP-001
 
 Before completing this chapter, update:
 
-Hardware Inventory
-Erebor Host Configuration
-Hardware Validation Log
-Rack Layout
-Maintenance Log.
+- [Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
+- [Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/)
+- [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
+- [Rack Layout](/systems/home-lab/reference/rack-layout/)
+- [Maintenance Log](/systems/home-lab/reference/maintenance-log/)
 
 ## Final readiness checklist
 ### Hardware
@@ -962,9 +966,10 @@ The host should have:
 The next chapter installs Proxmox VE and establishes Erebor as the first active compute node in Project Erebor.
 
 ## Related references
-[Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
-[Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/)
-[Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
-[Maintenance Log](/systems/home-lab/reference/maintenance-log/)
-[Rack Layout](/systems/home-lab/reference/rack-layout/)
-[Naming Conventions](/systems/home-lab/reference/naming-conventions/)
+
+- [Hardware Inventory](/systems/home-lab/reference/hardware-inventory/)
+- [Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/)
+- [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-log/)
+- [Maintenance Log](/systems/home-lab/reference/maintenance-log/)
+- [Rack Layout](/systems/home-lab/reference/rack-layout/)
+- [Naming Conventions](/systems/home-lab/reference/naming-conventions/)

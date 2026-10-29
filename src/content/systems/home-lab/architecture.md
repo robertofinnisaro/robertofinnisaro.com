@@ -26,25 +26,34 @@ Project Erebor is designed as a layered platform rather than a collection of unr
 5. **Services** — Home Assistant, Docker applications, monitoring, media and automation.
 6. **Operations** — patching, backup verification, observability and disaster recovery.
 
-## Target topology
+## Current topology
 
 ```text
 Internet
    |
-ISP modem or router
+Minas Tirith            Firewall and router
    |
-Minas Tirith
-OPNsense firewall
+Argonath                Core switch
    |
-Argonath
-Managed switch
+   +-- Erebor           Proxmox VE
+   |     +-- VM 100     home-assistant
+   |     +-- VM 110     docker: Rivendell, DNS, dashboard and monitoring
+   |     +-- VM 120     minecraft
+   |     +-- VM 130     food-services: Gundabad, recipes, pantry and shopping
    |
-   +-- Erebor      Primary Proxmox node
-   +-- Barad-dur   Secondary Proxmox node
-   +-- Moria       NAS and backup storage
-   +-- Dwarven Pis Lightweight infrastructure
-   +-- Access points and client networks
+   +-- Barad-dur        Media server (Docker)
+   +-- Moria            Storage platform
+   |
+   +-- Gimli            Reverse proxy, UniFi controller      Raspberry Pi 3B
+   +-- Gloin            Pi-hole, Tailscale                   Raspberry Pi 3B
+   +-- Balin            MQTT, govee2mqtt, Spoolman           Raspberry Pi 4
+   +-- Bombur           Printer camera                       Raspberry Pi 1 Model B+
+   |
+   +-- Eriador          UniFi wireless network
 ```
+
+Service placement is recorded in [Docker Services](/systems/home-lab/reference/docker-services/)
+and [Service Dependencies](/systems/home-lab/reference/service-dependencies/).
 
 ## Design principles
 

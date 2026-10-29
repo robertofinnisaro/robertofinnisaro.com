@@ -2,6 +2,7 @@
 title: Planning the Lab
 description: "Planning the architecture, hardware, physical rack, network and expansion path for Project Erebor."
 published: '2026-07-18'
+updated: 2026-10-29
 systemType: infrastructure
 part: 1
 chapter: 2
@@ -9,17 +10,23 @@ order: 2
 estimatedTime: 60 minutes
 difficulty: Beginner
 hardware:
+
 - Dell OptiPlex Micro
 - Raspberry Pi
 - ZimaBoard
+
 software:
+
 - Proxmox VE
 - Docker
 - OPNsense
+
 tags:
+
 - Planning
 - Architecture
 - Virtualisation
+
 draft: false
 ---
 
@@ -32,29 +39,144 @@ draft: false
 
 ## Overview
 
-Defining requirements, constraints, naming conventions and the target architecture.
+A home lab built without a plan tends to grow by accident: a service lands on whichever
+machine has spare memory, addresses are handed out as needed, and a year later nobody can
+say what depends on what. This chapter turns the goals from
+[Chapter 1](/systems/home-lab/build-guide/01-introduction/) into a plan before any hardware
+is configured.
+
+It covers the requirements, the design principles used to make decisions, the choice of
+hardware, the physical rack, the logical architecture, naming, the network, storage,
+backups, the order of the build and the bill of materials. The rack receives the most
+detail, because it is the one part of the lab that is manufactured rather than bought.
 
 ## Objectives
 
 By the end of this chapter, the reader should be able to:
 
-- Explain the purpose of this stage in the overall design.
-- Make the relevant implementation decisions with clear trade-offs.
-- Complete the practical work in a controlled sequence.
-- Verify the result before proceeding.
-- Identify the most common failure modes.
+- Turn project goals into specific, testable requirements.
+- Apply a small set of design principles to hardware and placement decisions.
+- Justify the choice of compact business PCs and Raspberry Pis.
+- Plan, print and validate a 3D-printed 10-inch rack.
+- Describe the logical layers of the lab and which host serves each.
+- Outline the network, storage and backup plans that later chapters implement.
+- Explain why the build is split into phases, and what each phase delivers.
 
 ## Defining the Requirements
 
-Content to be developed.
+Goals say what the lab is for; requirements say how to tell whether it succeeded. Each
+requirement below is written so that it can be checked.
 
-## Estabilishing Design Principles
+### Functional requirements
 
-Content to be developed.
+The lab must provide:
+
+- **Home automation** that runs locally, survives an internet outage and keeps its
+  devices connected through maintenance on the main server.
+- **DNS for the whole network**, with filtering, and with a second resolver so that one
+  failure does not take name resolution down.
+- **A media service** for films, series, books and audiobooks, with requests and library
+  management.
+- **Shared application hosting** for Docker services, including a dashboard, monitoring and
+  update tracking.
+- **Remote access** to the lab without exposing services directly to the internet.
+- **A reverse proxy** so that services are reached by name with TLS, rather than by
+  address and port.
+- **Monitoring** that shows whether each service is up, how busy each machine is and
+  whether the disks are healthy.
+- **Backups** of virtual machines, configuration and data, with a tested restore path.
+
+### Non-functional requirements
+
+The lab must also be:
+
+- **Recoverable without intervention** after a power cut: hosts power on by themselves and
+  services start in a sensible order.
+- **Maintainable one piece at a time**: any single host can be restarted without taking
+  every service down.
+- **Quiet and efficient** enough to run continuously in a home.
+- **Documented**: every host, virtual machine and container is recorded in the
+  [reference section](/systems/home-lab/reference/hardware-inventory/).
+- **Expandable**: storage, a firewall and further compute can be added without rebuilding
+  what is already there.
+
+### Out of scope
+
+The lab does not need clustering, automatic failover between hosts, or enterprise-grade
+availability. Planned downtime is acceptable as long as it is short, announced and
+recoverable.
+
+## Establishing Design Principles
+
+Requirements say what is needed. Design principles decide between the options when more
+than one would work. Project Erebor uses six.
+
+1. **Separate by failure domain.** Services that must keep working when something else is
+   down go on different hardware. DNS runs in two places; MQTT runs on a Raspberry Pi
+   rather than on the hypervisor that hosts Home Assistant.
+2. **Virtualise what changes; keep small things small.** Workloads that are rebuilt,
+   resized or snapshotted often run as virtual machines on Proxmox. Small, stable jobs run
+   on Raspberry Pis, where they are cheap, low-power and independent.
+3. **Prefer boring technology.** Proxmox VE, Docker Compose, Debian and Ubuntu are widely
+   used and well documented. When something breaks, someone else has usually seen it first.
+4. **Change one thing at a time.** Migrations move a workload without redesigning it.
+   Network changes happen one segment at a time. Each step is checked before the next.
+5. **Make updates deliberate.** Images and packages are updated when someone chooses to,
+   not automatically in the middle of the night. Tools report that updates exist; a person
+   decides when to apply them.
+6. **Write it down.** A change is finished when the reference section has been updated, not
+   when the service starts.
 
 ## Selecting the Core Hardware
 
-Content to be developed.
+The hardware follows from the principles: compact, quiet, efficient and well understood.
+
+### Compute: Dell OptiPlex Micro
+
+The main compute node, **Erebor**, is a **Dell OptiPlex 3060 Micro**. Small business
+desktops like this are a good fit for a home lab:
+
+- they are small enough for a 10-inch rack and quiet under light load
+- idle power draw is low compared with tower servers or rack hardware
+- Intel processors of this generation support the virtualisation features Proxmox needs,
+  including VT-x and VT-d
+- they are common on the second-hand market, so spares and documentation are easy to find
+- Dell publishes BIOS updates and diagnostics for them
+
+The trade-offs are limited expansion. There are two memory slots, little room for extra
+disks and a single network port. Memory turns out to be the real limit: at the
+29 October 2026 snapshot, Erebor's four virtual machines were using nearly all of it
+(see the [Virtual Machine Inventory](/systems/home-lab/reference/vm-inventory/)).
+
+A second OptiPlex, **Barad-dûr**, with 16 GB of memory, runs the media stack. It was first
+planned as a second Proxmox node; in practice the media services run directly in Docker on
+it, which keeps the heaviest and most frequently updated workload away from everything else.
+
+### Small, independent services: Raspberry Pi
+
+Raspberry Pis carry jobs that are small and must not depend on the hypervisor:
+
+| Host | Model | Role |
+|---|---|---|
+| Gimli | Raspberry Pi 3B | Reverse proxy and UniFi controller |
+| Gloin | Raspberry Pi 3B | Secondary DNS and remote access |
+| Balin | Raspberry Pi 4 | MQTT broker, home automation bridges, Spoolman |
+| Bombur | Raspberry Pi 1 Model B+ | Printer camera |
+
+Older models are perfectly adequate for these roles. Their weakness is storage: SD cards
+wear out, so the Pis are treated as easy to rebuild, with their configuration kept
+elsewhere.
+
+### Network, storage and edge
+
+- **Argonath**, a managed switch, connects the rack and makes VLANs possible.
+- **Eriador**, the UniFi wireless network, is managed from the controller on Gimli.
+- **Moria**, planned, is a ZimaBoard-based NAS for central storage and backups.
+- **Minas Tirith**, planned, is a small firewall appliance running OPNsense to take over
+  routing, DHCP and firewalling from the existing router.
+
+The full list, with current status, is in the
+[Hardware Inventory](/systems/home-lab/reference/hardware-inventory/).
 
 ## Designing the Physical Lab
 
@@ -286,6 +408,7 @@ The intended manufacturing process is:
 
 Fused Deposition Modelling (FDM)
 FDM is suitable because it provides:
+
 - accessible equipment and materials
 - repeatable production of replacement parts
 - control over print orientation
@@ -296,6 +419,7 @@ FDM is suitable because it provides:
 Resin printing is not recomnended for the primary rack structure. Stanadard photopolymer resins are genrlly less uiable for large continuously loaded components and can be brittle.
 
 Resin printing may still be appropriate for:
+
 - labels
 - decorative badges
 - low-load cable identifiers
@@ -314,6 +438,7 @@ The following should be treated as an inital planning allowance rather than a gu
 | Clear material              | Approximately 12 g   | Indicator windows or light guides         |
 
 A contingency allowance of at least 15-25% should be added for:
+
 - test parts
 - calibration
 - failed prints
@@ -322,11 +447,12 @@ A contingency allowance of at least 15-25% should be added for:
 
 For large rack, purchasing all structural filament from the same manufacturer and colour batch may improve visual consistency.
 
-### Structural material selction
+### Structural material selection
 #### PLA
 PLA is easy to print and usually provides good dimensional accuracy and stiffness.
 
 It is suitable for:
+
 - test compoents
 - dimensioanl prototypes
 - labels
@@ -336,6 +462,7 @@ It is suitable for:
 - parts located away from heat sources
 
 Potential limitations include:
+
 - lower temperature resistance than PETG, ABS or ASA
 - possible creep under continuous load
 - brittleness in thin clips
@@ -347,6 +474,7 @@ PLA variants marketed as PLA+, Tough PLA or PLA Pro may provide improved impact 
 #### PETG
 PETG is a practial default for many structural rack components.
 It generally provies:
+
 - improved temperature resistance compared with standard PLA
 - good toughness
 - less brittle behaviour
@@ -354,6 +482,7 @@ It generally provies:
 - good resistance to repeated handling
 
 PETG is suitable for:
+
 - rack posts
 - trays
 - equipment brackets
@@ -362,6 +491,7 @@ PETG is suitable for:
 - power-adapter mounts
 
 Potnetial printing issues include:
+
 - stringing
 - reduced bridging performance
 - excessive nozzle adhesion
@@ -373,6 +503,7 @@ PETG should be dried when moisture symptoms are present.
 #### ABS
 ABS offers improved temperature resistance and can be suiable for continiously loaded structural compoents.
 It may be used for:
+
 - rack posts
 - equipment trays
 - brackets near warm exhausts
@@ -380,6 +511,7 @@ It may be used for:
 - parts requiring vapour smoothing
 
 ABS normally requires:
+
 - an encolosed printer
 - controlled ambient temperature
 - adwquate ventilation
@@ -396,6 +528,7 @@ For an indoor rack, the UV advantage may not be important. ASA can still be sele
 #### TPU
 TPU should be used only for flexible compoents.
 Recommended applications include:
+
 - anti-slip feet
 - vibration pads
 - cable gromments
@@ -408,6 +541,7 @@ Softer TPU may provide better vibration but can be more difficult to print.
 
 #### Clear material
 Clear or translucent material may be used for:
+
 - status-light windows
 - illuminated labels
 - light guides
@@ -430,6 +564,7 @@ Clear filament does not normally print optically clear without specialised geome
 
 ### Filament conditioning
 Wet filament can produce:
+
 - bubbles
 - popping sounds
 - rough surfaces
@@ -451,6 +586,7 @@ Before beginning a long structural print:
 #### 0.4mm nozzle
 
 A 0.4mm nozzle provides:
+
 - broad profile compatibility
 - good dimensional accuracy
 - fine detail
@@ -461,12 +597,14 @@ It is suitable for most Lab Rax parts.
 #### 0.6mm nozzle
 A 0.6mm nozzle can reduce printing time and produce wider extrusion lines.
 It may be preferable for:
+
 - large rack posts
 - shelves
 - thick structural brackets
 - non-cosmetic panels
 
 A larger nozzle may require:
+
 - revised wall counts
 - revised line widths
 - tolerance validation
@@ -478,6 +616,7 @@ Do not assime that a model prepared for a 0.4mm nozzle wil retain identials fits
 #### Recommended setting
 0.2mm
 A 0.2mm layer height provides a useful balance between:
+
 - strength
 - print time
 - dimensioanl accuracy
@@ -494,6 +633,7 @@ A 0.2mm layer height provides a useful balance between:
 
 Lower layer heights do not automatically make parts stronger.
 Layer adhesion depends more heavily on:
+
 - material temperature
 - cooling
 - extrusion consistency
@@ -503,6 +643,7 @@ Layer adhesion depends more heavily on:
 #### First layer
 The first layer is critical for large strucutal parts.
 Recommended checks include:
+
 - clean build surface
 - correct bed temperaute
 - varified Z offset
@@ -516,9 +657,10 @@ A first-layer height between 0.20mm and 0.28mm may improve reliability, dependin
 The first layer should be observed before leaving the printer unattended.
 
 ### Infill type
-#### Recommended patterm
+#### Recommended pattern
 Gyroid
 Gyroid infill provides:
+
 - support in multiple directions
 - no full-width internal corssings within a single layer
 - relatively consistent strength
@@ -556,12 +698,14 @@ However, infill should not be treated as the primary strength control. Perimeter
 
 
 Avoid setting every structural part to 100% infill. Fully solid parts can:
+
 - consume excessive material
 - increase print time
 - introduce thermal stresses
 - provide limited benefit compared with improved wall design
 
 Use local modifier regions where additional strength is needed around:
+
 - screw holes
 - rack ears
 - joints
@@ -618,7 +762,7 @@ Wider extrusion lines may improve wall bonding and reduce print time, but can af
 
 Any deviation from the model designer's assumed extrusion width should be tested on a small part.
 
-## Print orientation
+### Print orientation
 
 Print orientation must be selected according to load direction.
 
@@ -775,10 +919,11 @@ Structural parts should use validated speeds rather than the highest possible ma
 
 A practical process is:
 
-1. use the printer manufacturer's proven material profile;
-2. reduce outer-wall speed where dimensional accuracy is important;
-3. limit volumetric flow to the filament's tested capability;
-4. monitor long straight walls for ringing or under-extrusion;
+- 1. use the printer manufacturer's proven material profile
+- 2. reduce outer-wall speed where dimensional accuracy is important
+- 3. limit volumetric flow to the filament's tested capability
+- 4. monitor long straight walls for ringing or under-extrusion
+
 5. avoid aggressive acceleration on tall rack posts.
 
 Fast travel or printing can cause tall narrow components to wobble.
@@ -965,17 +1110,18 @@ The rack should not be printed as one uninterrupted batch.
 
 Recommended sequence:
 
-1. calibration coupons;
-2. tolerance test;
-3. heat-set insert test block;
-4. one structural joint;
-5. one rack post;
-6. one rail;
-7. one device mount;
-8. complete structural set;
-9. equipment-specific mounts;
-10. panels and cosmetic components;
-11. TPU feet and cable parts;
+- 1. calibration coupons
+- 2. tolerance test
+- 3. heat-set insert test block
+- 4. one structural joint
+- 5. one rack post
+- 6. one rail
+- 7. one device mount
+- 8. complete structural set
+- 9. equipment-specific mounts
+- 10. panels and cosmetic components
+- 11. TPU feet and cable parts
+
 12. spare high-risk components.
 
 This sequence detects design or calibration problems before large quantities of filament are consumed.
@@ -1016,10 +1162,11 @@ The saved project should preserve:
 
 Exporting only G-code is insufficient because G-code is tied to a particular printer configuration and may not be safely reusable after firmware or profile changes.
 
-File organisation
+#### File organisation
 
 Recommended repository structure:
 
+```text
 fabrication/
 └── lab-rax/
     ├── README.md
@@ -1037,19 +1184,25 @@ fabrication/
     ├── bill-of-materials.md
     ├── printing-guidelines.md
     └── revisions.md
-Part identification
+```
+
+#### Part identification
 
 Every custom or modified part should have a unique identifier.
 
 Recommended format:
 
-LRX-<category--<number--R<revision-
+```text
+LRX-<category>-<number>-R<revision>
+```
 
 Examples:
 
+```text
 LRX-STR-001-R1
 LRX-MNT-004-R2
 LRX-CBL-003-R1
+```
 
 Suggested categories:
 
@@ -1074,7 +1227,7 @@ Each production print should be recorded.
 | Field                 | Example                 |
 | -----------------------| -------------------------|
 | Part ID               | LRX-MNT-004-R1          |
-| Printer               | CoreXY Printer          |
+| Printer               | Glaurung                |
 | Date                  | 2026-06-23              |
 | Material              | PETG                    |
 | Filament manufacturer | To be recorded          |
@@ -1113,13 +1266,13 @@ Check for:
 
 Measure:
 
-rail spacing;
-rack-unit height;
-hole centres;
-insert-pocket diameter;
-equipment-tray width;
-device-retention features;
-overall part straightness.
+- rail spacing
+- rack-unit height
+- hole centres
+- insert-pocket diameter
+- equipment-tray width
+- device-retention features
+- overall part straightness
 
 #### Mechanical inspection
 
@@ -1269,11 +1422,6 @@ After printing:
 - [ ] Mark the part revision.
 - [ ] Reject or quarantine failed parts.
 
-
-
-
-The rack will carry equipment that generates heat and may remain under load continuously. Material selection therefore matters.
-
 ### Cooling and airflow
 
 Mini PCs and networking equipment depend on clear ventilation paths.
@@ -1282,23 +1430,23 @@ A compact rack can unintentionally restrict airflow if equipment is mounted too 
 
 For each device, identify:
 
-air intake location;
-exhaust location;
-expected heat output;
-fan direction;
-minimum clearance;
-neighbouring heat sources.
+- air intake location
+- exhaust location
+- expected heat output
+- fan direction
+- minimum clearance
+- neighbouring heat sources
 
 The layout should avoid directing the exhaust of one device into the intake of another.
 
 Where required, the rack can include:
 
-vented shelves;
-perforated side panels;
-blanking panels;
-low-speed exhaust fans;
-temperature sensors;
-fan-control automation.
+- vented shelves
+- perforated side panels
+- blanking panels
+- low-speed exhaust fans
+- temperature sensors
+- fan-control automation
 
 Fans should not be added without understanding the intended airflow path. Poorly positioned fans may create turbulence or recirculate hot air rather than removing it.
 
@@ -1308,25 +1456,25 @@ Temperature monitoring should be installed before concluding that passive coolin
 
 The rack will contain several cable types:
 
-Ethernet;
-mains power;
-low-voltage DC power;
-USB;
-HDMI or DisplayPort during maintenance;
-storage connections;
-antenna extensions.
+- Ethernet
+- mains power
+- low-voltage DC power
+- USB
+- HDMI or DisplayPort during maintenance
+- storage connections
+- antenna extensions
 
 Network and power cables should be routed separately where practical.
 
 The design should provide:
 
-vertical cable routes;
-horizontal cable-management points;
-cable tie or hook-and-loop attachment points;
-strain relief;
-service loops;
-labels at both cable ends;
-access to removable equipment.
+- vertical cable routes
+- horizontal cable-management points
+- cable tie or hook-and-loop attachment points
+- strain relief
+- service loops
+- labels at both cable ends
+- access to removable equipment
 
 Cables should not be pulled tight. A small service loop allows a device to be removed or repositioned without disconnecting the entire rack.
 
@@ -1340,21 +1488,21 @@ Each device may use a separate external power adapter. Without planning, these a
 
 The power plan should document:
 
-device power requirements;
-adapter voltage and current;
-connector type;
-expected maximum consumption;
-power-strip capacity;
-UPS requirements;
-shutdown behaviour;
-power-restoration behaviour.
+- device power requirements
+- adapter voltage and current
+- connector type
+- expected maximum consumption
+- power-strip capacity
+- UPS requirements
+- shutdown behaviour
+- power-restoration behaviour
 
 Possible arrangements include:
 
-a rack-mounted mains power strip;
-an external surge-protected power strip;
-a compact UPS;
-a DC distribution system for compatible devices.
+- a rack-mounted mains power strip
+- an external surge-protected power strip
+- a compact UPS
+- a DC distribution system for compatible devices
 
 A shared DC supply can reduce the number of adapters, but it introduces a common failure point and must be correctly fused.
 
@@ -1366,15 +1514,15 @@ A printed rack should not be treated as equivalent to a steel enterprise rack.
 
 Its capacity depends on:
 
-material;
-printer calibration;
-print orientation;
-wall thickness;
-joint design;
-rack height;
-equipment weight;
-ambient temperature;
-long-term material creep.
+- material
+- printer calibration
+- print orientation
+- wall thickness
+- joint design
+- rack height
+- equipment weight
+- ambient temperature
+- long-term material creep
 
 Heavy equipment should be installed near the bottom.
 
@@ -1382,11 +1530,11 @@ The rack should stand on a stable surface and should not be lifted by a single p
 
 If the completed rack becomes tall, it may require:
 
-a wider base;
-wall restraint;
-additional bracing;
-metal threaded rods;
-separation into multiple rack sections.
+- a wider base
+- wall restraint
+- additional bracing
+- metal threaded rods
+- separation into multiple rack sections
 
 The printed parts should be inspected periodically for deformation, cracking or loose fasteners.
 
@@ -1396,13 +1544,13 @@ A visually compact build can become difficult to maintain if hardware cannot be 
 
 Each mount should be assessed for:
 
-front or rear removal;
-cable disconnection;
-power-button access;
-storage access;
-fan cleaning;
-CMOS or reset access;
-replacement time.
+- front or rear removal
+- cable disconnection
+- power-button access
+- storage access
+- fan cleaning
+- CMOS or reset access
+- replacement time
 
 Core infrastructure should not require the entire rack to be disassembled.
 
@@ -1418,57 +1566,233 @@ However, expansion should still be planned before printing.
 
 The initial design should reserve:
 
-physical rack units;
-switch ports;
-power outlets;
-cable routes;
-cooling capacity;
-mounting hardware.
+- physical rack units
+- switch ports
+- power outlets
+- cable routes
+- cooling capacity
+- mounting hardware
 
 A printed rack makes physical modification easier, but adding capacity after the rack is fully wired may still require significant rework.
 
 ## Designing the Logical Architecture
 
-Content to be developed.
+The physical rack holds the hardware; the logical architecture decides what runs where.
+The lab is planned in layers, each depending only on the layers beneath it.
+
+```text
+Layer 5  Applications     Home Assistant, media, food, Minecraft
+Layer 4  Shared services  Dashboard, monitoring, update tracking, reverse proxy
+Layer 3  Platform         Proxmox VE on Erebor; Docker on VMs, Barad-dûr and the Pis
+Layer 2  Core services    DNS (two resolvers), MQTT, remote access
+Layer 1  Network          Router and firewall, Argonath, Eriador
+Layer 0  Physical         Rack, power, cooling
+```
+
+Two rules follow from the layering. First, a lower layer must never depend on a higher one:
+DNS cannot rely on a service that itself needs DNS to start. Second, the services in
+Layer 2 are spread across different hosts, because everything above them fails if they do.
+
+The current placement looks like this:
+
+| Host | Platform | What it runs |
+|---|---|---|
+| Erebor | Proxmox VE | VM 100 Home Assistant, VM 110 Rivendell, VM 120 Minecraft, VM 130 Gundabad |
+| Rivendell (VM 110) | Docker | Primary DNS, dashboard, monitoring, update tracking |
+| Gundabad (VM 130) | Docker Compose | Recipes, pantry and shopping list |
+| Barad-dûr | Docker | Media libraries, requests and downloads |
+| Gimli | Docker | Reverse proxy, UniFi controller |
+| Gloin | Native | Secondary DNS, remote access |
+| Balin | Docker | MQTT, Govee bridge, Spoolman |
+| Bombur | | Printer camera |
+
+The [architecture page](/systems/home-lab/architecture/) shows the same placement as a
+topology, and [Service Dependencies](/systems/home-lab/reference/service-dependencies/)
+records what each service relies on.
 
 ## Naming the Infrastructure
 
-Content to be developed.
+Names are part of the architecture. A good name says what kind of thing something is,
+stays the same when its hardware is replaced, and is easy to recognise in a log.
+
+Project Erebor uses a theme from Middle-earth, applied by category:
+
+- **Places** for infrastructure: servers, storage, firewall, switch and networks. Erebor is
+  the main server; Moria the storage; Minas Tirith the firewall; Argonath, the great gate,
+  the switch; Eriador the wireless network.
+- **Dwarves** for Raspberry Pis: Gimli, Gloin, Balin and Bombur.
+- **Dragons** for 3D printers: Glaurung.
+
+The theme stops where clarity matters more. Proxmox virtual machine names, container names
+and service names are descriptive (`home-assistant`, `docker`, `jellyfin`), so that their
+purpose is obvious without a lookup table. A virtual machine that acts as a host in its own
+right, such as Rivendell or Gundabad, takes a themed hostname as well.
+
+Each physical host also gets an asset identifier, such as `CMP-001` for Erebor, recorded
+on a label on the chassis. The full scheme is in
+[Naming Conventions](/systems/home-lab/reference/naming-conventions/).
 
 ## Planning the Network
 
-Content to be developed.
+The lab starts on an ordinary flat home network: every device on one subnet, with the
+existing router handing out addresses. That is simple, and it is where most home labs
+begin, but it means a smart plug, a guest phone and the hypervisor's management interface
+can all reach one another.
+
+The plan moves away from that in stages:
+
+1. **Stable addressing.** Infrastructure gets fixed addresses or DHCP reservations, so that
+   DNS records, the reverse proxy and monitoring do not break when a lease changes.
+2. **A managed switch.** Argonath makes VLANs possible, with tagged trunk ports to hosts
+   that carry several networks and untagged access ports for single-purpose devices.
+3. **Segmentation.** Traffic is separated by trust: infrastructure management, servers,
+   trusted household devices, IoT devices and guests. Each segment gets its own VLAN and
+   subnet.
+4. **A proper firewall.** Minas Tirith, running OPNsense, takes over routing, DHCP and the
+   rules between segments. IoT devices can reach Home Assistant and the MQTT broker, but
+   not the management network.
+
+DNS is designed in from the start. **AdGuard Home** on Rivendell is the primary resolver,
+and **Pi-hole** on Gloin is the secondary, on separate hardware, so that either can be
+restarted without the network losing name resolution. **Tailscale** on Gloin provides
+remote access without opening ports to the internet, and **Nginx Proxy Manager** on Gimli
+puts services behind names and TLS.
+
+Erebor has a single network port, so Proxmox uses a VLAN-aware Linux bridge: one cable
+carries several networks, and each virtual machine is placed on the segment it belongs to.
+The build itself is in [Chapter 7](/systems/home-lab/build-guide/07-network-architecture/).
+The deployed VLANs and addresses are recorded in the
+[VLAN Plan](/systems/home-lab/reference/vlan-plan/) and
+[IP Addressing](/systems/home-lab/reference/ip-addressing/) references, which are filled in
+as each stage is completed.
 
 ## Planning Storage
 
-Content to be developed.
+Storage is planned by the kind of data, not by the disk it happens to be on.
+
+| Data | Examples | Where it lives |
+|---|---|---|
+| Hypervisor and VM disks | Proxmox system, VM boot disks | Erebor's local storage |
+| Application data | Home Assistant config, Docker volumes, databases | Inside each VM or host |
+| Bulk media | Films, series, books, audiobooks | Media storage, moving to Moria |
+| Backups | VM backups, configuration exports | A separate target, then Moria |
+
+Erebor uses two Proxmox storage pools: `local`, a directory on the boot disk for ISO images
+and templates, and `local-lvm`, an LVM-thin pool for virtual machine disks. Thin
+provisioning lets VMs be allocated more space than they use, which is efficient but needs
+watching: at the 29 October 2026 snapshot `local-lvm` was 69.3% full.
+
+**Moria**, a ZimaBoard-based NAS, is the planned home for bulk media and backups. Keeping
+storage on its own machine follows the principle of separating responsibilities: compute
+can be rebuilt without touching data, and data is not lost with a failed VM disk.
+
+The design is covered in [Chapter 6](/systems/home-lab/build-guide/06-storage-architecture/),
+and the deployed layout is recorded in
+[Storage Layout](/systems/home-lab/reference/storage-layout/).
 
 ## Planning Backups
 
-Content to be developed.
+A backup plan starts with the question of what loss would be unacceptable. For this lab
+that is, in order: Home Assistant's configuration and history, the configuration of the
+Docker services, the food system's databases, and media libraries that would be slow to
+rebuild.
+
+The plan follows the **3-2-1 rule**: three copies of important data, on two different kinds
+of storage, with one copy away from the house.
+
+- **Virtual machines** are backed up by Proxmox, first to local storage, then to Moria,
+  with Proxmox Backup Server as the longer-term option.
+- **Application data and configuration** are backed up at file level, with a tool such as
+  Restic, so that one service can be restored without restoring a whole VM.
+- **Raspberry Pis** are treated as disposable: their configuration is kept elsewhere so
+  that a failed SD card means a rebuild, not a loss.
+- **Off-site copies** of the most important data are kept outside the house.
+
+A backup that has never been restored is a hope rather than a backup. Every part of the
+plan includes a restore test. The implementation is in
+[Chapter 14](/systems/home-lab/build-guide/14-backup-strategy/), and schedules and retention
+are recorded in the [Backup Strategy reference](/systems/home-lab/reference/backup-strategy/).
 
 ## Defining the Implementation Phases
 
-Content to be developed.
+The lab is built in phases, and each phase must leave everything usable before the next
+begins. That keeps the household's services running throughout, and it means the project
+can pause at any phase boundary without leaving something half-built.
+
+| Phase | Delivers | Status (October 2026) |
+|---|---|---|
+| 1. First compute node | Erebor prepared, Proxmox installed, first VMs for Home Assistant and Docker | Complete |
+| 2. Network foundation | Managed switch, addressing plan, VLANs | Switch in service; VLANs in progress |
+| 3. Storage and edge | Moria as central storage; OPNsense on Minas Tirith | Planned |
+| 4. Expansion and operations | Centralised backups, monitoring, recovery testing | Monitoring in service; backups planned |
+
+Services have been added alongside the phases as the platform allowed: the media stack on
+Barad-dûr, monitoring and DNS on Rivendell and the food system on Gundabad. The
+[Roadmap](/systems/home-lab/roadmap/) tracks the phases in more detail.
 
 ## Bill of Materials
 
-Content to be developed.
+The bill of materials lists the major components. Quantities for printed rack parts and
+fasteners depend on the final rack height and are recorded during manufacture.
+
+### Compute and edge devices
+
+| Item | Qty | Used for | Status |
+|---|---:|---|---|
+| Dell OptiPlex 3060 Micro | 1 | Erebor, Proxmox VE | In service |
+| Dell OptiPlex, 16 GB RAM | 1 | Barad-dûr, media server | In service |
+| Raspberry Pi 3B | 2 | Gimli, Gloin | In service |
+| Raspberry Pi 4 | 1 | Balin | In service |
+| Raspberry Pi 1 Model B+ | 1 | Bombur | In service |
+| Managed Ethernet switch | 1 | Argonath | In service |
+| UniFi wireless access point | To be confirmed | Eriador | In service |
+| USB Zigbee coordinator | 1 | Home Assistant | In service |
+| ZimaBoard | 1 | Moria, NAS | Planned |
+| Firewall appliance | 1 | Minas Tirith, OPNsense | Planned |
+
+### Rack and installation
+
+| Item | Used for |
+|---|---|
+| Lab Rax printed frame, panels and shelves | 10-inch rack structure |
+| Device-specific printed mounts and trays | OptiPlex, Raspberry Pi and switch mounting |
+| Filament (see material selection above) | Structural and cosmetic parts |
+| Heat-set inserts and machine screws | Printed-part fastening |
+| Patch panel and short patch cables | Network cabling |
+| Power strip with surge protection | Mains distribution |
+| Hook-and-loop ties and labels | Cable management |
+| USB flash drive, 8 GB or larger | Proxmox installer |
+
+### To be decided
+
+- **A UPS**, sized from measured power draw, to ride through short power cuts and allow
+  clean shutdowns.
+- **Storage drives for Moria**, sized once media and backup capacity have been measured.
+- **External backup media** for an off-site copy.
 
 ## Verification checklist
 
-- [ ] The chapter objectives have been completed.
-- [ ] Configuration changes have been documented.
-- [ ] The result has been tested.
-- [ ] A rollback or recovery route is understood.
-
-## Image placeholders
-
-Add screenshots, diagrams or photographs here as the build progresses.
+- [ ] Functional and non-functional requirements are written down and testable.
+- [ ] The design principles are agreed and used to justify placement decisions.
+- [ ] Each piece of core hardware has a defined role.
+- [ ] The rack height, equipment order and mounts are planned, with spare capacity.
+- [ ] Rack parts have been printed, inspected and load tested.
+- [ ] The logical layers, and which host serves each, are documented.
+- [ ] Naming conventions are recorded and applied.
+- [ ] Network, storage and backup plans are outlined, with links to their chapters.
+- [ ] The implementation phases and current status are recorded.
+- [ ] The bill of materials is complete, including items still to be decided.
 
 ## Summary
 
-This chapter provides the foundation for the next stage of Project Erebor.
+The plan turns six goals into testable requirements, a handful of design principles and a
+hardware list chosen for size, noise and power rather than raw performance. It defines a
+3D-printed 10-inch rack, a layered logical architecture that spreads core services across
+separate hosts, a naming scheme, and outline plans for the network, storage and backups.
+The build is split into phases, each of which leaves the lab usable.
+
+The next chapter starts the first phase: preparing Erebor for its role as the lab's main
+compute node.
 
 ## Related references
 

@@ -2,6 +2,7 @@
 title: Media Stack
 description: Deploying and organising Jellyfin, the Arr applications, download clients and storage mounts.
 published: '2026-06-23'
+updated: 2026-10-29
 systemType: software
 part: 3
 chapter: 11
@@ -12,11 +13,16 @@ hardware:
 - Dell OptiPlex Micro
 - NAS Storage
 software:
-- Jellyfin
-- Sonarr
-- Radarr
-- Prowlarr
-- Bazarr
+  - Jellyfin
+  - Kavita
+  - Audiobookshelf
+  - Seerr
+  - Sonarr
+  - Radarr
+  - Prowlarr
+  - Bazarr
+  - qBittorrent
+  - SABnzbd
 tags:
 - Media
 - Docker
@@ -28,56 +34,71 @@ draft: false
 
 ## Overview
 
-Deploying and organising Jellyfin, the Arr applications, download clients and storage mounts.
+The media stack on [Barad-dûr](/systems/home-lab/reference/hosts/barad-dur/) serves films, television, books, comics
+and audiobooks to the house, and automates finding and organising new media. It is the
+largest group of containers in the lab, so it runs on a host of its own.
 
 ## Objectives
 
 By the end of this chapter, the reader should be able to:
 
-- Explain the purpose of this stage in the overall design.
-- Make the relevant implementation decisions with clear trade-offs.
-- Complete the practical work in a controlled sequence.
-- Verify the result before proceeding.
-- Identify the most common failure modes.
+- Explain how a request moves through the stack from Seerr to the library.
+- Understand the role of each service and how they depend on each other.
+- Decide which services need direct access to the media storage.
+- Find any service's port and image in the reference pages.
 
-## Chapter structure
+## The stack at a glance
 
-## Service roles
+| Layer | Services | Role |
+|---|---|---|
+| Libraries | Jellyfin, Kavita, Audiobookshelf | Serve media to players and readers |
+| Requests | Seerr | Lets the household ask for films and series |
+| Automation | Sonarr, Radarr, Bazarr | Track wanted media, rename and file it, fetch subtitles |
+| Indexers | Prowlarr, Byparr | Search sources on behalf of Sonarr and Radarr |
+| Downloads | qBittorrent, SABnzbd | Fetch the files |
 
-Content to be developed.
+## How a request flows
 
-## Directory design
+1. A request is made in **Seerr**, which checks Jellyfin to see whether the title is
+   already in the library.
+2. Seerr passes the request to **Sonarr** for series or **Radarr** for films.
+3. Sonarr or Radarr asks **Prowlarr** to search the configured indexers. Prowlarr uses
+   **Byparr** to get past indexers that sit behind browser challenges.
+4. The chosen release is sent to **qBittorrent** or **SABnzbd**.
+5. When the download completes, Sonarr or Radarr renames it and moves it into the
+   library folder.
+6. **Bazarr** notices the new item and fetches subtitles.
+7. **Jellyfin** picks up the new file on its next library scan.
 
-Content to be developed.
+## The libraries
 
-## Permissions
+- **Jellyfin** serves films and television to every screen in the house.
+- **Kavita** serves books and comics, with a web reader.
+- **Audiobookshelf** serves audiobooks and podcasts, and keeps listening progress in sync
+  across devices.
 
-Content to be developed.
+## Storage
 
-## Media mounts
+The libraries, Sonarr, Radarr and the download clients all need to see the same media
+folders. Keeping downloads and libraries on the same filesystem lets Sonarr and Radarr
+move completed files instantly instead of copying them.
 
-Content to be developed.
+## Ports
 
-## Deployment
-
-Content to be developed.
-
-## Troubleshooting
-
-Content to be developed.
-
+Each service publishes its web interface on its own port, for example Jellyfin on 8096
+and Seerr on 5055. The full list is in [Docker Services](/systems/home-lab/reference/docker-services/), and the
+order in which services depend on each other is in
+[Service Dependencies](/systems/home-lab/reference/service-dependencies/).
 
 ## Verification checklist
 
-- [ ] The chapter objectives have been completed.
-- [ ] Configuration changes have been documented.
-- [ ] The result has been tested.
-- [ ] A rollback or recovery route is understood.
-
-## Image placeholders
-
-> Add screenshots, diagrams or photographs here as the build progresses.
+- [ ] A test request in Seerr reaches Sonarr or Radarr.
+- [ ] Prowlarr returns results for both Sonarr and Radarr.
+- [ ] A completed download is renamed and filed automatically.
+- [ ] Jellyfin, Kavita and Audiobookshelf each show their libraries.
 
 ## Summary
 
-This chapter provides the foundation for the next stage of Project Erebor.
+The media stack separates serving, requesting, automating and downloading into distinct
+services that hand work to each other. The next chapter moves from the living room to the
+kitchen, and the food services on Gundabad.

@@ -1,32 +1,32 @@
 ---
-title: Monitoring and Observability
-description: Collecting metrics, logs and health information across the lab.
+title: Security
+description: Hardening management access, services, networks and remote connectivity.
 published: '2026-06-23'
-systemType: software
+systemType: network
 part: 3
-chapter: 12
-order: 12
+chapter: 15
+order: 15
 estimatedTime: 120 minutes
 difficulty: Intermediate
 hardware:
-- Dell OptiPlex Micro
+- Firewall Appliance
+- Managed Switch
 software:
-- Grafana
-- Prometheus
-- Loki
-- Uptime Kuma
+- OPNsense
+- Tailscale
+- OpenSSH
 tags:
-- Monitoring
-- Observability
-- Grafana
+- Security
+- Firewall
+- Remote Access
 draft: false
 ---
 
-# Monitoring and Observability
+# Security
 
 ## Overview
 
-Collecting metrics, logs and health information across the lab.
+Hardening management access, services, networks and remote connectivity.
 
 ## Objectives
 
@@ -40,27 +40,27 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Observability goals
+## Management plane
 
 Content to be developed.
 
-## Metrics
+## Identity
 
 Content to be developed.
 
-## Logs
+## SSH
 
 Content to be developed.
 
-## Dashboards
+## Firewall policy
 
 Content to be developed.
 
-## Alerting
+## TLS
 
 Content to be developed.
 
-## Retention
+## Remote access
 
 Content to be developed.
 

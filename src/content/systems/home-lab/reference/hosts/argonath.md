@@ -2,6 +2,7 @@
 title: "Argonath"
 description: "Host reference for Argonath, including its hardware, network assignment, services and operational role."
 published: 2026-07-20
+updated: 2026-10-29
 
 systemType: compute
 referenceType: host
@@ -29,7 +30,7 @@ draft: false
 
 ## Current State
 
-**Status:** Planned
+**Status:** Active
 
 ## Identity
 

@@ -1,27 +1,30 @@
 ---
-title: Future Plans
-description: Reviewing the completed platform and identifying possible future improvements.
+title: Maintenance and Operations
+description: Operating the lab through routine checks, updates, documentation and change control.
 published: '2026-06-23'
 systemType: infrastructure
 part: 4
 chapter: 19
 order: 19
-estimatedTime: 30 minutes
-difficulty: Beginner
+estimatedTime: 60 minutes
+difficulty: Intermediate
 hardware: []
-software: []
+software:
+- Proxmox VE 9
+- Docker
+- OPNsense
 tags:
-- Roadmap
-- Scaling
-- Home Lab
+- Maintenance
+- Operations
+- Documentation
 draft: false
 ---
 
-# Future Plans
+# Maintenance and Operations
 
 ## Overview
 
-Reviewing the completed platform and identifying possible future improvements.
+Operating the lab through routine checks, updates, documentation and change control.
 
 ## Objectives
 
@@ -35,19 +38,27 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Current state
+## Daily checks
 
 Content to be developed.
 
-## Lessons learned
+## Weekly checks
 
 Content to be developed.
 
-## Potential upgrades
+## Monthly checks
 
 Content to be developed.
 
-## Long-term direction
+## Updates
+
+Content to be developed.
+
+## Documentation
+
+Content to be developed.
+
+## Change control
 
 Content to be developed.
 

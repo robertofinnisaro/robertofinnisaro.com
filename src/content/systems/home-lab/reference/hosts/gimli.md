@@ -1,9 +1,10 @@
 ---
 title: "Gimli"
-description: "Host reference for Gimli, including its hardware, network assignment, services and operational role."
+description: "Host reference for Gimli, the Raspberry Pi running the reverse proxy and UniFi controller."
 published: 2026-07-20
+updated: 2026-10-29
 
-systemType: compute
+systemType: network
 referenceType: host
 
 host: gimli
@@ -14,40 +15,41 @@ software: []
 
 tags:
   - Gimli
-  - Compute
+  - Raspberry Pi
+  - Network
   - Host
-  - Infrastructure
 
 draft: false
 ---
-
 # Gimli
 
 ## Overview
 
-**Role:** Infrastructure Node
+**Role:** Network services
 
 ## Current State
 
-**Status:** Planned
+**Status:** Active
 
 ## Identity
 
-| Property | Value               |
-| ----------| ---------------------|
-| Asset    | Gimli               |
+| Property | Value |
+|---|---|
+| Asset | Gimli |
 | Hardware | Raspberry Pi 3B |
-| Role     | Infrastructure Node |
+| Platform | Docker |
+| Role | Network services |
 
 ## Services
 
-- Pi-hole
+- **Nginx Proxy Manager:** reverse proxy and TLS for the lab's web services
+- **UniFi Network Application:** controller for the Eriador wireless network
+- **Dozzle agent** and **WUD socket proxy:** log and update monitoring, reporting to Rivendell
+
+Images and ports are listed in [Docker Services](/systems/home-lab/reference/docker-services/).
+
 
 ## Hardware Specification
-
-_To be completed._
-
-## Firmware
 
 _To be completed._
 
@@ -71,6 +73,9 @@ See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-lo
 
 See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
-## Planned Upgrades
+## Change Log
 
-_To be completed._
+| Date | Change |
+|---|---|
+| 2026-07-20 | Initial host page created |
+| 2026-10-29 | Updated from the deployed services |

@@ -31,14 +31,19 @@ monitoring, automation and disaster recovery into a single maintainable platform
 
 ## Core systems
 
-| Role                   | Name          | Platform                               |
-| ------------------------| ---------------| ----------------------------------------|
-| Primary compute node   | Erebor        | Dell OptiPlex Micro running Proxmox VE |
-| Secondary compute node | Barad-dur     | Planned Proxmox VE node                |
-| Storage platform       | Moria         | Planned ZimaBoard-based NAS            |
-| Firewall and router    | Minas Tirith  | Planned OPNsense appliance             |
-| Core switch            | Argonath      | Planned managed switch                 |
-| Raspberry Pi nodes     | Dwarven names | Lightweight infrastructure services    |
+| Role | Name | Platform | Status |
+|---|---|---|---|
+| Primary compute node | [Erebor](/systems/home-lab/reference/hosts/erebor/) | Dell OptiPlex 3060 Micro running Proxmox VE | Active |
+| Media server | [Barad-dûr](/systems/home-lab/reference/hosts/barad-dur/) | Dell OptiPlex running Docker | Active |
+| Primary Docker platform | [Rivendell](/systems/home-lab/reference/hosts/rivendell/) | Docker on Proxmox VM 110 (Erebor) | Active |
+| Food services | [Gundabad](/systems/home-lab/reference/hosts/gundabad/) | Docker on Proxmox VM 130 (Erebor) | Active |
+| Storage platform | [Moria](/systems/home-lab/reference/hosts/moria/) | ZimaBoard-based NAS | Planned |
+| Firewall and router | [Minas Tirith](/systems/home-lab/reference/hosts/minas-tirith/) | OPNsense | Planned |
+| Core switch | [Argonath](/systems/home-lab/reference/hosts/argonath/) | Managed switch | Active |
+| Network services | [Gimli](/systems/home-lab/reference/hosts/gimli/) | Raspberry Pi 3B | Active |
+| Secondary DNS and remote access | [Gloin](/systems/home-lab/reference/hosts/gloin/) | Raspberry Pi 3B | Active |
+| Home automation | [Balin](/systems/home-lab/reference/hosts/balin/) | Raspberry Pi 4 | Active |
+| Camera node | [Bombur](/systems/home-lab/reference/hosts/bombur/) | Raspberry Pi 1 Model B+ | Active |
 
 ## Reading the project
 

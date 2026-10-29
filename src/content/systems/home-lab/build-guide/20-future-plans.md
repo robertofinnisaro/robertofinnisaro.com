@@ -1,31 +1,27 @@
 ---
-title: Backup Strategy
-description: Protecting hosts, virtual machines, containers, configuration and user data.
+title: Future Plans
+description: Reviewing the completed platform and identifying possible future improvements.
 published: '2026-06-23'
-systemType: storage
-part: 3
-chapter: 13
-order: 13
-estimatedTime: 120 minutes
-difficulty: Intermediate
-hardware:
-- NAS Storage
-- External Backup Media
-software:
-- Proxmox Backup Server
-- Restic
+systemType: infrastructure
+part: 4
+chapter: 20
+order: 20
+estimatedTime: 30 minutes
+difficulty: Beginner
+hardware: []
+software: []
 tags:
-- Backups
-- Recovery
-- Data Protection
+- Roadmap
+- Scaling
+- Home Lab
 draft: false
 ---
 
-# Backup Strategy
+# Future Plans
 
 ## Overview
 
-Protecting hosts, virtual machines, containers, configuration and user data.
+Reviewing the completed platform and identifying possible future improvements.
 
 ## Objectives
 
@@ -39,27 +35,19 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Threat model
+## Current state
 
 Content to be developed.
 
-## 3-2-1 strategy
+## Lessons learned
 
 Content to be developed.
 
-## VM backups
+## Potential upgrades
 
 Content to be developed.
 
-## Application backups
-
-Content to be developed.
-
-## Off-site copies
-
-Content to be developed.
-
-## Restore tests
+## Long-term direction
 
 Content to be developed.
 

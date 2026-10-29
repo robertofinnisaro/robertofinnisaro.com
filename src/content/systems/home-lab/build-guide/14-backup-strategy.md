@@ -1,32 +1,31 @@
 ---
-title: Expanding the Lab
-description: Adding a second Proxmox node, central storage and dedicated routing hardware.
+title: Backup Strategy
+description: Protecting hosts, virtual machines, containers, configuration and user data.
 published: '2026-06-23'
-systemType: infrastructure
-part: 4
-chapter: 17
-order: 17
+systemType: storage
+part: 3
+chapter: 14
+order: 14
 estimatedTime: 120 minutes
-difficulty: Advanced
+difficulty: Intermediate
 hardware:
-- Second Dell OptiPlex
-- ZimaBoard 2
-- Managed Switch
+- NAS Storage
+- External Backup Media
 software:
-- Proxmox VE 9
-- OPNsense
+- Proxmox Backup Server
+- Restic
 tags:
-- Scaling
-- Clustering
-- Infrastructure
+- Backups
+- Recovery
+- Data Protection
 draft: false
 ---
 
-# Expanding the Lab
+# Backup Strategy
 
 ## Overview
 
-Adding a second Proxmox node, central storage and dedicated routing hardware.
+Protecting hosts, virtual machines, containers, configuration and user data.
 
 ## Objectives
 
@@ -40,23 +39,27 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Second node
+## Threat model
 
 Content to be developed.
 
-## Cluster considerations
+## 3-2-1 strategy
 
 Content to be developed.
 
-## Shared services
+## VM backups
 
 Content to be developed.
 
-## Dedicated firewall
+## Application backups
 
 Content to be developed.
 
-## Capacity planning
+## Off-site copies
+
+Content to be developed.
+
+## Restore tests
 
 Content to be developed.
 

@@ -1,54 +1,56 @@
 ---
 title: "Balin"
-description: "Host reference for Balin, including its hardware, network assignment, services and operational role."
+description: "Host reference for Balin, the Raspberry Pi running home automation and printing services."
 published: 2026-10-28
+updated: 2026-10-29
 
-systemType: compute
+systemType: automation
 referenceType: host
 
 host: balin
 order: 108
 
-hardware:
-  - Raspberry Pi 4
+hardware: []
 software: []
 
 tags:
   - Balin
-  - Compute
+  - Raspberry Pi
+  - Home Automation
   - Host
-  - Infrastructure
 
 draft: false
 ---
-
 # Balin
 
 ## Overview
 
-**Role:** _To be confirmed._
+**Role:** Home automation
 
 ## Current State
 
-**Status:** Planned
+**Status:** Active
 
 ## Identity
 
-| Property | Value           |
-| ---------| ----------------|
-| Asset    | Balin           |
-| Hardware | Raspberry Pi 4  |
-| Role     | To be confirmed |
+| Property | Value |
+|---|---|
+| Asset | Balin |
+| Hardware | Raspberry Pi 4 |
+| Platform | Docker |
+| Role | Home automation |
 
 ## Services
 
-_To be completed._
+- **Mosquitto:** MQTT broker for home automation devices
+- **govee2mqtt:** bridges Govee devices onto MQTT for Home Assistant
+- **Spoolman:** filament spool inventory, used by the 3D printers
+- **Dozzle agent:** log monitoring, reporting to Rivendell
+
+Images and ports are listed in [Docker Services](/systems/home-lab/reference/docker-services/).
+
 
 ## Hardware Specification
-
-_To be completed._
-
-## Firmware
 
 _To be completed._
 
@@ -72,6 +74,9 @@ See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-lo
 
 See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
-## Planned Upgrades
+## Change Log
 
-_To be completed._
+| Date | Change |
+|---|---|
+| 2026-07-20 | Initial host page created |
+| 2026-10-29 | Updated from the deployed services |

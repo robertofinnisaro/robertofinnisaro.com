@@ -2,6 +2,7 @@
 title: Roadmap
 description: The planned implementation sequence and future development of Project Erebor.
 published: '2026-06-23'
+updated: 2026-10-29
 systemType: infrastructure
 contentType: overview
 order: 3
@@ -41,7 +42,7 @@ The lab is being built incrementally so each stage remains usable before the nex
 
 ## Phase 4 — Expansion
 
-- Add Barad-dur as the second Proxmox node.
+- Run Barad-dûr as a dedicated media server (in service; originally planned as a second Proxmox node).
 - Introduce centralised backups.
 - Add monitoring, logging and alerting.
 - Test recovery procedures.

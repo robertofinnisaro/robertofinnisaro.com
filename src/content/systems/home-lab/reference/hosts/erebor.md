@@ -1,7 +1,8 @@
 ---
 title: "Erebor"
-description: "Host reference for Erebor, the primary Proxmox compute node in the home lab."
+description: "Host reference for Erebor, the primary Proxmox VE compute node in the home lab."
 published: 2026-07-20
+updated: 2026-10-29
 
 systemType: compute
 referenceType: host
@@ -9,11 +10,8 @@ referenceType: host
 host: erebor
 order: 101
 
-hardware:
-  - Dell OptiPlex 3060 Micro
-
-software:
-  - Proxmox VE 9
+hardware: []
+software: []
 
 tags:
   - Erebor
@@ -23,12 +21,11 @@ tags:
 
 draft: false
 ---
-
 # Erebor
 
 ## Overview
 
-**Role:** Primary Proxmox VE Host
+**Role:** Primary Proxmox VE host
 
 ## Current State
 
@@ -39,19 +36,40 @@ draft: false
 | Property | Value |
 |---|---|
 | Asset | Erebor |
-| Hardware | Dell OptiPlex Micro |
-| Role | Primary Proxmox VE Host |
+| Hardware | Dell OptiPlex 3060 Micro |
+| Platform | Proxmox VE |
+| Role | Primary Proxmox VE host |
 
 ## Services
 
-- Proxmox VE
-- Home Assistant
+Erebor runs four virtual machines. See the [Virtual Machine Inventory](/systems/home-lab/reference/vm-inventory/) for resources and placement.
+
+| VM ID | Name | Purpose |
+|---|---|---|
+| 100 | home-assistant | Home Assistant |
+| 110 | docker | [Rivendell](/systems/home-lab/reference/hosts/rivendell/): DNS, dashboard and monitoring |
+| 120 | minecraft | Minecraft server |
+| 130 | food-services | [Gundabad](/systems/home-lab/reference/hosts/gundabad/): Mealie, Grocy and Food Bridge |
+
+## Storage
+
+| Storage | Type | Used (29 Oct 2026) |
+|---|---|---|
+| local | Directory storage on the boot disk | 18.4% |
+| local-lvm | LVM-thin pool for VM disks | 69.3% |
+
+## Capacity Notes
+
+VM 110 is [Rivendell](/systems/home-lab/reference/hosts/rivendell/), which hosts primary DNS and the
+monitoring stack, and VM 130 is [Gundabad](/systems/home-lab/reference/hosts/gundabad/), the food services, so Erebor maintenance should be scheduled with that in mind.
+
+At the 29 October 2026 snapshot the node reported 98.2% memory in use, so Erebor has
+little headroom for additional VMs without reallocating memory or adding a second node.
+
+Detailed firmware, BIOS and power settings are recorded in
+[Erebor Host Configuration](/systems/home-lab/reference/erebor-host-configuration/).
 
 ## Hardware Specification
-
-_To be completed._
-
-## Firmware
 
 _To be completed._
 
@@ -75,6 +93,9 @@ See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-lo
 
 See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
-## Planned Upgrades
+## Change Log
 
-_To be completed._
+| Date | Change |
+|---|---|
+| 2026-07-20 | Initial host page created |
+| 2026-10-29 | Updated from the deployed services |

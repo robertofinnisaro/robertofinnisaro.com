@@ -1,31 +1,31 @@
 ---
-title: Disaster Recovery
-description: Recovering services and infrastructure after common hardware and software failures.
+title: Automation
+description: Automating configuration, maintenance, notifications and repeatable deployments.
 published: '2026-06-23'
-systemType: infrastructure
-part: 4
+systemType: automation
+part: 3
 chapter: 16
 order: 16
-estimatedTime: 150 minutes
+estimatedTime: 120 minutes
 difficulty: Advanced
 hardware:
-- Backup Storage
-- Replacement Media
+- Dell OptiPlex Micro
 software:
-- Proxmox VE 9
-- Proxmox Backup Server
+- Ansible
+- Git
+- Home Assistant
 tags:
-- Disaster Recovery
-- Backups
+- Automation
+- Ansible
 - Operations
 draft: false
 ---
 
-# Disaster Recovery
+# Automation
 
 ## Overview
 
-Recovering services and infrastructure after common hardware and software failures.
+Automating configuration, maintenance, notifications and repeatable deployments.
 
 ## Objectives
 
@@ -39,27 +39,23 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Recovery priorities
+## Automation boundaries
 
 Content to be developed.
 
-## Host failure
+## Git workflow
 
 Content to be developed.
 
-## Storage failure
+## Ansible
 
 Content to be developed.
 
-## Network failure
+## Scheduled maintenance
 
 Content to be developed.
 
-## Application recovery
-
-Content to be developed.
-
-## Recovery testing
+## Notifications
 
 Content to be developed.
 

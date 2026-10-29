@@ -1,9 +1,10 @@
 ---
 title: "Gloin"
-description: "Host reference for Gloin, including its hardware, network assignment, services and operational role."
+description: "Host reference for Gloin, the Raspberry Pi providing secondary DNS and remote access."
 published: 2026-07-20
+updated: 2026-10-29
 
-systemType: compute
+systemType: network
 referenceType: host
 
 host: gloin
@@ -14,22 +15,21 @@ software: []
 
 tags:
   - Gloin
-  - Compute
+  - Raspberry Pi
+  - DNS
   - Host
-  - Infrastructure
 
 draft: false
 ---
-
 # Gloin
 
 ## Overview
 
-**Role:** Edge Services Node
+**Role:** Network node
 
 ## Current State
 
-**Status:** Planned
+**Status:** Active
 
 ## Identity
 
@@ -37,18 +37,18 @@ draft: false
 |---|---|
 | Asset | Gloin |
 | Hardware | Raspberry Pi 3B |
-| Role | Edge Services Node |
+| Platform | Raspberry Pi OS (no Docker) |
+| Role | Network node |
 
 ## Services
 
-- Tailscale
-- Nginx Proxy Manager
+- **Pi-hole:** secondary DNS, alongside AdGuard Home on Rivendell
+- **Tailscale:** remote access into the lab
+
+Gloin runs these directly on the operating system rather than in containers.
+
 
 ## Hardware Specification
-
-_To be completed._
-
-## Firmware
 
 _To be completed._
 
@@ -72,6 +72,9 @@ See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-lo
 
 See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
-## Planned Upgrades
+## Change Log
 
-_To be completed._
+| Date | Change |
+|---|---|
+| 2026-07-20 | Initial host page created |
+| 2026-10-29 | Updated from the deployed services |

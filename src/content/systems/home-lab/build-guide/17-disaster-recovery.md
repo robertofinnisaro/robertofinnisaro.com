@@ -1,30 +1,31 @@
 ---
-title: Maintenance and Operations
-description: Operating the lab through routine checks, updates, documentation and change control.
+title: Disaster Recovery
+description: Recovering services and infrastructure after common hardware and software failures.
 published: '2026-06-23'
 systemType: infrastructure
 part: 4
-chapter: 18
-order: 18
-estimatedTime: 60 minutes
-difficulty: Intermediate
-hardware: []
+chapter: 17
+order: 17
+estimatedTime: 150 minutes
+difficulty: Advanced
+hardware:
+- Backup Storage
+- Replacement Media
 software:
 - Proxmox VE 9
-- Docker
-- OPNsense
+- Proxmox Backup Server
 tags:
-- Maintenance
+- Disaster Recovery
+- Backups
 - Operations
-- Documentation
 draft: false
 ---
 
-# Maintenance and Operations
+# Disaster Recovery
 
 ## Overview
 
-Operating the lab through routine checks, updates, documentation and change control.
+Recovering services and infrastructure after common hardware and software failures.
 
 ## Objectives
 
@@ -38,27 +39,27 @@ By the end of this chapter, the reader should be able to:
 
 ## Chapter structure
 
-## Daily checks
+## Recovery priorities
 
 Content to be developed.
 
-## Weekly checks
+## Host failure
 
 Content to be developed.
 
-## Monthly checks
+## Storage failure
 
 Content to be developed.
 
-## Updates
+## Network failure
 
 Content to be developed.
 
-## Documentation
+## Application recovery
 
 Content to be developed.
 
-## Change control
+## Recovery testing
 
 Content to be developed.
 

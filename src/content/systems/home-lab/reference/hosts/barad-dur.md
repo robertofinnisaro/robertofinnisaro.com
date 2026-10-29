@@ -1,7 +1,8 @@
 ---
-title: "Barad-dûr"
-description: "Host reference for Barad-dûr, including its hardware, network assignment, services and operational role."
+title: "Barad-d\u00fbr"
+description: "Host reference for Barad-d\u00fbr, the media server running the download, library and request stack."
 published: 2026-07-20
+updated: 2026-10-29
 
 systemType: compute
 referenceType: host
@@ -14,48 +15,51 @@ software: []
 
 tags:
   - Barad-dur
-  - Compute
+  - Media
+  - Docker
   - Host
-  - Infrastructure
 
 draft: false
 ---
-
-# Barad-dur
+# Barad-dûr
 
 ## Overview
 
-**Role:** Media Services Host
+**Role:** Media server
 
 ## Current State
 
-**Status:** Planned
+**Status:** Active
 
 ## Identity
 
-| Property | Value               |
-| ----------| ---------------------|
-| Asset    | Barad-dur           |
-| Hardware | Dell OptiPlex Micro |
-| Role     | Media Services Host |
+| Property | Value |
+|---|---|
+| Asset | Barad-dûr |
+| Hardware | Dell OptiPlex |
+| Memory | 16 GB |
+| Platform | Docker |
+| Role | Media server |
 
 ## Services
 
-- Jellyfin
-- Sonarr
-- Radarr
-- Prowlarr
-- Bazarr
-- qBittorrent
-- Overseerr
+Sixteen containers, grouped by purpose. Images and ports are listed in [Docker Services](/systems/home-lab/reference/docker-services/).
+
+- **Media libraries:** Jellyfin, Kavita, Audiobookshelf
+- **Requests:** Seerr
+- **Library automation:** Sonarr, Radarr, Bazarr, Prowlarr, Byparr
+- **Downloads:** qBittorrent, SABnzbd
+- **Management and monitoring:** Portainer, Glances, Scrutiny collector, Dozzle agent, WUD socket proxy
+
 
 ## Hardware Specification
 
-_To be completed._
+| Component | Value |
+|---|---|
+| System | Dell OptiPlex |
+| Memory | 16 GB |
 
-## Firmware
-
-_To be completed._
+Other components are to be completed.
 
 ## Network Configuration
 
@@ -77,6 +81,10 @@ See [Hardware Validation Log](/systems/home-lab/reference/hardware-validation-lo
 
 See [Maintenance Log](/systems/home-lab/reference/maintenance-log/).
 
-## Planned Upgrades
+## Change Log
 
-_To be completed._
+| Date | Change |
+|---|---|
+| 2026-07-20 | Initial host page created |
+| 2026-10-29 | Updated from the deployed services |
+| 2026-10-29 | Hardware confirmed: Dell OptiPlex, 16 GB RAM |
