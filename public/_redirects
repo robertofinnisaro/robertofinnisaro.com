@@ -1,0 +1,13 @@
+# System hubs live at /systems/<system>/; overview.md used to render one level down.
+/systems/:system/overview/ /systems/:system/ 301
+/systems/:system/overview /systems/:system/ 301
+
+# Build guide chapters 12-19 moved down one when Food Services became chapter 12.
+/systems/home-lab/build-guide/12-monitoring-and-observability/ /systems/home-lab/build-guide/13-monitoring-and-observability/ 301
+/systems/home-lab/build-guide/13-backup-strategy/ /systems/home-lab/build-guide/14-backup-strategy/ 301
+/systems/home-lab/build-guide/14-security/ /systems/home-lab/build-guide/15-security/ 301
+/systems/home-lab/build-guide/15-automation/ /systems/home-lab/build-guide/16-automation/ 301
+/systems/home-lab/build-guide/16-disaster-recovery/ /systems/home-lab/build-guide/17-disaster-recovery/ 301
+/systems/home-lab/build-guide/17-expanding-the-lab/ /systems/home-lab/build-guide/18-expanding-the-lab/ 301
+/systems/home-lab/build-guide/18-maintenance-and-operations/ /systems/home-lab/build-guide/19-maintenance-and-operations/ 301
+/systems/home-lab/build-guide/19-future-plans/ /systems/home-lab/build-guide/20-future-plans/ 301

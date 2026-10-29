@@ -1,0 +1,83 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import {
+  getEntryUrl,
+  getReferences,
+  getSystemEntries,
+  getSystemHubs,
+  getSystemId,
+  groupReferences,
+  type SystemEntry,
+} from '../../../../lib/systems';
+
+export async function getStaticPaths() {
+  const hubs = await getSystemHubs();
+  const paths = [];
+
+  // Only systems that have reference documents get an index.
+  for (const hub of hubs) {
+    const systemId = getSystemId(hub);
+    const references = getReferences(await getSystemEntries(systemId));
+    if (references.length > 0) {
+      paths.push({ params: { system: systemId }, props: { hub, references } });
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  hub: SystemEntry;
+  references: SystemEntry[];
+}
+
+const { hub, references } = Astro.props;
+const systemId = getSystemId(hub);
+const groups = groupReferences(references);
+---
+
+<DocsLayout
+  title="Reference"
+  description={`The current configuration and operating procedures of ${hub.data.title}, grouped by subject. Each page stands on its own; no Build Guide reading required.`}
+  systemId={systemId}
+  openSection="reference"
+  eyebrow={hub.data.title}
+  breadcrumbs={[
+    { href: '/systems/', label: 'Systems' },
+    { href: `/systems/${systemId}/`, label: hub.data.title },
+  ]}
+>
+  <nav class="reference-jump" aria-label="Reference groups">
+    {groups.map(({ title }) => (
+      <a href={`#${title.toLowerCase()}`}>{title}</a>
+    ))}
+  </nav>
+
+  {groups.map(({ title, entries }) => (
+    <section class="reference-group" id={title.toLowerCase()}>
+      <h2>{title}</h2>
+      <div class="reference-grid">
+        {entries.map((reference) => (
+          <a class="reference-item" href={getEntryUrl(reference)}>
+            <span class="reference-item__title">{reference.data.title}</span>
+            <span class="reference-item__description">{reference.data.description}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+</DocsLayout>
+
+<style>
+  .reference-jump { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+  .reference-jump a { padding: .25rem .65rem; border: 1px solid var(--line); color: var(--muted); font-size: .8rem; text-decoration: none; }
+  .reference-jump a:hover { border-color: var(--gold); color: var(--ink); }
+  .reference-group { scroll-margin-top: 90px; }
+  .reference-group + .reference-group { margin-top: 3rem; }
+  .reference-group h2 { margin-top: 0; font-size: 2rem; }
+  .reference-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: .8rem; margin-top: 1rem; }
+  .reference-item { display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.1rem; border: 1px solid var(--line); background: var(--panel); text-decoration: none; transition: .25s ease; }
+  .reference-item:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+  .reference-item__title { font-family: var(--serif-display); font-size: 1.35rem; font-weight: 600; line-height: 1.2; }
+  .reference-item__description { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+</style>

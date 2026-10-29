@@ -1,0 +1,86 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import {
+  getChapters,
+  getEntryUrl,
+  getSystemEntries,
+  getBookForSystem,
+  getSystemHubs,
+  getSystemId,
+  groupChaptersByPart,
+  type SystemEntry,
+} from '../../../../lib/systems';
+
+export async function getStaticPaths() {
+  const hubs = await getSystemHubs();
+  const paths = [];
+
+  // Only systems that have Build Guide chapters get an index.
+  for (const hub of hubs) {
+    const systemId = getSystemId(hub);
+    const chapters = getChapters(await getSystemEntries(systemId));
+    if (chapters.length > 0) {
+      paths.push({ params: { system: systemId }, props: { hub, chapters } });
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  hub: SystemEntry;
+  chapters: SystemEntry[];
+}
+
+const { hub, chapters } = Astro.props;
+const systemId = getSystemId(hub);
+const parts = groupChaptersByPart(systemId, chapters);
+const book = await getBookForSystem(systemId);
+---
+
+<DocsLayout
+  title="Build Guide"
+  description={`The build of ${hub.data.title} in reading order, from planning through to day-to-day operations. Each chapter links out to the reference pages that hold the detailed values.`}
+  systemId={systemId}
+  openSection="build-guide"
+  eyebrow={book ? `${hub.data.title} · ${book.data.title}` : hub.data.title}
+  breadcrumbs={[
+    { href: '/systems/', label: 'Systems' },
+    { href: `/systems/${systemId}/`, label: hub.data.title },
+  ]}
+>
+  {parts.map(({ part, title, entries }) => (
+    <section class="guide-part">
+      <h2>{title}</h2>
+      <ol class="guide-list">
+        {entries.map((chapter) => (
+          <li>
+            <a class="guide-item" href={getEntryUrl(chapter)}>
+              <span class="guide-item__number">{part > 0 ? chapter.data.chapter : '·'}</span>
+              <span class="guide-item__body">
+                <span class="guide-item__title">{chapter.data.title}</span>
+                <span class="guide-item__description">{chapter.data.description}</span>
+                <span class="guide-item__meta">
+                  {[chapter.data.estimatedTime, chapter.data.difficulty].filter(Boolean).join(' · ')}
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</DocsLayout>
+
+<style>
+  .guide-part + .guide-part { margin-top: 3rem; }
+  .guide-part h2 { margin-top: 0; font-size: 2rem; }
+  .guide-list { margin: 1rem 0 0; padding: 0; list-style: none; }
+  .guide-item { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+  .guide-item:hover .guide-item__title { color: var(--gold); }
+  .guide-item__number { color: var(--gold); font-family: var(--serif-display); font-size: 1.8rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .guide-item__body { display: flex; flex-direction: column; gap: .2rem; }
+  .guide-item__title { font-family: var(--serif-display); font-size: 1.45rem; font-weight: 600; line-height: 1.2; transition: color .2s ease; }
+  .guide-item__description { color: var(--muted); font-size: .95rem; }
+  .guide-item__meta { color: var(--muted); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; opacity: .8; }
+</style>

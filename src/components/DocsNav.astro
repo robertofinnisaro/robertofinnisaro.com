@@ -1,0 +1,107 @@
+---
+import {
+  getChapters,
+  getEntryUrl,
+  getOverviewPages,
+  getReferences,
+  getSystemEntries,
+  getSystemHub,
+  groupChaptersByPart,
+  groupReferences,
+} from '../lib/systems';
+
+interface Props {
+  systemId: string;
+  currentId?: string;
+  // Which section to expand when the current page is an index page.
+  openSection?: 'build-guide' | 'reference';
+}
+
+const { systemId, currentId, openSection } = Astro.props;
+
+const entries = await getSystemEntries(systemId);
+const hub = await getSystemHub(systemId);
+const overviewPages = getOverviewPages(entries);
+const parts = groupChaptersByPart(systemId, getChapters(entries));
+const referenceGroups = groupReferences(getReferences(entries));
+
+const base = `/systems/${systemId}`;
+const currentSection = currentId?.split('/')[1];
+const guideOpen = openSection === 'build-guide' || currentSection === 'build-guide';
+const referenceOpen = openSection === 'reference' || currentSection === 'reference';
+---
+
+<nav class="docs-nav" aria-label={`${hub.data.title} documentation`}>
+  <a class="docs-nav__system" href={`${base}/`} aria-current={currentId === hub.id ? 'page' : undefined}>
+    {hub.data.title}
+  </a>
+
+  {overviewPages.length > 0 && (
+    <ul>
+      {overviewPages.map((page) => (
+        <li>
+          <a href={getEntryUrl(page)} aria-current={page.id === currentId ? 'page' : undefined}>
+            {page.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {parts.length > 0 && (
+    <details open={guideOpen}>
+      <summary>Build Guide</summary>
+      <a class="docs-nav__index" href={`${base}/build-guide/`}>All chapters</a>
+      {parts.map(({ part, title, entries }) => (
+        <section>
+          <p class="docs-nav__group">{title}</p>
+          <ol>
+            {entries.map((chapter) => (
+              <li>
+                <a href={getEntryUrl(chapter)} aria-current={chapter.id === currentId ? 'page' : undefined}>
+                  {part > 0 && <span class="docs-nav__number">{chapter.data.chapter}</span>}
+                  {chapter.data.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
+    </details>
+  )}
+
+  {referenceGroups.length > 0 && (
+    <details open={referenceOpen}>
+      <summary>Reference</summary>
+      <a class="docs-nav__index" href={`${base}/reference/`}>All reference</a>
+      {referenceGroups.map(({ title, entries }) => (
+        <section>
+          <p class="docs-nav__group">{title}</p>
+          <ul>
+            {entries.map((reference) => (
+              <li>
+                <a href={getEntryUrl(reference)} aria-current={reference.id === currentId ? 'page' : undefined}>
+                  {reference.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </details>
+  )}
+</nav>
+
+<style>
+  .docs-nav { font-size: .88rem; }
+  .docs-nav ul, .docs-nav ol { list-style: none; margin: 0; padding: 0; }
+  .docs-nav a { display: block; padding: .28rem .6rem; color: var(--muted); text-decoration: none; border-left: 1px solid transparent; }
+  .docs-nav a:hover { color: var(--ink); }
+  .docs-nav a[aria-current='page'] { color: var(--ink); border-left-color: var(--gold); background: var(--gold-wash); }
+  .docs-nav__system { font-family: var(--serif-display); font-size: 1.35rem; font-weight: 700; color: var(--ink) !important; margin-bottom: .3rem; }
+  .docs-nav details { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .docs-nav summary { cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; font-weight: 600; }
+  .docs-nav__index { margin-top: .4rem; font-style: italic; }
+  .docs-nav__group { margin: .9rem 0 .25rem; padding-left: .6rem; color: var(--ink); font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; opacity: .75; }
+  .docs-nav__number { display: inline-block; min-width: 1.6rem; color: var(--gold); font-variant-numeric: tabular-nums; }
+</style>

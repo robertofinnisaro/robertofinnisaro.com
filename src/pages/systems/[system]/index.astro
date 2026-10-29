@@ -1,0 +1,181 @@
+---
+import { render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  getChapters,
+  getEntryUrl,
+  getOverviewPages,
+  getReferences,
+  getSystemEntries,
+  getBookForSystem,
+  getSystemHubs,
+  getSystemId,
+  groupChaptersByPart,
+  groupReferences,
+  type SystemEntry,
+} from '../../../lib/systems';
+
+export async function getStaticPaths() {
+  const hubs = await getSystemHubs();
+
+  return hubs.map((hub) => ({
+    params: { system: getSystemId(hub) },
+    props: { hub },
+  }));
+}
+
+interface Props {
+  hub: SystemEntry;
+}
+
+const { hub } = Astro.props;
+const { Content } = await render(hub);
+
+const systemId = getSystemId(hub);
+const base = `/systems/${systemId}`;
+const entries = await getSystemEntries(systemId);
+
+const chapters = getChapters(entries);
+const parts = groupChaptersByPart(systemId, chapters);
+const references = getReferences(entries);
+const referenceGroups = groupReferences(references);
+const overviewPages = getOverviewPages(entries);
+
+const numberedParts = parts.filter(({ part }) => part > 0).length;
+const book = await getBookForSystem(systemId);
+---
+
+<BaseLayout title={`${hub.data.title}`} description={hub.data.description}>
+  <section class="container hub-head">
+    <nav class="hub-breadcrumbs" aria-label="Breadcrumb">
+      <a href="/systems/">Systems</a>
+    </nav>
+    <p class="eyebrow">{hub.data.systemType} · {hub.data.status}</p>
+    <h1>{hub.data.title}</h1>
+    <p class="hub-intro">{hub.data.description}</p>
+    {book && (
+      <p class="hub-book">
+        Documented in the book <a href={`/books/${book.id}/`}><em>{book.data.title}</em></a>.
+      </p>
+    )}
+  </section>
+
+  <section class="container hub-paths" aria-label="Documentation">
+    {chapters.length > 0 && (
+      <a class="card hub-card" href={`${base}/build-guide/`}>
+        <p class="eyebrow">{book ? `The book · ${book.data.title}` : 'Guided reading'}</p>
+        <h2>Build Guide</h2>
+        <p>The build in sequence, from planning to operations.</p>
+        <p class="hub-card__count">{chapters.length} chapters · {numberedParts} parts</p>
+      </a>
+    )}
+
+    {references.length > 0 && (
+      <a class="card hub-card" href={`${base}/reference/`}>
+        <p class="eyebrow">Lookup</p>
+        <h2>Reference</h2>
+        <p>The current state of the lab: hosts, addressing, storage and procedures.</p>
+        <p class="hub-card__count">{references.length} documents</p>
+      </a>
+    )}
+
+    {overviewPages.map((page) => (
+      <a class="card hub-card" href={getEntryUrl(page)}>
+        <p class="eyebrow">Overview</p>
+        <h2>{page.data.title}</h2>
+        <p>{page.data.description}</p>
+      </a>
+    ))}
+  </section>
+
+  <section class="container hub-body">
+    <div class="prose hub-content">
+      <Content />
+    </div>
+  </section>
+
+  <section class="container hub-contents" aria-label="Contents">
+    {parts.length > 0 && (
+      <div>
+        <header class="section-head">
+          <div>
+            <p class="eyebrow">Contents</p>
+            <h2>Build Guide</h2>
+          </div>
+          <a href={`${base}/build-guide/`}>All chapters →</a>
+        </header>
+
+        {parts.map(({ part, title, entries }) => (
+          <section class="hub-group">
+            <h3>{title}</h3>
+            <ol>
+              {entries.map((chapter) => (
+                <li>
+                  <a href={getEntryUrl(chapter)}>
+                    {part > 0 && <span class="hub-group__number">{chapter.data.chapter}</span>}
+                    {chapter.data.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
+      </div>
+    )}
+
+    {referenceGroups.length > 0 && (
+      <div>
+        <header class="section-head">
+          <div>
+            <p class="eyebrow">Contents</p>
+            <h2>Reference</h2>
+          </div>
+          <a href={`${base}/reference/`}>All reference →</a>
+        </header>
+
+        {referenceGroups.map(({ title, entries }) => (
+          <section class="hub-group">
+            <h3>{title}</h3>
+            <ul>
+              {entries.map((reference) => (
+                <li><a href={getEntryUrl(reference)}>{reference.data.title}</a></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .hub-head { padding: 5rem 0 3rem; }
+  .hub-head h1 { font-size: clamp(3.5rem, 9vw, 7.5rem); }
+  .hub-intro { max-width: 650px; font-size: 1.2rem; }
+  .hub-book { margin-top: -.4rem; font-family: var(--serif-text); }
+  .hub-book a { color: var(--ink); text-decoration-color: var(--gold); }
+  .hub-breadcrumbs { margin-bottom: 1.6rem; font-size: .82rem; }
+  .hub-breadcrumbs a { color: var(--muted); text-decoration: none; }
+  .hub-breadcrumbs a:hover { color: var(--ink); }
+  .hub-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 1rem; }
+  .hub-card { min-height: 0; display: flex; flex-direction: column; }
+  .hub-card h2 { font-size: 2.2rem; margin-bottom: .2rem; }
+  .hub-card__count { margin-top: auto; padding-top: 1rem; color: var(--gold); font-size: .85rem; }
+  .hub-body { padding: 5rem 0 2rem; }
+  .hub-content { margin: 0; }
+  .hub-content :global(table) { display: block; overflow-x: auto; }
+  /* Documents open with a `# Title` that repeats the page heading. */
+  .hub-content > :global(h1:first-child) { display: none; }
+  .hub-contents { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 3rem 0; border-top: 1px solid var(--line); }
+  .hub-contents .section-head h2 { font-size: clamp(2rem, 4vw, 3rem); }
+  .hub-contents .section-head > a { color: var(--muted); font-size: .9rem; }
+  .hub-group { margin-bottom: 1.8rem; }
+  .hub-group h3 { margin-bottom: .5rem; color: var(--gold); font-family: Inter, system-ui, sans-serif; font-size: .74rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .hub-group ol, .hub-group ul { margin: 0; padding: 0; list-style: none; }
+  .hub-group li { border-bottom: 1px solid var(--line-soft); }
+  .hub-group a { display: block; padding: .45rem 0; color: var(--muted); text-decoration: none; }
+  .hub-group a:hover { color: var(--ink); }
+  .hub-group__number { display: inline-block; min-width: 2rem; color: var(--gold); font-variant-numeric: tabular-nums; }
+  @media (max-width: 800px) { .hub-contents { grid-template-columns: 1fr; gap: 2rem; } }
+</style>

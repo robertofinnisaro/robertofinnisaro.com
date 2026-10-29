@@ -1,14 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getEntryUrl, getSystemHubs } from '../../lib/systems';
 
-const systems = (
-  await getCollection(
-    'systems',
-    ({ data }) => !data.draft,
-  )
-).sort((a, b) => {
+// One card per system; its documents are reached through the system hub.
+const systems = (await getSystemHubs()).sort((a, b) => {
   if (a.data.order !== b.data.order) {
     return a.data.order - b.data.order;
   }
@@ -94,7 +89,7 @@ const featuredSystems = systems.filter(
   title="Systems"
   description="Maintained infrastructure, machines, software platforms and workshop systems."
 >
-  <main class="systems-page">
+  <div class="systems-page">
     <header class="page-header">
       <p class="eyebrow">The Technical Archive</p>
 
@@ -128,7 +123,7 @@ const featuredSystems = systems.filter(
                 </div>
 
                 <h3>
-                  <a href={`/systems/${system.id}/`}>
+                  <a href={getEntryUrl(system)}>
                     {system.data.title}
                   </a>
                 </h3>
@@ -137,7 +132,7 @@ const featuredSystems = systems.filter(
 
                 <a
                   class="system-card__link"
-                  href={`/systems/${system.id}/`}
+                  href={getEntryUrl(system)}
                 >
                   View system
                 </a>
@@ -186,7 +181,7 @@ const featuredSystems = systems.filter(
                   </div>
 
                   <h3>
-                    <a href={`/systems/${system.id}/`}>
+                    <a href={getEntryUrl(system)}>
                       {system.data.title}
                     </a>
                   </h3>
@@ -206,7 +201,7 @@ const featuredSystems = systems.filter(
 
                   <a
                     class="system-card__link"
-                    href={`/systems/${system.id}/`}
+                    href={getEntryUrl(system)}
                   >
                     View system
                   </a>
@@ -224,14 +219,14 @@ const featuredSystems = systems.filter(
           <h2>No systems found</h2>
 
           <p>
-            Add Markdown files to
-            <code>src/content/systems/</code>
-            and restart the Astro development server.
+            Add a system's
+            <code>overview.md</code>
+            under <code>src/content/systems/&lt;system&gt;/</code>.
           </p>
         </section>
       )
     }
-  </main>
+  </div>
 </BaseLayout>
 
 <style>
@@ -248,7 +243,7 @@ const featuredSystems = systems.filter(
 
   .eyebrow {
     margin: 0 0 0.75rem;
-    color: var(--accent-color, #bfa469);
+    color: var(--gold);
     font-size: 0.8rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -299,12 +294,12 @@ const featuredSystems = systems.filter(
     flex-direction: column;
     padding: 1.5rem;
     border: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
-    border-radius: 0.75rem;
+      var(--line);
+    border-radius: 0;
     background:
       linear-gradient(
         140deg,
-        rgba(191, 164, 105, 0.08),
+        var(--gold-wash),
         transparent 55%
       );
   }
@@ -313,7 +308,7 @@ const featuredSystems = systems.filter(
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    color: var(--accent-color, #bfa469);
+    color: var(--gold);
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -364,7 +359,7 @@ const featuredSystems = systems.filter(
   .empty-state {
     padding: 2rem;
     border: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
+      var(--line);
   }
 
   .empty-state code {

@@ -1,0 +1,110 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import DocsNav from '../components/DocsNav.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  systemId: string;
+  currentId?: string;
+  openSection?: 'build-guide' | 'reference';
+  breadcrumbs: { href: string; label: string }[];
+  eyebrow?: string;
+  headings?: MarkdownHeading[];
+}
+
+const {
+  title,
+  description,
+  systemId,
+  currentId,
+  openSection,
+  breadcrumbs,
+  eyebrow,
+  headings = [],
+} = Astro.props;
+
+const contents = headings.filter(({ depth }) => depth === 2);
+---
+
+<BaseLayout title={`${title}`} description={description}>
+  <div class="container docs">
+    <details class="docs__mobile-nav">
+      <summary>Contents</summary>
+      <DocsNav systemId={systemId} currentId={currentId} openSection={openSection} />
+    </details>
+
+    <aside class="docs__sidebar">
+      <DocsNav systemId={systemId} currentId={currentId} openSection={openSection} />
+    </aside>
+
+    <article class="docs__main">
+      <header class="docs__header">
+        <nav class="docs__breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            {breadcrumbs.map(({ href, label }) => (
+              <li><a href={href}>{label}</a></li>
+            ))}
+          </ol>
+        </nav>
+
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1>{title}</h1>
+        <p class="docs__description">{description}</p>
+        <slot name="meta" />
+      </header>
+
+      {contents.length > 1 && (
+        <details class="docs__toc" open>
+          <summary>On this page</summary>
+          <ol>
+            {contents.map(({ slug, text }) => (
+              <li><a href={`#${slug}`}>{text}</a></li>
+            ))}
+          </ol>
+        </details>
+      )}
+
+      <div class="prose docs__content">
+        <slot />
+      </div>
+
+      <slot name="after" />
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .docs { display: grid; grid-template-columns: 16rem minmax(0, 1fr); gap: 3.5rem; padding: 4rem 0 2rem; }
+  .docs__sidebar { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 120px); overflow-y: auto; padding-right: .5rem; }
+  .docs__mobile-nav { display: none; }
+  .docs__main { min-width: 0; }
+  .docs__header { padding-bottom: 2.2rem; margin-bottom: 2.2rem; border-bottom: 1px solid var(--line); }
+  .docs__header h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); letter-spacing: -.03em; }
+  .docs__description { font-size: 1.15rem; max-width: 46rem; }
+  .docs__breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1.6rem; padding: 0; list-style: none; font-size: .82rem; }
+  .docs__breadcrumbs li + li::before { content: '/'; margin-right: .4rem; color: var(--line); }
+  .docs__breadcrumbs a { color: var(--muted); text-decoration: none; }
+  .docs__breadcrumbs a:hover { color: var(--ink); }
+  .docs__toc { margin: 0 0 2.5rem; padding: 1rem 1.2rem; border: 1px solid var(--line); background: var(--panel); }
+  .docs__toc summary { cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; font-weight: 600; }
+  .docs__toc ol { columns: 2 16rem; margin: .8rem 0 0; padding-left: 1.2rem; font-size: .9rem; }
+  .docs__toc a { color: var(--muted); text-decoration: none; }
+  .docs__toc a:hover { color: var(--ink); }
+  .docs__content { margin: 0; width: 100%; max-width: 48rem; }
+  .docs__content :global(h2) { scroll-margin-top: 90px; }
+  .docs__content :global(h3) { scroll-margin-top: 90px; }
+  .docs__content :global(table) { display: block; overflow-x: auto; }
+  /* Documents open with a `# Title` that repeats the page heading. */
+  .docs__content > :global(h1:first-child) { display: none; }
+  .docs__content :global(img) { height: auto; }
+
+  @media (max-width: 900px) {
+    .docs { grid-template-columns: 1fr; gap: 0; padding-top: 1.5rem; }
+    .docs__sidebar { display: none; }
+    .docs__mobile-nav { display: block; margin-bottom: 2rem; padding: .8rem 1rem; border: 1px solid var(--line); background: var(--panel); }
+    .docs__mobile-nav > summary { cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .74rem; font-weight: 600; }
+    .docs__mobile-nav[open] > summary { margin-bottom: 1rem; }
+  }
+</style>

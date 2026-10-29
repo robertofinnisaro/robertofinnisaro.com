@@ -1,318 +1,188 @@
 ---
-import {
-  getCollection,
-  render,
-  type CollectionEntry,
-} from 'astro:content';
+import { render } from 'astro:content';
 
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import {
+  formatDate,
+  getChapterLabel,
+  getChapters,
+  getDocumentRole,
+  getEntryUrl,
+  getPartLabel,
+  getReferenceTypeTitle,
+  getSystemEntries,
+  getSystemHub,
+  getSystemId,
+  getBookForSystem,
+  isSystemHub,
+  type SystemEntry,
+} from '../../lib/systems';
 
 export async function getStaticPaths() {
-  const systems = await getCollection(
-    'systems',
-    ({ data }) => !data.draft,
-  );
+  const entries = await getSystemEntries();
 
-  return systems.map((system) => ({
-    params: {
-      id: system.id,
-    },
-
-    props: {
-      system,
-    },
-  }));
+  // Hubs are rendered by [system]/index.astro.
+  return entries
+    .filter((entry) => !isSystemHub(entry))
+    .map((entry) => ({
+      params: { id: entry.id },
+      props: { entry },
+    }));
 }
 
 interface Props {
-  system: CollectionEntry<'systems'>;
+  entry: SystemEntry;
 }
 
-const { system } = Astro.props;
-const { Content } = await render(system);
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const systemId = getSystemId(entry);
+const role = getDocumentRole(entry);
+const hub = await getSystemHub(systemId);
+const book = role === 'chapter' ? await getBookForSystem(systemId) : undefined;
+const base = `/systems/${systemId}`;
 
 const {
   title,
   description,
-  systemType,
-  status,
   published,
   updated,
-  parent,
+  estimatedTime,
+  difficulty,
   hardware,
   software,
-  repository,
-  documentation,
+  referenceType,
   tags,
-} = system.data;
+} = entry.data;
 
-const formattedPublished = published.toLocaleDateString(
-  'en-GB',
-  {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  },
-);
+const breadcrumbs = [
+  { href: '/systems/', label: 'Systems' },
+  { href: `${base}/`, label: hub.data.title },
+];
 
-const formattedUpdated = updated?.toLocaleDateString(
-  'en-GB',
-  {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  },
-);
+let eyebrow = hub.data.title;
+let previous: SystemEntry | undefined;
+let next: SystemEntry | undefined;
+
+if (role === 'chapter') {
+  breadcrumbs.push({ href: `${base}/build-guide/`, label: 'Build Guide' });
+
+  const part = entry.data.part ?? 0;
+  eyebrow = part > 0
+    ? `${getPartLabel(systemId, part)} · ${getChapterLabel(entry)}`
+    : getPartLabel(systemId, part);
+
+  const chapters = getChapters(await getSystemEntries(systemId));
+  const index = chapters.findIndex(({ id }) => id === entry.id);
+  previous = chapters[index - 1];
+  next = chapters[index + 1];
+} else if (role === 'reference') {
+  breadcrumbs.push({ href: `${base}/reference/`, label: 'Reference' });
+  eyebrow = `Reference · ${getReferenceTypeTitle(referenceType)}`;
+}
 ---
 
-<BaseLayout title={title} description={description}>
-  <main class="system-page">
-    <article>
-      <header class="system-header">
-        <a href="/systems/">← Systems</a>
-
-        <div class="system-header__meta">
-          <span>{systemType}</span>
-          <span aria-hidden="true">·</span>
-          <span>{status}</span>
-
-          {parent && (
-            <>
-              <span aria-hidden="true">·</span>
-              <span>{parent}</span>
-            </>
+<DocsLayout
+  title={title}
+  description={description}
+  systemId={systemId}
+  currentId={entry.id}
+  breadcrumbs={breadcrumbs}
+  eyebrow={eyebrow}
+  headings={headings}
+>
+  <Fragment slot="meta">
+    {book && (
+      <p class="doc-book">From the book <a href={`/books/${book.id}/`}><em>{book.data.title}</em></a></p>
+    )}
+    <dl class="doc-meta">
+      {role === 'chapter' ? (
+        <>
+          {estimatedTime && (
+            <div><dt>Estimated time</dt><dd>{estimatedTime}</dd></div>
           )}
-        </div>
+          {difficulty && (
+            <div><dt>Difficulty</dt><dd>{difficulty}</dd></div>
+          )}
+        </>
+      ) : (
+        <>
+          <div><dt>Published</dt><dd>{formatDate(published)}</dd></div>
+          {updated && (
+            <div><dt>Updated</dt><dd>{formatDate(updated)}</dd></div>
+          )}
+        </>
+      )}
+    </dl>
 
-        <h1>{title}</h1>
-
-        <p class="description">{description}</p>
-
-        <dl>
+    {role === 'chapter' && (hardware.length > 0 || software.length > 0) && (
+      <div class="doc-requirements">
+        {hardware.length > 0 && (
           <div>
-            <dt>Published</dt>
-            <dd>{formattedPublished}</dd>
+            <h2>Hardware</h2>
+            <ul>{hardware.map((item) => <li>{item}</li>)}</ul>
           </div>
-
-          {formattedUpdated && (
-            <div>
-              <dt>Updated</dt>
-              <dd>{formattedUpdated}</dd>
-            </div>
-          )}
-        </dl>
-
-        <div class="system-actions">
-          {repository && (
-            <a
-              href={repository}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Repository
-            </a>
-          )}
-
-          {documentation && (
-            <a
-              href={documentation}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Documentation
-            </a>
-          )}
-        </div>
-      </header>
-
-      {(hardware.length > 0 || software.length > 0) && (
-        <section class="system-inventory">
-          {hardware.length > 0 && (
-            <div>
-              <h2>Hardware</h2>
-
-              <ul>
-                {hardware.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {software.length > 0 && (
-            <div>
-              <h2>Software</h2>
-
-              <ul>
-                {software.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
-      )}
-
-      <div class="system-content">
-        <Content />
+        )}
+        {software.length > 0 && (
+          <div>
+            <h2>Software</h2>
+            <ul>{software.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        )}
       </div>
+    )}
+  </Fragment>
 
-      {tags.length > 0 && (
-        <footer>
-          <h2>Topics</h2>
+  <Content />
 
-          <ul>
-            {tags.map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-        </footer>
-      )}
-    </article>
-  </main>
-</BaseLayout>
+  <Fragment slot="after">
+    {tags.length > 0 && (
+      <div class="meta doc-tags" aria-label="Topics">
+        {tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+
+    {role === 'chapter' && (
+      <nav class="doc-pager" aria-label="Chapter navigation">
+        {previous ? (
+          <a class="doc-pager__link" href={getEntryUrl(previous)} rel="prev">
+            <span class="eyebrow">← Previous</span>
+            <span>{previous.data.title}</span>
+          </a>
+        ) : <span />}
+        {next && (
+          <a class="doc-pager__link doc-pager__link--next" href={getEntryUrl(next)} rel="next">
+            <span class="eyebrow">Next →</span>
+            <span>{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+
+    {role === 'reference' && (
+      <p class="doc-back"><a href={`${base}/reference/`}>← All reference documents</a></p>
+    )}
+  </Fragment>
+</DocsLayout>
 
 <style>
-  .system-page {
-    width: min(72rem, calc(100% - 2rem));
-    margin: 0 auto;
-    padding: 5rem 0;
-  }
-
-  article {
-    max-width: 54rem;
-    margin: 0 auto;
-  }
-
-  .system-header {
-    padding-bottom: 3rem;
-    border-bottom: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
-  }
-
-  .system-header__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 2rem;
-    color: var(--accent-color, #bfa469);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    margin: 0.75rem 0 1.25rem;
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    line-height: 1;
-  }
-
-  .description {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    opacity: 0.82;
-  }
-
-  dl {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  dt {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    opacity: 0.65;
-  }
-
-  dd {
-    margin: 0.25rem 0 0;
-  }
-
-  .system-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2rem;
-  }
-
-  .system-actions a {
-    padding: 0.65rem 1rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-    text-decoration: none;
-  }
-
-  .system-inventory {
-    display: grid;
-    grid-template-columns:
-      repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-    padding: 1.5rem;
-    border: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
-  }
-
-  .system-inventory h2 {
-    margin-top: 0;
-  }
-
-  .system-content {
-    margin-top: 3rem;
-    font-size: 1.05rem;
-    line-height: 1.85;
-  }
-
-  .system-content :global(h2) {
-    margin-top: 3rem;
-  }
-
-  .system-content :global(h3) {
-    margin-top: 2rem;
-  }
-
-  .system-content :global(table) {
-    width: 100%;
-    margin: 2rem 0;
-    border-collapse: collapse;
-  }
-
-  .system-content :global(th),
-  .system-content :global(td) {
-    padding: 0.75rem;
-    border: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
-    text-align: left;
-  }
-
-  .system-content :global(pre) {
-    padding: 1rem;
-    overflow-x: auto;
-    border-radius: 0.5rem;
-    background: rgba(0, 0, 0, 0.25);
-  }
-
-  footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid
-      var(--border-color, rgba(191, 164, 105, 0.3));
-  }
-
-  footer ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 0;
-    list-style: none;
-  }
-
-  footer li {
-    padding: 0.25rem 0.65rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-  }
+  .doc-book { margin: -.4rem 0 0; font-family: var(--serif-text); }
+  .doc-book a { color: var(--ink); text-decoration-color: var(--gold); }
+  .doc-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin: 1.5rem 0 0; }
+  .doc-meta:empty { display: none; }
+  .doc-meta dt { color: var(--gold); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
+  .doc-meta dd { margin: .2rem 0 0; }
+  .doc-requirements { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.5rem; margin-top: 1.8rem; padding: 1.2rem 1.4rem; border: 1px solid var(--line); background: var(--panel); }
+  .doc-requirements h2 { margin: 0 0 .4rem; font-size: 1.3rem; }
+  .doc-requirements ul { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: .92rem; }
+  .doc-tags { margin-top: 3rem; }
+  .doc-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .doc-pager__link { display: flex; flex-direction: column; gap: .3rem; padding: 1.1rem 1.2rem; border: 1px solid var(--line); text-decoration: none; transition: .25s ease; }
+  .doc-pager__link:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+  .doc-pager__link .eyebrow { margin: 0; }
+  .doc-pager__link span:last-child { font-family: var(--serif-display); font-size: 1.35rem; font-weight: 600; }
+  .doc-pager__link--next { text-align: right; }
+  .doc-back { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  @media (max-width: 600px) { .doc-pager { grid-template-columns: 1fr; } .doc-pager__link--next { text-align: left; } }
 </style>
