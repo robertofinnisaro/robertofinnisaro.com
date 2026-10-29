@@ -1,0 +1,75 @@
+---
+import { Code } from 'astro:components';
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../../components/PrintingHeader.astro';
+import { getFirmware, getFirmwareFileUrl } from '../../../../lib/firmware';
+import { findById, getPrintingData, type Configuration } from '../../../../lib/printing';
+
+export async function getStaticPaths() {
+  const configurations = await getCollection('configurations', ({ data }) => !data.draft && Boolean(data.firmware));
+  return configurations.map((configuration) => ({
+    params: { config: configuration.data.firmware! },
+    props: { configuration },
+  }));
+}
+
+interface Props {
+  configuration: Configuration;
+}
+
+const { configuration } = Astro.props;
+const firmware = getFirmware(configuration.data.firmware!);
+if (!firmware) throw new Error(`No firmware folder "${configuration.data.firmware}" in src/firmware/.`);
+
+const data = await getPrintingData();
+const printer = findById(data.printers, configuration.data.printer.id);
+---
+
+<BaseLayout title={`${firmware.firmware} configuration · ${configuration.data.name}`} description={`${firmware.firmware} configuration files for ${printer?.data.name ?? 'the printer'}: ${configuration.data.name}.`}>
+  <PrintingHeader
+    eyebrow={`${firmware.firmware} configuration · ${firmware.fileCount} files`}
+    title={configuration.data.name}
+    intro={`The ${firmware.firmware} configuration for ${printer?.data.name ?? 'this printer'}. Machine-specific identifiers such as MCU serial IDs have been replaced with placeholders; network and service settings are not published.`}
+    breadcrumbs={[
+      { href: '/printing/', label: '3D Printing' },
+      ...(printer ? [{ href: `/printing/printers/${printer.id}/#${configuration.id}`, label: printer.data.name }] : []),
+    ]}
+  />
+
+  <div class="container">
+    {firmware.groups.map(({ title, note, files }) => (
+      <section class="group">
+        <h2>{title}</h2>
+        {note && <p class="group__note">{note}</p>}
+        {files.map(({ path, source, lines }) => (
+          <details class="file" id={path.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}>
+            <summary>
+              <span class="file__path">{path}</span>
+              <span class="file__lines">{lines} lines</span>
+            </summary>
+            <div class="file__actions">
+              <a href={getFirmwareFileUrl(firmware.id, path)} download>Download</a>
+            </div>
+            <Code code={source} lang="ini" theme="github-dark" />
+          </details>
+        ))}
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .group + .group { margin-top: 3rem; }
+  .group h2 { font-size: 1.8rem; }
+  .group__note { margin-top: -.3rem; }
+  .file { border: 1px solid var(--line); background: var(--panel); }
+  .file + .file { margin-top: .5rem; }
+  .file summary { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 1rem; cursor: pointer; }
+  .file summary:hover .file__path { color: var(--gold); }
+  .file__path { font-family: ui-monospace, monospace; font-size: .9rem; color: var(--ink); }
+  .file__lines { color: var(--muted); font-size: .8rem; }
+  .file__actions { display: flex; justify-content: flex-end; padding: 0 1rem .6rem; font-size: .85rem; }
+  .file :global(pre) { margin: 0; padding: 1rem; max-height: 70vh; overflow: auto; border-top: 1px solid var(--line); background: var(--code-bg) !important; font-size: .82rem; line-height: 1.5; }
+</style>

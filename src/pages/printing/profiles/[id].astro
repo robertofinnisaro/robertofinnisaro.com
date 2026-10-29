@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../components/PrintingHeader.astro';
+import SpecList from '../../../components/SpecList.astro';
+import Swatch from '../../../components/Swatch.astro';
+import {
+  findById,
+  formatDate,
+  formatLayerTemp,
+  formatRange,
+  getFilamentLabel,
+  getPrintingData,
+  type Profile,
+} from '../../../lib/printing';
+
+export async function getStaticPaths() {
+  const profiles = await getCollection('profiles', ({ data }) => !data.draft);
+  return profiles.map((profile) => ({ params: { id: profile.id }, props: { profile } }));
+}
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+const { Content } = await render(profile);
+const data = await getPrintingData();
+const p = profile.data;
+
+const filament = findById(data.filaments, p.filament.id);
+const configuration = findById(data.configurations, p.configuration.id);
+const printer = configuration && findById(data.printers, configuration.data.printer.id);
+const title = filament ? `${getFilamentLabel(filament)} · ${p.name}` : p.name;
+---
+
+<BaseLayout title={title} description={`Print profile for ${title}${printer ? ` on ${printer.data.name}` : ''}.`}>
+  <PrintingHeader
+    eyebrow={`Print profile${p.purpose ? ` · ${p.purpose}` : ''}`}
+    title={p.name}
+    breadcrumbs={[
+      { href: '/printing/', label: '3D Printing' },
+      { href: '/printing/filaments/', label: 'Filaments' },
+      ...(filament ? [{ href: `/printing/filaments/${filament.id}/`, label: getFilamentLabel(filament) }] : []),
+    ]}
+  >
+    <div class="context">
+      {filament && (
+        <a href={`/printing/filaments/${filament.id}/`}>
+          <Swatch hex={filament.data.colour.hex} label={filament.data.colour.name} />
+          {getFilamentLabel(filament)}
+        </a>
+      )}
+      {printer && configuration && (
+        <a href={`/printing/printers/${printer.id}/#${configuration.id}`}>on {configuration.data.name}</a>
+      )}
+    </div>
+    {p.file && (
+      <div class="actions">
+        <a class="button button--primary" href={p.file} download>Download profile</a>
+      </div>
+    )}
+  </PrintingHeader>
+
+  <div class="container">
+    <SpecList
+      title="Settings"
+      items={[
+        { label: 'Slicer', value: `${p.slicer}${p.slicerVersion ? ` ${p.slicerVersion}` : ''}` },
+        { label: 'Layer height', value: p.layerHeight && `${p.layerHeight} mm` },
+        { label: 'Nozzle', value: formatLayerTemp(p.nozzleTemp) },
+        { label: 'Bed', value: formatLayerTemp(p.bedTemp) },
+        { label: 'Max volumetric speed', value: p.maxVolumetricSpeed && `${p.maxVolumetricSpeed} mm³/s` },
+        { label: 'Flow ratio', value: p.flowRatio },
+        { label: 'Pressure advance', value: p.pressureAdvance },
+        { label: 'Retraction', value: p.retraction && `${p.retraction.length} mm${p.retraction.speed ? ` at ${p.retraction.speed} mm/s` : ''}` },
+        { label: 'Part cooling', value: formatRange(p.fan, '%') },
+        { label: 'Last updated', value: formatDate(p.updated ?? p.added) },
+      ]}
+    />
+
+    {filament && (filament.data.nozzleTemp || filament.data.bedTemp) && (
+      <p class="compare">
+        Manufacturer range: nozzle {formatRange(filament.data.nozzleTemp, '°C') ?? '—'},
+        bed {formatRange(filament.data.bedTemp, '°C') ?? '—'}.
+      </p>
+    )}
+
+    <section class="prose notes"><Content /></section>
+  </div>
+</BaseLayout>
+
+<style>
+  .context { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; margin-top: 1rem; }
+  .context a { display: inline-flex; align-items: center; gap: .6rem; color: var(--ink-soft); text-decoration: none; }
+  .context a:hover { color: var(--gold); }
+  .actions { margin-top: 1.6rem; }
+  .compare { margin-top: 1rem; font-size: .9rem; }
+  .notes { margin: 2.5rem 0 0; }
+  .notes:empty { display: none; }
+</style>

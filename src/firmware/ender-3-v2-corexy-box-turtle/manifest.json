@@ -1,0 +1,45 @@
+{
+  "firmware": "Klipper",
+  "groups": [
+    {
+      "title": "Printer",
+      "note": "The main Klipper configuration and macros.",
+      "files": [
+        "printer.cfg",
+        "macro.cfg",
+        "stealthburner_leds.cfg"
+      ]
+    },
+    {
+      "title": "Box Turtle (AFC)",
+      "note": "Armored Turtle AFC add-on for the four-lane Box Turtle, included from printer.cfg.",
+      "files": [
+        "AFC/AFC.cfg",
+        "AFC/AFC_Hardware.cfg",
+        "AFC/AFC_Macro_Vars.cfg",
+        "AFC/AFC_Turtle_1.cfg",
+        "AFC/AFC_auto_vars.cfg",
+        "AFC/mcu/AFC_Lite.cfg",
+        "AFC/macros/AFC_macros.cfg",
+        "AFC/macros/Brush.cfg",
+        "AFC/macros/Cut.cfg",
+        "AFC/macros/Kick.cfg",
+        "AFC/macros/Park.cfg",
+        "AFC/macros/Poop.cfg"
+      ]
+    },
+    {
+      "title": "Klack probe (not currently included)",
+      "note": "Klack probe configuration kept for reference; its include lines are commented out in printer.cfg.",
+      "files": [
+        "KlackEnder.cfg",
+        "klack-probe.cfg",
+        "klack-variables.cfg",
+        "klack-macros.cfg",
+        "klack-bed-mesh-calibrate.cfg",
+        "klack-adaptive-bed-mesh-calibrate.cfg",
+        "klack-screws-tilt-calculate.cfg"
+      ]
+    }
+  ]
+}

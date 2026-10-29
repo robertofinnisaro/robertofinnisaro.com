@@ -1,0 +1,187 @@
+---
+import { getCollection, render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../components/PrintingHeader.astro';
+import SpecList from '../../../components/SpecList.astro';
+import Swatch from '../../../components/Swatch.astro';
+import {
+  findById,
+  formatDate,
+  formatRange,
+  getFilamentLabel,
+  getPrintingData,
+  getProfilesForFilament,
+  getSpoolStatus,
+  type Filament,
+} from '../../../lib/printing';
+
+export async function getStaticPaths() {
+  const filaments = await getCollection('filaments', ({ data }) => !data.draft);
+  return filaments.map((filament) => ({ params: { id: filament.id }, props: { filament } }));
+}
+
+interface Props {
+  filament: Filament;
+}
+
+const { filament } = Astro.props;
+const { Content } = await render(filament);
+const data = await getPrintingData();
+const brand = findById(data.brands, filament.data.brand.id);
+const f = filament.data;
+
+// Profiles grouped by the printer setup they were tuned on.
+const profileGroups = data.configurations
+  .map((configuration) => ({
+    configuration,
+    printer: findById(data.printers, configuration.data.printer.id),
+    profiles: getProfilesForFilament(data, filament).filter(
+      ({ data: profile }) => profile.configuration.id === configuration.id,
+    ),
+  }))
+  .filter(({ profiles }) => profiles.length > 0);
+---
+
+<BaseLayout title={getFilamentLabel(filament)} description={`${brand?.data.name ?? ''} ${f.name} ${f.colour.name}: settings and print profiles.`}>
+  <PrintingHeader
+    eyebrow={`${f.material}${f.finish ? ` · ${f.finish}` : ''}`}
+    title={`${f.name} · ${f.colour.name}`}
+    breadcrumbs={[
+      { href: '/printing/', label: '3D Printing' },
+      { href: '/printing/filaments/', label: 'Filaments' },
+    ]}
+  >
+    <div class="identity">
+      <Swatch hex={f.colour.hex} label={f.colour.name} size="lg" />
+      <div>
+        {brand && <p class="identity__brand">by <a href={`/printing/brands/${brand.id}/`}>{brand.data.name}</a></p>}
+        {f.url && <p><a href={f.url} rel="noreferrer" target="_blank">Product page ↗</a></p>}
+      </div>
+    </div>
+  </PrintingHeader>
+
+  <div class="container layout">
+    <div class="layout__main">
+      <SpecList
+        title="Manufacturer settings"
+        items={[
+          { label: 'Nozzle', value: formatRange(f.nozzleTemp, '°C') },
+          { label: 'Bed', value: formatRange(f.bedTemp, '°C') },
+          { label: 'Drying', value: f.drying && `${f.drying.temp} °C · ${f.drying.hours} h` },
+          { label: 'Diameter', value: `${f.diameter} mm` },
+          { label: 'Density', value: f.density && `${f.density} g/cm³` },
+          { label: 'Spool', value: f.spoolWeight && `${f.spoolWeight} g` },
+          { label: 'TD value', value: f.td },
+          { label: 'Colour', value: f.colour.hex ? `${f.colour.name} (${f.colour.hex})` : f.colour.name },
+        ]}
+      />
+
+      <section class="block">
+        <h2>Print profiles</h2>
+        {profileGroups.length === 0 ? (
+          <p>No tuned profiles for this filament yet.</p>
+        ) : (
+          profileGroups.map(({ configuration, printer, profiles }) => (
+            <div class="profile-group">
+              <h3>
+                {printer && <a href={`/printing/printers/${printer.id}/#${configuration.id}`}>{configuration.data.name}</a>}
+              </h3>
+              <div class="table-wrap">
+                <table class="profiles">
+                  <thead>
+                    <tr>
+                      <th scope="col">Profile</th>
+                      <th scope="col">Layer</th>
+                      <th scope="col">Nozzle</th>
+                      <th scope="col">Bed</th>
+                      <th scope="col">Slicer</th>
+                      <th scope="col"><span class="sr-only">Download</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {profiles.map(({ id, data: profile }) => (
+                      <tr>
+                        <td>
+                          <a href={`/printing/profiles/${id}/`}>{profile.name}</a>
+                          {profile.purpose && <small>{profile.purpose}</small>}
+                        </td>
+                        <td>{profile.layerHeight ? `${profile.layerHeight} mm` : '—'}</td>
+                        {[profile.nozzleTemp, profile.bedTemp].map((temp) => (
+                          <td>
+                            {temp?.other !== undefined ? `${temp.other} °C` : '—'}
+                            {temp?.firstLayer && temp.firstLayer !== temp.other && <small>first layer {temp.firstLayer} °C</small>}
+                          </td>
+                        ))}
+                        <td>{profile.slicer}{profile.slicerVersion && ` ${profile.slicerVersion}`}</td>
+                        <td>{profile.file && <a href={profile.file} download>Download</a>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))
+        )}
+      </section>
+
+      <section class="block prose notes"><Content /></section>
+    </div>
+
+    <aside class="layout__side">
+      <section class="block">
+        <h2>Spool history</h2>
+        {f.spools.length === 0 ? (
+          <p>No spools recorded.</p>
+        ) : (
+          <ol class="spools">
+            {[...f.spools].reverse().map((spool) => (
+              <li>
+                <p class="spools__status">{getSpoolStatus(spool)}</p>
+                <p>
+                  Bought {formatDate(spool.purchased)}
+                  {spool.weight && ` · ${spool.weight} g`}
+                </p>
+                {spool.opened && <p>Opened {formatDate(spool.opened)}</p>}
+                {spool.finished && <p>Finished {formatDate(spool.finished)}</p>}
+                {spool.notes && <p class="spools__notes">{spool.notes}</p>}
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+
+      {f.tags.length > 0 && (
+        <div class="meta">{f.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+      )}
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .identity { display: flex; align-items: center; gap: 1.2rem; margin-top: 1.5rem; }
+  .identity p { margin: 0; }
+  .identity__brand { color: var(--ink-soft); font-size: 1.1rem; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 2.5rem; align-items: start; }
+  .block { margin-top: 2.5rem; }
+  .block h2 { font-size: 1.8rem; }
+  .layout__side .block:first-child { margin-top: 0; }
+  .profile-group + .profile-group { margin-top: 1.6rem; }
+  .profile-group h3 { margin-bottom: .5rem; color: var(--gold); font-family: var(--sans); font-size: .76rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .profile-group h3 a { text-decoration: none; }
+  .table-wrap { overflow-x: auto; }
+  .profiles { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  .profiles th { padding: .55rem .7rem; border-bottom: 1px solid var(--line-strong); color: var(--muted); font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-align: left; text-transform: uppercase; }
+  .profiles td { white-space: nowrap; padding: .65rem .7rem; border-bottom: 1px solid var(--line-soft); color: var(--ink-soft); }
+  .profiles td a { color: var(--ink); text-decoration-color: var(--gold); }
+  .profiles small { display: block; color: var(--muted); font-size: .8rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .notes { margin: 2.5rem 0 0; }
+  .notes:empty { display: none; }
+  .spools { margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--gold); }
+  .spools li { padding: 0 0 1.2rem 1rem; }
+  .spools p { margin: 0; font-size: .9rem; }
+  .spools__status { color: var(--gold) !important; font-size: .7rem !important; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .spools__notes { font-style: italic; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .layout__side { order: 2; } }
+</style>

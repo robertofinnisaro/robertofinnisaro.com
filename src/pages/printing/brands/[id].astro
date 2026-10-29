@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../components/PrintingHeader.astro';
+import Swatch from '../../../components/Swatch.astro';
+import {
+  formatRange,
+  getPrintingData,
+  getProfilesForFilament,
+  type Brand,
+} from '../../../lib/printing';
+
+export async function getStaticPaths() {
+  const brands = await getCollection('brands', ({ data }) => !data.draft);
+  return brands.map((brand) => ({ params: { id: brand.id }, props: { brand } }));
+}
+
+interface Props {
+  brand: Brand;
+}
+
+const { brand } = Astro.props;
+const { Content } = await render(brand);
+const data = await getPrintingData();
+const filaments = data.filaments.filter(({ data: filament }) => filament.brand.id === brand.id);
+---
+
+<BaseLayout title={brand.data.name} description={`Filaments from ${brand.data.name}.`}>
+  <PrintingHeader
+    eyebrow={`Brand${brand.data.country ? ` · ${brand.data.country}` : ''}`}
+    title={brand.data.name}
+    breadcrumbs={[
+      { href: '/printing/', label: '3D Printing' },
+      { href: '/printing/filaments/', label: 'Filaments' },
+    ]}
+  >
+    {brand.data.website && <p><a href={brand.data.website} rel="noreferrer" target="_blank">Website ↗</a></p>}
+  </PrintingHeader>
+
+  <div class="container">
+    <h2>Filaments</h2>
+    {filaments.length === 0 ? (
+      <p>No filaments from this brand yet.</p>
+    ) : (
+      <ul class="list">
+        {filaments.map((filament) => (
+          <li>
+            <a href={`/printing/filaments/${filament.id}/`}>
+              <Swatch hex={filament.data.colour.hex} label={filament.data.colour.name} />
+              <span class="list__name">{filament.data.name} · {filament.data.colour.name}</span>
+              <span class="tag">{filament.data.material}</span>
+              <span class="list__meta">{formatRange(filament.data.nozzleTemp, '°C')}</span>
+              <span class="list__meta">{getProfilesForFilament(data, filament).length} profiles</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    <section class="prose notes"><Content /></section>
+  </div>
+</BaseLayout>
+
+<style>
+  h2 { font-size: 1.8rem; }
+  .list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .list a { display: grid; grid-template-columns: auto 1fr auto auto auto; gap: 1rem; align-items: center; padding: .8rem 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; }
+  .list a:hover .list__name { color: var(--gold); }
+  .list__name { font-weight: 500; }
+  .list__meta { color: var(--muted); font-size: .85rem; }
+  .notes { margin: 2.5rem 0 0; }
+  .notes:empty { display: none; }
+  @media (max-width: 700px) { .list a { grid-template-columns: auto 1fr; } .list a > :nth-child(n+3) { grid-column: 2; } }
+</style>

@@ -1,0 +1,63 @@
+{
+    "default_filament_colour": [
+        "#000000"
+    ],
+    "fan_max_speed": [
+        "40"
+    ],
+    "fan_min_speed": [
+        "10"
+    ],
+    "filament_cooling_final_speed": [
+        "0"
+    ],
+    "filament_cooling_initial_speed": [
+        "0"
+    ],
+    "filament_cooling_moves": [
+        "1"
+    ],
+    "filament_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "filament_flow_ratio": [
+        "0.9525"
+    ],
+    "filament_loading_speed": [
+        "0"
+    ],
+    "filament_loading_speed_start": [
+        "0"
+    ],
+    "filament_ramming_parameters": [
+        "120 100| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6"
+    ],
+    "filament_settings_id": [
+        "eSUN PETG Black 1.75mm"
+    ],
+    "filament_unloading_speed": [
+        "0"
+    ],
+    "filament_unloading_speed_start": [
+        "0"
+    ],
+    "filament_vendor": [
+        "eSUN"
+    ],
+    "from": "User",
+    "inherits": "Creality Generic PETG",
+    "name": "eSUN PETG Black 1.75mm",
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ],
+    "overhang_fan_threshold": [
+        "10%"
+    ],
+    "slow_down_layer_time": [
+        "12"
+    ],
+    "version": "2.1.1.0"
+}

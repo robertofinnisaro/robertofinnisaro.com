@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  eyebrow: string;
+  intro?: string;
+  breadcrumbs?: { href: string; label: string }[];
+}
+
+const { title, eyebrow, intro, breadcrumbs = [] } = Astro.props;
+---
+
+<section class="container printing-head">
+  {breadcrumbs.length > 0 && (
+    <nav class="printing-head__crumbs" aria-label="Breadcrumb">
+      {breadcrumbs.map(({ href, label }) => <a href={href}>{label}</a>)}
+    </nav>
+  )}
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>{title}</h1>
+  {intro && <p class="printing-head__intro">{intro}</p>}
+  <slot />
+</section>
+
+<style>
+  .printing-head { padding: 4.5rem 0 2.5rem; }
+  .printing-head__crumbs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.4rem; font-size: .82rem; }
+  .printing-head__crumbs a { color: var(--muted); text-decoration: none; }
+  .printing-head__crumbs a:hover { color: var(--ink); }
+  .printing-head__crumbs a + a::before { content: '/'; margin-right: .4rem; color: var(--line); }
+  .printing-head__intro { max-width: 680px; font-size: 1.12rem; }
+</style>

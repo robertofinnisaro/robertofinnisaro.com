@@ -1,0 +1,60 @@
+{
+    "default_filament_colour": [
+        "#91202B"
+    ],
+    "fan_cooling_layer_time": [
+        "80"
+    ],
+    "fan_max_speed": [
+        "80"
+    ],
+    "fan_min_speed": [
+        "60"
+    ],
+    "filament_cooling_final_speed": [
+        "0"
+    ],
+    "filament_cooling_initial_speed": [
+        "0"
+    ],
+    "filament_cooling_moves": [
+        "1"
+    ],
+    "filament_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "filament_loading_speed": [
+        "0"
+    ],
+    "filament_loading_speed_start": [
+        "0"
+    ],
+    "filament_ramming_parameters": [
+        "120 100| 0.05 6.6 0.45 6.8 0.95 7.8 1.45 8.3 1.95 9.7 2.45 10 2.95 7.6 3.45 7.6 3.95 7.6 4.45 7.6 4.95 7.6"
+    ],
+    "filament_settings_id": [
+        "eSUN PLA+ Red 1.75mm"
+    ],
+    "filament_type": [
+        "PLA+"
+    ],
+    "filament_unloading_speed": [
+        "0"
+    ],
+    "filament_unloading_speed_start": [
+        "0"
+    ],
+    "filament_vendor": [
+        "eSun"
+    ],
+    "from": "User",
+    "inherits": "Creality Generic PLA",
+    "name": "eSUN PLA+ Red 1.75mm",
+    "nozzle_temperature_initial_layer": [
+        "225"
+    ],
+    "slow_down_min_speed": [
+        "20"
+    ],
+    "version": "2.0.2.0"
+}

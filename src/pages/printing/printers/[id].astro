@@ -1,0 +1,178 @@
+---
+import { getCollection, render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../components/PrintingHeader.astro';
+import SpecList from '../../../components/SpecList.astro';
+import Swatch from '../../../components/Swatch.astro';
+import { getFirmware } from '../../../lib/firmware';
+import {
+  findById,
+  formatDate,
+  formatLayerTemp,
+  getConfigurationsForPrinter,
+  getPrintingData,
+  type Printer,
+} from '../../../lib/printing';
+
+export async function getStaticPaths() {
+  const printers = await getCollection('printers', ({ data }) => !data.draft);
+  return printers.map((printer) => ({ params: { id: printer.id }, props: { printer } }));
+}
+
+interface Props {
+  printer: Printer;
+}
+
+const { printer } = Astro.props;
+const { Content } = await render(printer);
+const data = await getPrintingData();
+const p = printer.data;
+
+const configurations = getConfigurationsForPrinter(data, printer).map((configuration) => ({
+  configuration,
+  profiles: data.profiles.filter(({ data: profile }) => profile.configuration.id === configuration.id),
+}));
+
+const statusLabels = { active: 'In service', planned: 'Planned', retired: 'Retired' };
+---
+
+<BaseLayout title={p.name} description={`${p.manufacturer} ${p.model}: setups and print profiles.`}>
+  <PrintingHeader
+    eyebrow={`Printer · ${statusLabels[p.status]}`}
+    title={p.name}
+    intro={`${p.manufacturer} ${p.model}`}
+    breadcrumbs={[{ href: '/printing/', label: '3D Printing' }]}
+  />
+
+  <div class="container">
+    <SpecList
+      title="Specification"
+      items={[
+        { label: 'Kinematics', value: p.kinematics },
+        { label: 'Build volume', value: p.buildVolume && `${p.buildVolume.x} × ${p.buildVolume.y} × ${p.buildVolume.z} mm` },
+        { label: 'Firmware', value: p.firmware },
+        { label: 'Hotend', value: p.hotend },
+        { label: 'Extruder', value: p.extruder },
+        { label: 'Nozzles', value: p.nozzles.join(', ') },
+        { label: 'Bed surfaces', value: p.bedSurfaces.join(', ') },
+        { label: 'Enclosure', value: p.enclosure === undefined ? undefined : p.enclosure ? 'Enclosed' : 'Open frame' },
+        { label: 'In service since', value: p.acquired && formatDate(p.acquired) },
+      ]}
+    />
+
+    {p.mods.length > 0 && (
+      <section class="block">
+        <h2>Modifications</h2>
+        <ul class="mods">{p.mods.map((mod) => <li>{mod}</li>)}</ul>
+      </section>
+    )}
+
+    <section class="block">
+      <h2>Setups</h2>
+      {configurations.length === 0 ? (
+        <p>No setups recorded for this printer yet.</p>
+      ) : (
+        configurations.map(({ configuration, profiles }) => (
+          <article class="setup" id={configuration.id}>
+            <header>
+              <p class="eyebrow">{configuration.data.active ? 'Current setup' : 'Previous setup'}</p>
+              <h3>{configuration.data.name}</h3>
+            </header>
+            <SpecList
+              items={[
+                { label: 'Nozzle', value: configuration.data.nozzle },
+                { label: 'Plate', value: configuration.data.plate },
+                {
+                  label: 'Multi-material',
+                  value: configuration.data.multiMaterial
+                    .map(({ unit, slots }) => (slots ? `${unit} (${slots} slots)` : unit))
+                    .join(', '),
+                },
+                { label: 'Accessories', value: configuration.data.accessories.join(', ') },
+              ]}
+            />
+
+            {configuration.data.firmware && getFirmware(configuration.data.firmware) && (
+              <a class="firmware-link" href={`/printing/firmware/${configuration.data.firmware}/`}>
+                <span class="eyebrow">{getFirmware(configuration.data.firmware)!.firmware} configuration</span>
+                <span>View and download {getFirmware(configuration.data.firmware)!.fileCount} config files →</span>
+              </a>
+            )}
+
+            {(configuration.data.machineFile || configuration.data.presets.length > 0) && (
+              <div class="presets">
+                <h4>Slicer presets</h4>
+                <ul>
+                  {configuration.data.machineFile && (
+                    <li>
+                      <span>Machine preset</span>
+                      <a href={configuration.data.machineFile} download>Download</a>
+                    </li>
+                  )}
+                  {configuration.data.presets.map((preset) => (
+                    <li>
+                      <span>
+                        {preset.name}
+                        {(preset.layerHeight || preset.purpose) && (
+                          <small>{[preset.layerHeight && `${preset.layerHeight} mm`, preset.purpose].filter(Boolean).join(' · ')}</small>
+                        )}
+                      </span>
+                      <a href={preset.file} download>Download</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {profiles.length > 0 && (
+              <>
+              <h4>Filament profiles</h4>
+              <ul class="setup__profiles">
+                {profiles.map(({ id, data: profile }) => {
+                  const filament = findById(data.filaments, profile.filament.id);
+                  return (
+                    <li>
+                      {filament && <Swatch hex={filament.data.colour.hex} label={filament.data.colour.name} />}
+                      <a href={`/printing/profiles/${id}/`}>
+                        {filament ? `${filament.data.name} ${filament.data.colour.name}` : profile.filament.id} · {profile.name}
+                      </a>
+                      <span>{formatLayerTemp(profile.nozzleTemp)}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+              </>
+            )}
+          </article>
+        ))
+      )}
+    </section>
+
+    <section class="block prose notes"><Content /></section>
+  </div>
+</BaseLayout>
+
+<style>
+  .block { margin-top: 2.5rem; }
+  .block h2 { font-size: 1.8rem; }
+  .mods { margin: 0; padding-left: 1.2rem; color: var(--ink-soft); }
+  .setup { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+  .setup header .eyebrow { margin: 0; }
+  .setup h3 { margin: .2rem 0 1rem; }
+  .firmware-link { display: flex; flex-direction: column; gap: .2rem; margin-top: 1rem; padding: .9rem 1.1rem; border: 1px solid var(--gold); background: var(--gold-wash); text-decoration: none; }
+  .firmware-link .eyebrow { margin: 0; }
+  .firmware-link:hover { border-color: var(--line-strong); }
+  .setup h4 { margin: 1.6rem 0 .4rem; color: var(--gold); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .presets ul { margin: 0; padding: 0; list-style: none; }
+  .presets li { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px solid var(--line-soft); }
+  .presets small { display: block; color: var(--muted); font-size: .8rem; }
+  .presets a { flex: none; font-size: .88rem; }
+  .setup__profiles { margin: 0; padding: 0; list-style: none; }
+  .setup__profiles li { display: grid; grid-template-columns: auto 1fr auto; gap: .8rem; align-items: center; padding: .6rem 0; border-bottom: 1px solid var(--line-soft); }
+  .setup__profiles a { text-decoration: none; }
+  .setup__profiles a:hover { color: var(--gold); }
+  .setup__profiles span { color: var(--muted); font-size: .85rem; }
+  .notes { margin: 2.5rem 0 0; }
+  .notes:empty { display: none; }
+</style>

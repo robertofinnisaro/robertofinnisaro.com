@@ -1,0 +1,23 @@
+---
+interface Props {
+  hex?: string;
+  label: string;
+  size?: 'sm' | 'lg';
+}
+
+const { hex, label, size = 'sm' } = Astro.props;
+---
+
+<span
+  class:list={['swatch', `swatch--${size}`, { 'swatch--unknown': !hex }]}
+  style={hex ? `--swatch: ${hex}` : undefined}
+  role="img"
+  aria-label={`Colour: ${label}`}
+></span>
+
+<style>
+  .swatch { display: inline-block; flex: none; border: 1px solid var(--line-strong); background: var(--swatch); vertical-align: middle; }
+  .swatch--sm { width: 1.1rem; height: 1.1rem; }
+  .swatch--lg { width: 4.5rem; height: 4.5rem; }
+  .swatch--unknown { background: repeating-linear-gradient(45deg, var(--panel) 0 4px, var(--line-soft) 4px 8px); }
+</style>

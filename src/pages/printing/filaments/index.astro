@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../../components/PrintingHeader.astro';
+import Swatch from '../../../components/Swatch.astro';
+import {
+  findById,
+  formatRange,
+  getPrintersForFilament,
+  getPrintingData,
+  getProfilesForFilament,
+} from '../../../lib/printing';
+
+const data = await getPrintingData();
+
+const rows = data.filaments.map((filament) => {
+  const brand = findById(data.brands, filament.data.brand.id);
+  const printers = getPrintersForFilament(data, filament);
+  return {
+    filament,
+    brand,
+    printers,
+    profileCount: getProfilesForFilament(data, filament).length,
+    search: [
+      filament.data.name,
+      filament.data.colour.name,
+      brand?.data.name,
+      filament.data.material,
+      filament.data.finish,
+      ...filament.data.tags,
+    ].filter(Boolean).join(' ').toLowerCase(),
+  };
+});
+
+const materials = [...new Set(data.filaments.map(({ data }) => data.material))].sort();
+---
+
+<BaseLayout title="Filaments" description="Filaments with manufacturer settings and tuned print profiles.">
+  <PrintingHeader
+    eyebrow="3D Printing · Database"
+    title="Filaments"
+    intro="Every filament in use, with the manufacturer's recommended settings and the profiles tuned for each printer."
+    breadcrumbs={[{ href: '/printing/', label: '3D Printing' }]}
+  />
+
+  <section class="container">
+    {rows.length === 0 ? (
+      <div class="empty">
+        <h2>No filaments yet</h2>
+        <p>Filaments will be listed here as they're added.</p>
+      </div>
+    ) : (
+      <>
+        <!-- The filter controls need JavaScript, so they stay hidden without it. -->
+        <form class="filters" data-filters hidden>
+          <label>
+            <span>Search</span>
+            <input type="search" name="q" placeholder="Brand, colour, material…" autocomplete="off" />
+          </label>
+          <label>
+            <span>Material</span>
+            <select name="material">
+              <option value="">All materials</option>
+              {materials.map((material) => <option value={material}>{material}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Brand</span>
+            <select name="brand">
+              <option value="">All brands</option>
+              {data.brands.map((brand) => <option value={brand.id}>{brand.data.name}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Profiled for</span>
+            <select name="printer">
+              <option value="">Any printer</option>
+              {data.printers.map((printer) => <option value={printer.id}>{printer.data.name}</option>)}
+            </select>
+          </label>
+        </form>
+
+        <p class="results" aria-live="polite" data-results>{rows.length} filaments</p>
+
+        <div class="table-wrap">
+          <table class="catalogue">
+            <thead>
+              <tr>
+                <th scope="col">Filament</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Material</th>
+                <th scope="col">Nozzle</th>
+                <th scope="col">Bed</th>
+                <th scope="col">Profiles</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(({ filament, brand, printers, profileCount, search }) => (
+                <tr
+                  data-row
+                  data-search={search}
+                  data-material={filament.data.material}
+                  data-brand={filament.data.brand.id}
+                  data-printers={printers.map(({ id }) => id).join(' ')}
+                >
+                  <td>
+                    <a class="catalogue__name" href={`/printing/filaments/${filament.id}/`}>
+                      <Swatch hex={filament.data.colour.hex} label={filament.data.colour.name} />
+                      <span>{filament.data.name}<small>{filament.data.colour.name}</small></span>
+                    </a>
+                  </td>
+                  <td>{brand && <a href={`/printing/brands/${brand.id}/`}>{brand.data.name}</a>}</td>
+                  <td>{filament.data.material}{filament.data.finish && <small>{filament.data.finish}</small>}</td>
+                  <td>{formatRange(filament.data.nozzleTemp, '°C') ?? '—'}</td>
+                  <td>{formatRange(filament.data.bedTemp, '°C') ?? '—'}</td>
+                  <td class="catalogue__count">{profileCount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-filters]');
+  const rows = [...document.querySelectorAll<HTMLTableRowElement>('[data-row]')];
+  const results = document.querySelector('[data-results]');
+
+  if (form) {
+    form.hidden = false;
+
+    const apply = () => {
+      const values = new FormData(form);
+      const query = String(values.get('q') ?? '').trim().toLowerCase();
+      const material = String(values.get('material') ?? '');
+      const brand = String(values.get('brand') ?? '');
+      const printer = String(values.get('printer') ?? '');
+      let shown = 0;
+
+      for (const row of rows) {
+        const match =
+          (!query || query.split(/\s+/).every((word) => row.dataset.search?.includes(word))) &&
+          (!material || row.dataset.material === material) &&
+          (!brand || row.dataset.brand === brand) &&
+          (!printer || row.dataset.printers?.split(' ').includes(printer));
+        row.hidden = !match;
+        if (match) shown += 1;
+      }
+
+      if (results) results.textContent = `${shown} of ${rows.length} filaments`;
+    };
+
+    form.addEventListener('input', apply);
+    form.addEventListener('submit', (event) => event.preventDefault());
+  }
+</script>
+
+<style>
+  .empty { padding: 2.5rem; border: 1px dashed var(--line); text-align: center; }
+  .empty h2 { font-size: 2rem; }
+  .filters { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
+  .filters[hidden] { display: none; }
+  .filters label { display: flex; flex-direction: column; gap: .35rem; }
+  .filters label > span { color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .filters input, .filters select { width: 100%; padding: .6rem .7rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: .92rem; }
+  .filters input:focus, .filters select:focus { border-color: var(--gold); outline: none; }
+  .results { margin: 0 0 .8rem; font-size: .85rem; }
+  .table-wrap { overflow-x: auto; }
+  .catalogue { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .catalogue th { padding: .7rem .8rem; border-bottom: 1px solid var(--line-strong); color: var(--gold); font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-align: left; text-transform: uppercase; white-space: nowrap; }
+  .catalogue td { padding: .75rem .8rem; border-bottom: 1px solid var(--line-soft); color: var(--ink-soft); vertical-align: middle; }
+  .catalogue tr:hover td { background: var(--gold-wash); }
+  .catalogue td a { text-decoration: none; }
+  .catalogue td a:hover { color: var(--gold); }
+  .catalogue small { display: block; color: var(--muted); font-size: .8rem; }
+  .catalogue__name { display: flex; align-items: center; gap: .8rem; font-weight: 500; color: var(--ink); }
+  .catalogue__count { font-variant-numeric: tabular-nums; }
+  @media (max-width: 800px) { .filters { grid-template-columns: 1fr 1fr; } .filters label:first-child { grid-column: 1 / -1; } }
+</style>

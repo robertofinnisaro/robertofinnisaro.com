@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrintingHeader from '../../components/PrintingHeader.astro';
+import Swatch from '../../components/Swatch.astro';
+import {
+  findById,
+  getConfigurationsForPrinter,
+  getPrintingData,
+  getProfilesForPrinter,
+} from '../../lib/printing';
+
+const data = await getPrintingData();
+const prints = await getCollection('prints', ({ data }) => !data.draft);
+
+const recentFilaments = [...data.filaments]
+  .sort((a, b) => b.data.added.valueOf() - a.data.added.valueOf())
+  .slice(0, 8);
+
+const stats = [
+  { label: 'Filaments', value: data.filaments.length, href: '/printing/filaments/' },
+  { label: 'Brands', value: data.brands.length, href: '/printing/filaments/' },
+  { label: 'Print profiles', value: data.profiles.length, href: '/printing/filaments/' },
+  { label: 'Printers', value: data.printers.length, href: '#printers' },
+];
+
+const statusLabels = { active: 'In service', planned: 'Planned', retired: 'Retired' };
+const isEmpty = data.filaments.length === 0 && data.printers.length === 0;
+---
+
+<BaseLayout title="3D Printing" description="Printers, setups, filaments and tuned print profiles used by Robert Finnis.">
+  <PrintingHeader
+    eyebrow="Database"
+    title="3D Printing"
+    intro="The printers, multi-material setups, filaments and tuned print profiles used around the house. Manufacturer settings sit alongside the profiles that actually work on each machine, with downloadable slicer files."
+  >
+    <dl class="stats">
+      {stats.map(({ label, value, href }) => (
+        <div><dt>{label}</dt><dd><a href={href}>{value}</a></dd></div>
+      ))}
+    </dl>
+    <div class="actions">
+      <a class="button button--primary" href="/printing/filaments/">Browse filaments</a>
+      <a class="button" href="/prints/">Printed objects</a>
+    </div>
+  </PrintingHeader>
+
+  {isEmpty && (
+    <section class="container">
+      <div class="empty">
+        <h2>The database is being stocked</h2>
+        <p>Printers, filaments and profiles will appear here as they're added.</p>
+      </div>
+    </section>
+  )}
+
+  {data.printers.length > 0 && (
+    <section class="section container" id="printers">
+      <div class="section-head">
+        <div><p class="eyebrow">Machines</p><h2>Printers</h2></div>
+      </div>
+      <div class="grid">
+        {data.printers.map((printer) => (
+          <a class="card" href={`/printing/printers/${printer.id}/`}>
+            <p class="eyebrow">{statusLabels[printer.data.status]}</p>
+            <h3>{printer.data.name}</h3>
+            <p>{printer.data.manufacturer} {printer.data.model}</p>
+            <div class="meta">
+              <span class="tag">{getConfigurationsForPrinter(data, printer).length} setups</span>
+              <span class="tag">{getProfilesForPrinter(data, printer).length} profiles</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {recentFilaments.length > 0 && (
+    <section class="section container">
+      <div class="section-head">
+        <div><p class="eyebrow">Recently added</p><h2>Filaments</h2></div>
+        <a href="/printing/filaments/">All filaments →</a>
+      </div>
+      <ul class="filament-list">
+        {recentFilaments.map((filament) => (
+          <li>
+            <a href={`/printing/filaments/${filament.id}/`}>
+              <Swatch hex={filament.data.colour.hex} label={filament.data.colour.name} />
+              <span class="filament-list__name">{filament.data.name} · {filament.data.colour.name}</span>
+              <span class="filament-list__brand">{findById(data.brands, filament.data.brand.id)?.data.name}</span>
+              <span class="tag">{filament.data.material}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {prints.length > 0 && (
+    <section class="container">
+      <div class="rule" aria-hidden="true"><span></span></div>
+      <div class="prints-link">
+        <div>
+          <p class="eyebrow">Gallery</p>
+          <h2>Printed objects</h2>
+          <p>Finished prints, calibration pieces and lessons from the workshop.</p>
+        </div>
+        <a class="button" href="/prints/">View {prints.length} {prints.length === 1 ? 'print' : 'prints'}</a>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .stats { display: flex; flex-wrap: wrap; gap: 2.2rem; margin: 2rem 0 0; }
+  .stats div { padding-left: 1rem; border-left: 1px solid var(--gold); }
+  .stats dt { color: var(--muted); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+  .stats dd { margin: 0; font-family: var(--serif-display); font-size: 2.4rem; font-weight: 600; line-height: 1.1; }
+  .stats a { text-decoration: none; }
+  .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+  .empty { padding: 2.5rem; border: 1px dashed var(--line); text-align: center; }
+  .empty h2 { font-size: 2rem; }
+  .filament-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .filament-list a { display: grid; grid-template-columns: auto 1fr auto auto; gap: 1rem; align-items: center; padding: .8rem 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; }
+  .filament-list a:hover .filament-list__name { color: var(--gold); }
+  .filament-list__name { font-weight: 500; }
+  .filament-list__brand { color: var(--muted); font-size: .88rem; }
+  .prints-link { display: flex; justify-content: space-between; align-items: center; gap: 2rem; padding: 2.5rem 0 0; }
+  @media (max-width: 700px) {
+    .filament-list a { grid-template-columns: auto 1fr; }
+    .filament-list__brand, .filament-list .tag { grid-column: 2; }
+    .prints-link { flex-direction: column; align-items: flex-start; }
+  }
+</style>
